@@ -34,6 +34,7 @@ class en {public:
   //win
   int w,h;
   //
+  bool quit;
   void disp();
   void resh(int,int);
   void eupd();

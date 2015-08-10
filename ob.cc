@@ -35,7 +35,7 @@ IIT ob::oiadd(float x,float y){
   return r;
 }
 void ob::oidel(IIT i){
-  ins.erase(i);
+  (*i)->del=true;
 }
 void ob::oupd(){
   en&env=eget();
@@ -75,7 +75,11 @@ void ob::oupd(){
 	break;}
     }
   }
-  for(IIT i=ins.begin();i!=ins.end();++i) (*i)->move();
+  for(uint i=0;i<ins.size();++i){
+    in*j=ins.front();ins.pop_front();
+    if(j->del) delete j;
+    else {j->move();ins.push_back(j);}
+  }
 }
 ob::~ob(){
   for(EIT i=evs.begin();i!=evs.end();++i) delete (*i);

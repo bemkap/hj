@@ -1,15 +1,16 @@
 #ifndef IN_HH
 #define IN_HH
 
-#include<list>
+#include<deque>
 using namespace std;
 
 class in {public:
   float x,y,sp,di,vsp,hsp;
+  bool del;
   in(float,float);
   void move();
 };
 
-typedef list<in*>::iterator IIT;
+typedef deque<in*>::iterator IIT;
 
 #endif

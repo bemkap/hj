@@ -3,7 +3,7 @@
 #include<GL/glut.h>
 #include"en.hh"
 
-en::en():oav(0),sav(0){
+en::en():oav(0),sav(0),quit(false){
   for(int i=0;i<256;++i) kst[i]=NPR;
   pst.le=NPR;pst.ri=NPR;
 }
@@ -46,7 +46,7 @@ void en::disp(){
   glLoadIdentity();
   for(OIT i=obs.begin();i!=obs.end();++i)
     for(IIT j=(*i)->ins.begin();j!=(*i)->ins.end();++j)
-      if((*i)->spr!=NULL) (*i)->spr->display((*j)->x,(*j)->y);
+      if((*i)->spr!=NULL) (*i)->spr->disp((*j)->x,(*j)->y);
   glutSwapBuffers();
 }
 void en::resh(int we,int he){

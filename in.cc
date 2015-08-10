@@ -2,7 +2,7 @@
 #include"in.hh"
 #include"cm.hh"
 
-in::in(float x,float y):x(x),y(y),sp(0),di(0),vsp(0),hsp(0){}
+in::in(float x,float y):x(x),y(y),sp(0),di(0),vsp(0),hsp(0),del(false){}
 void in::move(){
   x+=hsp;
   y+=vsp;

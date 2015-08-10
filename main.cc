@@ -1,4 +1,5 @@
 #include"main.hh"
+#include<cmath>
 
 en&env=eget();
 
@@ -30,7 +31,7 @@ void tri_ptr_le(IIT i){ob*o=env.eoget(env.eoiget("obul"));
   if(o!=NULL){
     IIT j=o->oiadd((*i)->x,(*i)->y);
     (*j)->sp=6;
-    (*j)->di=;
+    (*j)->di=point_direction((*j)->x,(*j)->y,env.pst.x,env.pst.y)*180/PIE;
   }
 }
 
@@ -89,5 +90,6 @@ int main(int argc,char**argv){
   owor->oiadd(0,0);
   
   glutMainLoop();
+
   return 0;
 }

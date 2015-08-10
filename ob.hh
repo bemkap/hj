@@ -1,7 +1,7 @@
 #ifndef OB_HH
 #define OB_HH
 
-#include<list>
+#include<deque>
 #include<vector>
 #include"cm.hh"
 #include"in.hh"
@@ -10,7 +10,7 @@
 
 class ob {public:
   vector<ev*> evs;
-  list<in*> ins;
+  deque<in*> ins;
   sp*spr;
   ob();
   void oeadd(evt,act);       // step
