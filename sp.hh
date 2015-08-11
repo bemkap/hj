@@ -8,8 +8,10 @@ using namespace std;
 class sp {public:
   poly msk;
   float r,g,b;
+  float xsc,ysc;
   sp();
-  sp(float,float,float);
+  void spcol(float,float,float);
+  void spsc(float,float);
   void spadd(float,float);
   poly smget(float,float);
   void disp(float,float);
