@@ -25,6 +25,4 @@ bool left(point,line);
 bool intersect(point,poly);
 bool intersect(poly,poly);
 
-typedef vector<point>::iterator PIT;
-
 #endif

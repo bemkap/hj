@@ -39,10 +39,10 @@ void ob::oidel(IIT i){
 }
 void ob::oupd(){
   en&env=eget();
-  for(EIT i=evs.begin();i!=evs.end();++i){
-    switch((*i)->ty){
+  for(auto i:evs){
+    switch(i->ty){
     case KBDO: {if(env.kst[(*i)->kbd.k]==PR)
-	  for(IIT j=ins.begin();j!=ins.end();++j) (*i)->kbd.a(j);
+	  for(auto j:ins) i->kbd.a(j);
 	break;}
     case KBUP: {if(env.kst[(*i)->kbd.k]==RE)
 	  for(IIT j=ins.begin();j!=ins.end();++j) (*i)->kbd.a(j);
@@ -61,8 +61,8 @@ void ob::oupd(){
       bool c=false;
       for(IIT j=ins.begin();!c&&j!=ins.end();++j)
 	for(IIT k=o->ins.begin();!c&&k!=o->ins.end();++k){
-	  poly p1=spr->smget((*j)->x,(*j)->y);
-	  poly p2=o->spr->smget((*k)->x,(*k)->y);
+	  poly p1=spr->smget((*j)->x,(*j)->y,(*j)->xsc,(*j)->ysc);
+	  poly p2=o->spr->smget((*k)->x,(*k)->y,(*k)->xsc,(*k)->ysc);
 	  c=intersect(p1,p2);
 	}
       if(c) for(IIT j=ins.begin();j!=ins.end();++j) (*i)->col.a(j);

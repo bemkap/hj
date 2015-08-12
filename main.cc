@@ -1,5 +1,4 @@
 #include"main.hh"
-#include<cmath>
 
 en&env=eget();
 
@@ -8,7 +7,7 @@ void timer(int v){env.eupd();glutTimerFunc(uint(1000/FPS),timer,v);}
 void reshape(int w,int h){env.resh(w,h);}
 void keyboard(uchar k,int x,int y){env.kst[k]=PR;}
 void keyboaru(uchar k,int x,int y){env.kst[k]=RE;}
-void mouse(int x,int y){env.pst.x=x;env.pst.y=env.y;}
+void mouse(int x,int y){env.pst.x=x;env.pst.y=env.h-y;}
 void mousebtn(int b,int st,int x,int y){switch(b){
   case GLUT_LEFT_BUTTON : env.pst.le=(st==GLUT_UP)?RE:PR;break;
   case GLUT_RIGHT_BUTTON: env.pst.ri=(st==GLUT_UP)?RE:PR;break;
@@ -31,7 +30,7 @@ void tri_ptr_le(IIT i){ob*o=env.eoget(env.eoiget("obul"));
   if(o!=NULL){
     IIT j=o->oiadd((*i)->x,(*i)->y);
     (*j)->sp=6;
-    (*j)->di=point_direction((*i)->x,(*i)->y,env.pst.x,env.pst.y)*180/PIE;
+    (*j)->di=radtodeg(point_direction((*i)->x,(*i)->y,env.pst.x,env.pst.y));
   }
 }
 
@@ -65,7 +64,6 @@ int main(int argc,char**argv){
   stri->spadd(0,0);
   stri->spadd(3,0);
   stri->spadd(3,3);
-  stri->spsc(5,5);
 
   sbul->spadd(0,0);
   sbul->spadd(1,0);
@@ -91,6 +89,5 @@ int main(int argc,char**argv){
   owor->oiadd(0,0);
   
   glutMainLoop();
-
   return 0;
 }

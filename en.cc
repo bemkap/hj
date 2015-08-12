@@ -46,10 +46,11 @@ void en::disp(){
   glLoadIdentity();
   for(OIT i=obs.begin();i!=obs.end();++i)
     for(IIT j=(*i)->ins.begin();j!=(*i)->ins.end();++j)
-      if((*i)->spr!=NULL) (*i)->spr->disp((*j)->x,(*j)->y);
+      if((*i)->spr!=NULL) (*i)->spr->disp((*j)->x,(*j)->y,(*j)->xsc,(*j)->ysc);
   glutSwapBuffers();
 }
 void en::resh(int we,int he){
+  w=we;h=he;
   glViewport(0,0,(GLsizei)we,(GLsizei)he);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();

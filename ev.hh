@@ -1,12 +1,12 @@
 #ifndef EV_HH
 #define EV_HH
-#include<string>
 #include<vector>
+#include<stack>
 #include"cm.hh"
 #include"in.hh"
 using namespace std;
 
-typedef enum { KBDO,KBUP,PTDO,PTUP,STEP,COLL,ALRM } evt;
+typedef enum { KBDO,KBUP,PTDO,PTUP,STEP,COLL,ALRM,TIME } evt;
 typedef enum { BTN_LE,BTN_RI } ptbtn;
 typedef void (*act)(IIT);
 

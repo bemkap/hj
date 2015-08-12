@@ -8,6 +8,8 @@
 #include"ev.hh"
 #include"sp.hh"
 
+typedef IIT deque<in*>::iterator;
+
 class ob {public:
   vector<ev*> evs;
   deque<in*> ins;
@@ -21,7 +23,5 @@ class ob {public:
   void oupd();
   ~ob();
 };
-
-typedef vector<ob*>::iterator OIT;
 
 #endif
