@@ -14,23 +14,23 @@ void mousebtn(int b,int st,int x,int y){switch(b){
   }
 }
 
-void tri_kbd_up(IIT i){(*i)->vsp= 3;}
-void tri_kbd_do(IIT i){(*i)->vsp=-3;}
-void tri_kbd_le(IIT i){(*i)->hsp=-3;}
-void tri_kbd_ri(IIT i){(*i)->hsp= 3;}
-void tri_kbd_hs(IIT i){(*i)->hsp= 0;}
-void tri_kbd_vs(IIT i){(*i)->vsp= 0;}
-void wor_kbd_es(IIT i){exit(0);}
-void bul_stp   (IIT i){if((*i)->x>env.w||(*i)->x<0||(*i)->y>env.h||(*i)->y<0){
+void tri_kbd_up(in*i){i->vsp= 3;}
+void tri_kbd_do(in*i){i->vsp=-3;}
+void tri_kbd_le(in*i){i->hsp=-3;}
+void tri_kbd_ri(in*i){i->hsp= 3;}
+void tri_kbd_hs(in*i){i->hsp= 0;}
+void tri_kbd_vs(in*i){i->vsp= 0;}
+void wor_kbd_es(in*i){exit(0);}
+void bul_stp   (in*i){if(i->x>env.w||i->x<0||i->y>env.h||i->y<0){
     ob*o=env.eoget(env.eoiget("obul"));
     o->oidel(i);
   }
 }
-void tri_ptr_le(IIT i){ob*o=env.eoget(env.eoiget("obul"));
-  if(o!=NULL){
-    IIT j=o->oiadd((*i)->x,(*i)->y);
-    (*j)->sp=6;
-    (*j)->di=radtodeg(point_direction((*i)->x,(*i)->y,env.pst.x,env.pst.y));
+void tri_ptr_le(in*i){ob*o=env.eoget(env.eoiget("obul"));
+  if(o!=nullptr){
+    in*j=o->oiadd(i->x,i->y);
+    j->sp=6;
+    j->di=radtodeg(point_direction(i->x,i->y,env.pst.x,env.pst.y));
   }
 }
 

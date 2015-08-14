@@ -8,8 +8,8 @@ en::en():oav(0),sav(0),quit(false){
   pst.le=NPR;pst.ri=NPR;
 }
 en::~en(){
-  for(OIT i=obs.begin();i!=obs.end();++i) delete (*i);
-  for(SIT i=sps.begin();i!=sps.end();++i) delete (*i);
+  for(auto i:obs) delete i;
+  for(auto i:sps) delete i;
 }
 //obs
 void en::eoadd(string n,ob*o){
@@ -17,8 +17,8 @@ void en::eoadd(string n,ob*o){
   oids.insert(pair<string,obid>(n,oav++));
 }
 ob*en::eoget(obid n){
-  if(n<(obid)obs.size()) return obs[n];
-  else return NULL;
+  if(n<obid(obs.size())) return obs[n];
+  else return nullptr;
 }
 obid en::eoiget(string n){
   MOIT i;
@@ -32,7 +32,7 @@ void en::esadd(string n,sp*s){
 }
 sp*en::esget(spid n){
   if(n<(spid)sps.size()) return sps[n];
-  else return NULL;
+  else return nullptr;
 }
 spid en::esiget(string n){
   MSIT i;
@@ -44,9 +44,9 @@ void en::disp(){
   glClearColor(0,0,0,1);
   glClear(GL_COLOR_BUFFER_BIT);
   glLoadIdentity();
-  for(OIT i=obs.begin();i!=obs.end();++i)
-    for(IIT j=(*i)->ins.begin();j!=(*i)->ins.end();++j)
-      if((*i)->spr!=NULL) (*i)->spr->disp((*j)->x,(*j)->y,(*j)->xsc,(*j)->ysc);
+  for(auto i:obs)
+    for(auto j:i->ins)
+      if(i->spr!=nullptr) i->spr->disp(j->x,j->y,j->xsc,j->ysc);
   glutSwapBuffers();
 }
 void en::resh(int we,int he){
@@ -58,7 +58,7 @@ void en::resh(int we,int he){
   glMatrixMode(GL_MODELVIEW);
 }
 void en::eupd(){
-  for(OIT i=obs.begin();i!=obs.end();++i) (*i)->oupd();
+  for(auto i:obs) i->oupd();
   for(int i=0;i<256;++i) if(kst[i]==RE) kst[i]=NPR;
   if(pst.le==RE) pst.le=NPR;
   if(pst.ri==RE) pst.ri=NPR;

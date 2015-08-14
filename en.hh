@@ -43,6 +43,5 @@ class en {public:
 en&eget();
   
 typedef map<string,obid>::iterator MOIT;
-typedef map<string,spid>::iterator MSIT;
 
 #endif

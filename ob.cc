@@ -2,7 +2,11 @@
 #include"cm.hh"
 #include"en.hh"
 
-ob::ob():spr(NULL){}
+ob::ob():spr(nullptr),tl(nullptr){}
+ob::~ob(){
+  for(auto i:evs) delete i;
+  for(auto i:ins) delete i;
+}
 void ob::oeadd(evt t,act a){
   ev*e=new ev;
   e->ty=STEP;
@@ -28,60 +32,61 @@ void ob::oeadd(evt t,act a,ptbtn b){
   e->ptr.b=b;
   evs.push_back(e);
 }
-IIT ob::oiadd(float x,float y){
-  in*i=new in(x,y);IIT r;
+in*ob::oiadd(float x,float y){
+  in*i=new in(x,y);
+  i->tlcurn=tl->nds.front();
   ins.push_back(i);
-  r=ins.end();--r;
-  return r;
+  return i;
 }
-void ob::oidel(IIT i){
-  (*i)->del=true;
+void ob::oidel(in*i){
+  i->del=true;
 }
 void ob::oupd(){
   en&env=eget();
   for(auto i:evs){
     switch(i->ty){
-    case KBDO: {if(env.kst[(*i)->kbd.k]==PR)
-	  for(auto j:ins) i->kbd.a(j);
+    case KBDO: {if(env.kst[i->kbd.k]==PR)
+	  for(auto&j:ins) i->kbd.a(j);
 	break;}
-    case KBUP: {if(env.kst[(*i)->kbd.k]==RE)
-	  for(IIT j=ins.begin();j!=ins.end();++j) (*i)->kbd.a(j);
+    case KBUP: {if(env.kst[i->kbd.k]==RE)
+	  for(auto&j:ins) i->kbd.a(j);
 	break;}
-    case PTDO: {if((env.pst.le==PR&&(*i)->ptr.b==BTN_LE)||
-		   (env.pst.ri==PR&&(*i)->ptr.b==BTN_RI))
-	  for(IIT j=ins.begin();j!=ins.end();++j) (*i)->ptr.a(j);
+    case PTDO: {if((env.pst.le==PR&&i->ptr.b==BTN_LE)||
+		   (env.pst.ri==PR&&i->ptr.b==BTN_RI))
+	  for(auto&j:ins) i->ptr.a(j);
 	break;}
-    case PTUP: {if((env.pst.le==RE&&(*i)->ptr.b==BTN_LE)||
-		   (env.pst.ri==RE&&(*i)->ptr.b==BTN_RI))
-	  for(IIT j=ins.begin();j!=ins.end();++j) (*i)->ptr.a(j);
+    case PTUP: {if((env.pst.le==RE&&i->ptr.b==BTN_LE)||
+		   (env.pst.ri==RE&&i->ptr.b==BTN_RI))
+	  for(auto&j:ins) i->ptr.a(j);
 	break;}
-    case STEP: {for(IIT j=ins.begin();j!=ins.end();++j) (*i)->stp.a(j);break;}
+    case STEP: {for(auto&j:ins) i->stp.a(j);break;}
     case COLL: {en&env=eget();
-      ob*o=env.eoget((*i)->col.n);
+      ob*o=env.eoget(i->col.n);
       bool c=false;
-      for(IIT j=ins.begin();!c&&j!=ins.end();++j)
-	for(IIT k=o->ins.begin();!c&&k!=o->ins.end();++k){
-	  poly p1=spr->smget((*j)->x,(*j)->y,(*j)->xsc,(*j)->ysc);
-	  poly p2=o->spr->smget((*k)->x,(*k)->y,(*k)->xsc,(*k)->ysc);
+      for(auto&j:ins)
+	for(auto&k:o->ins){
+	  poly p1=spr->smget(j->x,j->y,j->xsc,j->ysc);
+	  poly p2=o->spr->smget(k->x,k->y,k->xsc,k->ysc);
 	  c=intersect(p1,p2);
 	}
-      if(c) for(IIT j=ins.begin();j!=ins.end();++j) (*i)->col.a(j);
+      if(c) for(auto&j:ins) i->col.a(j);
       break;}
-    case ALRM: {if(--(*i)->alr.n<=0)
-	for(IIT j=ins.begin();j!=ins.end();++j){
-	  (*i)->alr.a(j);
-	  (*i)->alr.n=(*i)->alr.in;
-	}
+    case ALRM: {if(--i->alr.n<=0)
+	  for(auto&j:ins){
+	    i->alr.a(j);
+	    i->alr.n=i->alr.in;
+	  }
 	break;}
     }
   }
+  for(auto&i:ins)
+    if(tl->st&&++tlcurt>=(*tlcurn)->step){
+      (*tlcurn)->a(i);
+      if(tlcurn!=tl->nds.end()) ++tlcurn;
+    }
   for(uint i=0;i<ins.size();++i){
     in*j=ins.front();ins.pop_front();
     if(j->del) delete j;
     else {j->move();ins.push_back(j);}
   }
-}
-ob::~ob(){
-  for(EIT i=evs.begin();i!=evs.end();++i) delete (*i);
-  for(IIT i=ins.begin();i!=ins.end();++i) delete (*i);
 }

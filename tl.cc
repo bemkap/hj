@@ -1,8 +1,9 @@
-/*
 #include"tl.hh"
 
-tline::tladd(act a,uint s){
-  node n=nds.back();
-  nds.push_back(node(a,s-n.left));
+tline::tline():st(true){}
+void tline::tladd(act a,uint s){
+  nds.push_back(node(a,s));
 }
-*/
+void tline::tltog(){
+  st=!st;
+}
