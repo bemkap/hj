@@ -5,7 +5,10 @@
 #include"ev.hh"
 using namespace std;
 
-typedef struct { act a;uint step; } node;
+struct node {
+  act a;
+  uint step;
+};
 
 class tline {public:
   vector<node> nds;

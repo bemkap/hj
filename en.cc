@@ -5,7 +5,7 @@
 
 en::en():oav(0),sav(0),quit(false){
   for(int i=0;i<256;++i) kst[i]=NPR;
-  pst.le=NPR;pst.ri=NPR;
+  pst.le=pst.ri=NPR;
 }
 en::~en(){
   for(auto i:obs) delete i;
@@ -46,7 +46,7 @@ void en::disp(){
   glLoadIdentity();
   for(auto i:obs)
     for(auto j:i->ins)
-      if(i->spr!=nullptr) i->spr->disp(j->x,j->y,j->xsc,j->ysc);
+      if(i->spr) i->spr->disp(j->x,j->y,j->xsc,j->ysc);
   glutSwapBuffers();
 }
 void en::resh(int we,int he){

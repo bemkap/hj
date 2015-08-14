@@ -9,8 +9,8 @@
 #include"sp.hh"
 using namespace std;
 
-typedef enum { PR,RE,NPR } st;
-typedef struct { int x,y;st le,ri; } ptr;
+enum st { PR,RE,NPR };
+struct ptr { int x,y;st le,ri; };
 
 class en {public:
   en();~en();
@@ -43,5 +43,6 @@ class en {public:
 en&eget();
   
 typedef map<string,obid>::iterator MOIT;
+typedef map<string,spid>::iterator MSIT;
 
 #endif

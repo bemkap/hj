@@ -9,8 +9,7 @@ class in {public:
   float x,y,sp,di,vsp,hsp;
   float xsc,ysc;
   bool del;
-  uint tlcurt;
-  vector<node>::iterator tlcurn; //cuidado
+  uint tlcurt,tlcurn;
   in(float,float);
   void move();
 };

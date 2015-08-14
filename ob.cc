@@ -9,32 +9,27 @@ ob::~ob(){
 }
 void ob::oeadd(evt t,act a){
   ev*e=new ev;
-  e->ty=STEP;
-  e->stp.a=a;
+  e->stp={STEP,a};
   evs.push_back(e);
 }
 void ob::oeadd(evt t,act a,uint n){
   ev*e=new ev;
-  e->ty=t;
   switch(t){
-  case KBDO: {e->kbd.a=a;e->kbd.k=uchar(n);break;}
-  case KBUP: {e->kbd.a=a;e->kbd.k=uchar(n);break;}
-  case ALRM: {e->alr.a=a;e->alr.in=e->alr.n=n;break;}
-  case COLL: {e->col.a=a;e->col.n=n;break;}
+  case KBDO: {e->kbd={t,a,uchar(n)};break;}
+  case KBUP: {e->kbd={t,a,uchar(n)};break;}
+  case ALRM: {e->alr={t,a,n,n};break;}
+  case COLL: {e->col={t,a,obid(n)};break;}
   default  : return;
   }
   evs.push_back(e);
 }
 void ob::oeadd(evt t,act a,ptbtn b){
   ev*e=new ev;
-  e->ty=t;
-  e->ptr.a=a;
-  e->ptr.b=b;
+  e->ptr={t,a,b};
   evs.push_back(e);
 }
 in*ob::oiadd(float x,float y){
   in*i=new in(x,y);
-  i->tlcurn=tl->nds.front();
   ins.push_back(i);
   return i;
 }
@@ -79,11 +74,11 @@ void ob::oupd(){
 	break;}
     }
   }
-  for(auto&i:ins)
-    if(tl->st&&++tlcurt>=(*tlcurn)->step){
-      (*tlcurn)->a(i);
-      if(tlcurn!=tl->nds.end()) ++tlcurn;
-    }
+  if(tl) for(auto&i:ins)
+	   if(tl->st&&++i->tlcurt>=tl->nds[i->tlcurn].step){
+	     tl->nds[i->tlcurn].a(i);
+	     if(i->tlcurn<tl->nds.size()) ++i->tlcurn;
+	   }
   for(uint i=0;i<ins.size();++i){
     in*j=ins.front();ins.pop_front();
     if(j->del) delete j;

@@ -6,16 +6,16 @@
 #include"in.hh"
 using namespace std;
 
-typedef enum { KBDO,KBUP,PTDO,PTUP,STEP,COLL,ALRM,TIME } evt;
-typedef enum { BTN_LE,BTN_RI } ptbtn;
+enum evt { KBDO,KBUP,PTDO,PTUP,STEP,COLL,ALRM };
+enum ptbtn { BTN_LE,BTN_RI };
 typedef void (*act)(in*);
 
-typedef struct { evt ty;act a;uchar k;   } ekbd;
-typedef struct { evt ty;act a;ptbtn b;   } eptr;
-typedef struct { evt ty;act a;           } estp;
-typedef struct { evt ty;act a;obid n ;   } ecol;
-typedef struct { evt ty;act a;uint in,n; } ealr;
+struct ekbd { evt ty;act a;uchar k;   };
+struct eptr { evt ty;act a;ptbtn b;   };
+struct estp { evt ty;act a;           };
+struct ecol { evt ty;act a;obid n ;   };
+struct ealr { evt ty;act a;uint in,n; };
 
-typedef union { evt ty;ekbd kbd;eptr ptr;estp stp;ecol col;ealr alr; } ev;
+union ev { evt ty;ekbd kbd;eptr ptr;estp stp;ecol col;ealr alr; };
 
 #endif

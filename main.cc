@@ -27,7 +27,7 @@ void bul_stp   (in*i){if(i->x>env.w||i->x<0||i->y>env.h||i->y<0){
   }
 }
 void tri_ptr_le(in*i){ob*o=env.eoget(env.eoiget("obul"));
-  if(o!=nullptr){
+  if(o){
     in*j=o->oiadd(i->x,i->y);
     j->sp=6;
     j->di=radtodeg(point_direction(i->x,i->y,env.pst.x,env.pst.y));
