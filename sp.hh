@@ -5,12 +5,12 @@
 #include"ge.hh"
 using namespace std;
 
+struct color { float r,g,b; };
+
 class sp {public:
   poly msk;
-  float r,g,b;
-  sp(initializer_list<float>);
-  void spcol(float,float,float);
-  void spadd(float,float);
+  color c;
+  sp(initializer_list<point>);
   poly smget(float,float,float,float);
   void disp(float,float,float,float);
 };

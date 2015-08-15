@@ -29,8 +29,8 @@ void bul_stp   (in*i){if(i->x>env.w||i->x<0||i->y>env.h||i->y<0){
 void tri_ptr_le(in*i){ob*o=env.eoget(env.eoiget("obul"));
   if(o){
     in*j=o->oiadd(i->x,i->y);
-    j->sp=6;
-    j->di=radtodeg(point_direction(i->x,i->y,env.pst.x,env.pst.y));
+    j->spe=6;
+    j->dir=radtodeg(point_direction(i->x,i->y,env.pst.x,env.pst.y));
   }
 }
 
@@ -54,21 +54,17 @@ void init(int*argc,char**argv){
 int main(int argc,char**argv){
   init(&argc,argv);
   //sps dec
-  sp*stri=new sp;env.esadd("stri",stri);
-  sp*sbul=new sp;env.esadd("sbul",sbul);
+  sp*stri=new sp({{0,0},{3,0},{3,3}});
+  sp*sbul=new sp({{0,0},{1,0},{1,1},{0,1}});
+  env.esadd("stri",stri);
+  env.esadd("sbul",sbul);
   //obs dec
-  ob*owor=new ob;env.eoadd("owor",owor);
-  ob*otri=new ob;env.eoadd("otri",otri);
-  ob*obul=new ob;env.eoadd("obul",obul);  
-  //sps def
-  stri->spadd(0,0);
-  stri->spadd(3,0);
-  stri->spadd(3,3);
-
-  sbul->spadd(0,0);
-  sbul->spadd(1,0);
-  sbul->spadd(1,1);
-  sbul->spadd(0,1);
+  ob*owor=new ob;
+  ob*otri=new ob;
+  ob*obul=new ob;
+  env.eoadd("owor",owor);
+  env.eoadd("otri",otri);
+  env.eoadd("obul",obul);
   //obs spr
   otri->spr=stri;
   obul->spr=sbul;

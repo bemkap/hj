@@ -6,10 +6,11 @@
 using namespace std;
 
 class in {public:
-  float x,y,sp,di,vsp,hsp;
+  float x,y;
+  float spe,dir,vsp,hsp,gr,fr;
   float xsc,ysc;
   bool del;
-  uint tlcurt,tlcurn;
+  uint tlcurt,tlcurn;  
   in(float,float);
   void move();
 };

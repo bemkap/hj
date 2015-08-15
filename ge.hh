@@ -4,21 +4,18 @@
 #include<vector>
 using namespace std;
 
-class point {public:
-  float x,y;
-  point(float,float);
-};
+struct point { float x,y; };
 
 class line {public:
   point p,q;
   line(point,point);
-  line(float,float,float,float);
 };
 
 class poly {public:
   vector<point> pts;
+  poly();
+  poly(initializer_list<point>);
   void ppadd(point);
-  void ppadd(float,float);
 };
 
 bool left(point,line);

@@ -1,14 +1,13 @@
 #include"ge.hh"
 #include"cm.hh"
 
-point::point(float x,float y):x(x),y(y){}
 line::line(point p,point q):p(p),q(q){}
-line::line(float px,float py,float qx,float qy):p(point(px,py)),q(point(qx,qy)){}
+poly::poly(){}
+poly::poly(initializer_list<point> l){
+  for(auto i:l) pts.push_back(i);
+}
 void poly::ppadd(point p){
   pts.push_back(p);
-}
-void poly::ppadd(float px,float py){
-  ppadd(point(px,py));
 }
 bool left(point p,line l){
   return (l.q.x-l.p.x)*(p.y-l.p.y)>=(l.q.y-l.p.y)*(p.x-l.p.x);
