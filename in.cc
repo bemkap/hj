@@ -15,7 +15,7 @@ void in::move(){
   x+=spe*cos(degtorad(dir));
   y+=spe*sin(degtorad(dir));
   vsp-=gr;
-  hsp=max(float(0),hsp-fr);
-  vsp=max(float(0),vsp-fr);
-  spe=max(float(0),spe-fr);
+  hsp-=fr*sign(hsp);
+  vsp-=fr*sign(vsp);
+  spe-=fr*sign(spe);
 }

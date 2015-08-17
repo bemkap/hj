@@ -13,8 +13,8 @@ typedef void (*act)(in*);
 struct ekbd { evt ty;act a;uchar k;   };
 struct eptr { evt ty;act a;ptbtn b;   };
 struct estp { evt ty;act a;           };
-struct ecol { evt ty;act a;obid n ;   };
-struct ealr { evt ty;act a;uint in,n; };
+struct ecol { evt ty;act a;obid n;    };
+struct ealr { evt ty;act a;uint n,in; };
 
 union ev { evt ty;ekbd kbd;eptr ptr;estp stp;ecol col;ealr alr; };
 

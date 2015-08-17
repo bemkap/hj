@@ -33,6 +33,8 @@ void tri_ptr_le(in*i){ob*o=env.eoget(env.eoiget("obul"));
     j->dir=radtodeg(point_direction(i->x,i->y,env.pst.x,env.pst.y));
   }
 }
+void sqr_alr_0(in*i){i->hsp*=-1;}
+void instance_destroy(in*i){i->del=true;}
 
 void init(int*argc,char**argv){
   glutInit(argc,argv);
@@ -62,12 +64,15 @@ int main(int argc,char**argv){
   ob*owor=new ob;
   ob*otri=new ob;
   ob*obul=new ob;
+  ob*osqr=new ob;
   env.eoadd("owor",owor);
   env.eoadd("otri",otri);
   env.eoadd("obul",obul);
+  env.eoadd("osqr",osqr);
   //obs spr
   otri->spr=stri;
   obul->spr=sbul;
+  osqr->spr=sbul;
   //obs ev
   obul->oeadd(STEP,bul_stp);
   owor->oeadd(KBDO,wor_kbd_es,'q');
@@ -80,9 +85,14 @@ int main(int argc,char**argv){
   otri->oeadd(KBUP,tri_kbd_hs,'a');
   otri->oeadd(KBUP,tri_kbd_hs,'e');
   otri->oeadd(PTDO,tri_ptr_le,BTN_LE);
+  otri->oeadd(COLL,instance_destroy,env.eoiget("osqr"));
+  osqr->oeadd(ALRM,sqr_alr_0,40);
   //ins dec/def
   otri->oiadd(100,100);
   owor->oiadd(0,0);
+  in*sqr0=osqr->oiadd(50,300);
+  sqr0->hsp=4;
+  sqr0->xsc=sqr0->ysc=5;
   
   glutMainLoop();
   return 0;
