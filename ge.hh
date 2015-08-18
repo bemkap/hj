@@ -5,11 +5,7 @@
 using namespace std;
 
 struct point { float x,y; };
-
-class line {public:
-  point p,q;
-  line(point,point);
-};
+struct line  { point p,q; };
 
 class poly {public:
   vector<point> pts;

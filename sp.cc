@@ -5,7 +5,7 @@ sp::sp(initializer_list<point> l):msk(l),c({1,1,1}){}
 poly sp::smget(float x,float y,float xsc,float ysc){
   poly rmsk;
   for(auto i:msk.pts)
-    rmsk.pts.push_back({i.x*xsc+x,i.y*ysc+y});
+    rmsk.ppadd({i.x*xsc+x,i.y*ysc+y});
   return rmsk;
 }
 void sp::disp(float x,float y,float xsc,float ysc){

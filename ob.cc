@@ -3,6 +3,7 @@
 #include"en.hh"
 
 ob::ob():spr(nullptr),tl(nullptr){}
+ob::ob(sp*s):spr(s),tl(nullptr){}
 ob::~ob(){
   for(auto i:evs) delete i;
   for(auto i:ins) delete i;
@@ -12,7 +13,7 @@ void ob::oeadd(evt t,act a){
   e->stp={STEP,a};
   evs.push_back(e);
 }
-void ob::oeadd(evt t,act a,uint n){
+void ob::oeadd(evt t,uint n,act a){
   ev*e=new ev;
   switch(t){
   case KBDO: {e->kbd={t,a,uchar(n)};break;}
@@ -23,7 +24,7 @@ void ob::oeadd(evt t,act a,uint n){
   }
   evs.push_back(e);
 }
-void ob::oeadd(evt t,act a,ptbtn b){
+void ob::oeadd(evt t,ptbtn b,act a){
   ev*e=new ev;
   e->ptr={t,a,b};
   evs.push_back(e);

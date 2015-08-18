@@ -1,7 +1,6 @@
 #include"ge.hh"
 #include"cm.hh"
 
-line::line(point p,point q):p(p),q(q){}
 poly::poly(){}
 poly::poly(initializer_list<point> l){
   for(auto i:l) pts.push_back(i);
@@ -14,10 +13,8 @@ bool left(point p,line l){
 }
 bool intersect(point p,poly q){
   bool c=true;
-  for(uint i=0;c&&i<q.pts.size();i+=2){
-    line l(q.pts[i],q.pts[(i+1)%q.pts.size()]);
-    c=c&&left(p,l);
-  }
+  for(uint i=0;c&&i<q.pts.size();++i)
+    c=c&&left(p,{q.pts[i],q.pts[(i+1)%q.pts.size()]});
   return c;
 }
 bool intersect(poly p,poly q){

@@ -9,32 +9,10 @@ void keyboard(uchar k,int x,int y){env.kst[k]=PR;}
 void keyboaru(uchar k,int x,int y){env.kst[k]=RE;}
 void mouse(int x,int y){env.pst.x=x;env.pst.y=env.h-y;}
 void mousebtn(int b,int st,int x,int y){switch(b){
-  case GLUT_LEFT_BUTTON : env.pst.le=(st==GLUT_UP)?RE:PR;break;
-  case GLUT_RIGHT_BUTTON: env.pst.ri=(st==GLUT_UP)?RE:PR;break;
+  case GLUT_LEFT_BUTTON : {env.pst.le=(st==GLUT_UP)?RE:PR;break;}
+  case GLUT_RIGHT_BUTTON: {env.pst.ri=(st==GLUT_UP)?RE:PR;break;}
   }
 }
-
-void tri_kbd_up(in*i){i->vsp= 3;}
-void tri_kbd_do(in*i){i->vsp=-3;}
-void tri_kbd_le(in*i){i->hsp=-3;}
-void tri_kbd_ri(in*i){i->hsp= 3;}
-void tri_kbd_hs(in*i){i->hsp= 0;}
-void tri_kbd_vs(in*i){i->vsp= 0;}
-void wor_kbd_es(in*i){exit(0);}
-void bul_stp   (in*i){if(i->x>env.w||i->x<0||i->y>env.h||i->y<0){
-    ob*o=env.eoget(env.eoiget("obul"));
-    o->oidel(i);
-  }
-}
-void tri_ptr_le(in*i){ob*o=env.eoget(env.eoiget("obul"));
-  if(o){
-    in*j=o->oiadd(i->x,i->y);
-    j->spe=6;
-    j->dir=radtodeg(point_direction(i->x,i->y,env.pst.x,env.pst.y));
-  }
-}
-void sqr_alr_0(in*i){i->hsp*=-1;}
-void instance_destroy(in*i){i->del=true;}
 
 void init(int*argc,char**argv){
   glutInit(argc,argv);
@@ -56,37 +34,37 @@ void init(int*argc,char**argv){
 int main(int argc,char**argv){
   init(&argc,argv);
   //sps dec
-  sp*stri=new sp({{0,0},{3,0},{3,3}});
-  sp*sbul=new sp({{0,0},{1,0},{1,1},{0,1}});
-  env.esadd("stri",stri);
-  env.esadd("sbul",sbul);
+  sp*stri=new sp({{0,0},{3,0},{3,3}});      env.esadd("stri",stri);
+  sp*sbul=new sp({{0,0},{1,0},{1,1},{0,1}});env.esadd("sbul",sbul);
   //obs dec
-  ob*owor=new ob;
-  ob*otri=new ob;
-  ob*obul=new ob;
-  ob*osqr=new ob;
-  env.eoadd("owor",owor);
-  env.eoadd("otri",otri);
-  env.eoadd("obul",obul);
-  env.eoadd("osqr",osqr);
-  //obs spr
-  otri->spr=stri;
-  obul->spr=sbul;
-  osqr->spr=sbul;
+  ob*owor=new ob;      env.eoadd("owor",owor);
+  ob*otri=new ob(stri);env.eoadd("otri",otri);
+  ob*obul=new ob(sbul);env.eoadd("obul",obul);
+  ob*osqr=new ob(sbul);env.eoadd("osqr",osqr);
   //obs ev
-  obul->oeadd(STEP,bul_stp);
-  owor->oeadd(KBDO,wor_kbd_es,'q');
-  otri->oeadd(KBDO,tri_kbd_up,',');
-  otri->oeadd(KBDO,tri_kbd_do,'o');
-  otri->oeadd(KBDO,tri_kbd_le,'a');
-  otri->oeadd(KBDO,tri_kbd_ri,'e');
-  otri->oeadd(KBUP,tri_kbd_vs,',');
-  otri->oeadd(KBUP,tri_kbd_vs,'o');
-  otri->oeadd(KBUP,tri_kbd_hs,'a');
-  otri->oeadd(KBUP,tri_kbd_hs,'e');
-  otri->oeadd(PTDO,tri_ptr_le,BTN_LE);
-  otri->oeadd(COLL,instance_destroy,env.eoiget("osqr"));
-  osqr->oeadd(ALRM,sqr_alr_0,40);
+  obul->oeadd(STEP,[](in*i){if(i->x>env.w||i->x<0||i->y>env.h||i->y<0){
+	ob*o=env.eoget(env.eoiget("obul"));
+	o->oidel(i);
+      }
+    });
+  owor->oeadd(KBDO,'q',[](in*i){exit(0);});
+  otri->oeadd(KBDO,',',[](in*i){i->vsp= 3;});
+  otri->oeadd(KBDO,'o',[](in*i){i->vsp=-3;});
+  otri->oeadd(KBDO,'a',[](in*i){i->hsp=-3;});
+  otri->oeadd(KBDO,'e',[](in*i){i->hsp= 3;});
+  otri->oeadd(KBUP,',',[](in*i){i->vsp= 0;});
+  otri->oeadd(KBUP,'o',[](in*i){i->vsp= 0;});
+  otri->oeadd(KBUP,'a',[](in*i){i->hsp= 0;});
+  otri->oeadd(KBUP,'e',[](in*i){i->hsp= 0;});
+  otri->oeadd(PTDO,BTN_LE,[](in*i){ob*o=env.eoget(env.eoiget("obul"));
+      if(o){
+	in*j=o->oiadd(i->x,i->y);
+	j->spe=6;
+	j->dir=radtodeg(point_direction(i->x,i->y,env.pst.x,env.pst.y));
+      }
+    });
+  otri->oeadd(COLL,env.eoiget("osqr"),[](in*i){i->del=true;});
+  osqr->oeadd(ALRM,40,[](in*i){i->hsp*=-1;});
   //ins dec/def
   otri->oiadd(100,100);
   owor->oiadd(0,0);

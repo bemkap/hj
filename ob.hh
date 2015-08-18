@@ -14,14 +14,13 @@ class ob {public:
   deque<in*> ins;
   sp*spr;
   tline*tl;
-  ob();
+  ob();ob(sp*);~ob();
   void oeadd(evt,act);       // step
-  void oeadd(evt,act,uint);  // coll/alrm/kbd[o/u]
-  void oeadd(evt,act,ptbtn); // mouse
+  void oeadd(evt,uint,act);  // coll/alrm/kbd[o/u]
+  void oeadd(evt,ptbtn,act); // mouse
   in*  oiadd(float,float);
   void oidel(in*);
   void oupd();
-  ~ob();
 };
 
 #endif
