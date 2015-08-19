@@ -19,7 +19,7 @@ void init(int*argc,char**argv){
   glutInitDisplayMode(GLUT_DOUBLE);
   glutInitWindowSize(240,480);
   env.w=240;env.h=480;
-  glutCreateWindow("hj");
+  glutCreateWindow("OpenGL");
   glutDisplayFunc(display);
   glutIdleFunc(display);
   glutReshapeFunc(reshape);
@@ -29,48 +29,44 @@ void init(int*argc,char**argv){
   glutMotionFunc(mouse);
   glutMouseFunc(mousebtn);
   glutPassiveMotionFunc(mouse);
+  glutSetCursor(GLUT_CURSOR_NONE);
 }
 
 int main(int argc,char**argv){
   init(&argc,argv);
   //sps dec
-  sp*stri=new sp({{0,0},{3,0},{3,3}});      env.esadd("stri",stri);
-  sp*sbul=new sp({{0,0},{1,0},{1,1},{0,1}});env.esadd("sbul",sbul);
+  sp*sp0=new sp({{0,0},{3,0},{3,3}});
+  sp*sp1=new sp({{0,0},{1,0},{1,1},{0,1}});
+  env.esadd("sp0",sp0);
+  env.esadd("sp1",sp1);
+  //tl dec
+  tline*tl0=new tline;
+  tl0->tladd( 1,[](in*i){i->dir=60;i->spe=40;i->fr=4;});
+  tl0->tladd(11,[](in*i){i->fr=0;});
+  tl0->tladd(20,[](in*i){i->hsp=4;i->alrn[0]=10;});
   //obs dec
-  ob*owor=new ob;      env.eoadd("owor",owor);
-  ob*otri=new ob(stri);env.eoadd("otri",otri);
-  ob*obul=new ob(sbul);env.eoadd("obul",obul);
-  ob*osqr=new ob(sbul);env.eoadd("osqr",osqr);
+  ob*ob0=new ob;  
+  ob*ob1=new ob(sp0);
+  ob*ob2=new ob(sp1);
+  ob*ob3=new ob(sp1);
+  env.eoadd("ob0",ob0);
+  env.eoadd("ob1",ob1);
+  env.eoadd("ob2",ob2);  
+  env.eoadd("ob3",ob3);
   //obs ev
-  obul->oeadd(STEP,[](in*i){if(i->x>env.w||i->x<0||i->y>env.h||i->y<0){
-	ob*o=env.eoget(env.eoiget("obul"));
-	o->oidel(i);
-      }
+  ob0->oeadd(KBDO,'q',[](in*i){exit(0);});
+  ob1->oeadd(STEP,[](in*i){i->x=env.pst.x;i->y=env.pst.y;});
+  ob1->oeadd(COLL,env.eoiget("ob3"),[](in*i){i->del=true;});
+  ob2->oeadd(STEP,[](in*i){if(i->x>env.w||i->x<0||i->y>env.h||i->y<0)
+	i->del=true;
     });
-  owor->oeadd(KBDO,'q',[](in*i){exit(0);});
-  otri->oeadd(KBDO,',',[](in*i){i->vsp= 3;});
-  otri->oeadd(KBDO,'o',[](in*i){i->vsp=-3;});
-  otri->oeadd(KBDO,'a',[](in*i){i->hsp=-3;});
-  otri->oeadd(KBDO,'e',[](in*i){i->hsp= 3;});
-  otri->oeadd(KBUP,',',[](in*i){i->vsp= 0;});
-  otri->oeadd(KBUP,'o',[](in*i){i->vsp= 0;});
-  otri->oeadd(KBUP,'a',[](in*i){i->hsp= 0;});
-  otri->oeadd(KBUP,'e',[](in*i){i->hsp= 0;});
-  otri->oeadd(PTDO,BTN_LE,[](in*i){ob*o=env.eoget(env.eoiget("obul"));
-      if(o){
-	in*j=o->oiadd(i->x,i->y);
-	j->spe=6;
-	j->dir=radtodeg(point_direction(i->x,i->y,env.pst.x,env.pst.y));
-      }
-    });
-  otri->oeadd(COLL,env.eoiget("osqr"),[](in*i){i->del=true;});
-  osqr->oeadd(ALRM,40,[](in*i){i->hsp*=-1;});
+  ob3->oeadd(ALRM,0,[](in*i){i->hsp*=-1;i->alrn[0]=40;});
+  ob3->tl=tl0;
   //ins dec/def
-  otri->oiadd(100,100);
-  owor->oiadd(0,0);
-  in*sqr0=osqr->oiadd(50,300);
-  sqr0->hsp=4;
-  sqr0->xsc=sqr0->ysc=5;
+  ob0->oiadd(0,0);
+  ob1->oiadd(100,100);
+  in*ob30=ob3->oiadd(50,300);
+  ob30->xsc=ob30->ysc=5;
   
   glutMainLoop();
   return 0;

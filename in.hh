@@ -10,7 +10,8 @@ class in {public:
   float spe,dir,vsp,hsp,gr,fr;
   float xsc,ysc;
   bool del;
-  uint tlcurt,tlcurn;  
+  uint tlcurt,tlcurn;
+  uint alrn[11];
   in(float,float);
   void move();
 };

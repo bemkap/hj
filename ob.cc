@@ -10,7 +10,10 @@ ob::~ob(){
 }
 void ob::oeadd(evt t,act a){
   ev*e=new ev;
-  e->stp={STEP,a};
+  switch(t){
+  case STEP: {e->stp={t,a};break;}
+  default  : {delete e;return;}
+  }
   evs.push_back(e);
 }
 void ob::oeadd(evt t,uint n,act a){
@@ -18,9 +21,9 @@ void ob::oeadd(evt t,uint n,act a){
   switch(t){
   case KBDO: {e->kbd={t,a,uchar(n)};break;}
   case KBUP: {e->kbd={t,a,uchar(n)};break;}
-  case ALRM: {e->alr={t,a,n,n};break;}
   case COLL: {e->col={t,a,obid(n)};break;}
-  default  : return;
+  case ALRM: {e->alr={t,a,n};break;}
+  default  : {delete e;return;}
   }
   evs.push_back(e);
 }
@@ -67,19 +70,18 @@ void ob::oupd(){
 	}
       if(c) for(auto&j:ins) i->col.a(j);
       break;}
-    case ALRM: {if(--i->alr.n<=0)
-	  for(auto&j:ins){
-	    i->alr.a(j);
-	    i->alr.n=i->alr.in;
-	  }
+    case ALRM: {for(auto&j:ins)
+	  if(j->alrn[i->alr.n%11]>0&&--j->alrn[i->alr.n%11]<=0) i->alr.a(j);
 	break;}
     }
   }
-  if(tl) for(auto&i:ins)
-	   if(tl->st&&++i->tlcurt>=tl->nds[i->tlcurn].step){
-	     tl->nds[i->tlcurn].a(i);
-	     if(i->tlcurn<tl->nds.size()) ++i->tlcurn;
-	   }
+  if(tl&&tl->st)
+    for(auto&i:ins)
+      if(++i->tlcurt>=tl->nds[i->tlcurn].step){
+	tl->nds[i->tlcurn].a(i);
+	if(i->tlcurn<tl->nds.size()) ++i->tlcurn;
+	else tl->st=false;
+      }
   for(uint i=0;i<ins.size();++i){
     in*j=ins.front();ins.pop_front();
     if(j->del) delete j;

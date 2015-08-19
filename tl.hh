@@ -5,16 +5,13 @@
 #include"ev.hh"
 using namespace std;
 
-struct node {
-  act a;
-  uint step;
-};
+struct node { act a;uint step; };
 
 class tline {public:
   vector<node> nds;
   bool st;
   tline();
-  void tladd(act,uint);
+  void tladd(uint,act);
   void tltog();
 };
 
