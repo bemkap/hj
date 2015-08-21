@@ -36,14 +36,14 @@ int main(int argc,char**argv){
   init(&argc,argv);
   //sps dec
   sp*sp0=new sp({{0,0},{3,0},{3,3}});
-  sp*sp1=new sp({{0,0},{1,0},{1,1},{0,1}});
+  sp*sp1=new sp({{0,0},{5,0},{5,5},{0,5}});
   env.esadd("sp0",sp0);
   env.esadd("sp1",sp1);
   //tl dec
   tline*tl0=new tline;
   tl0->tladd( 1,[](in*i){i->dir=60;i->spe=40;i->fr=4;});
   tl0->tladd(11,[](in*i){i->fr=0;});
-  tl0->tladd(20,[](in*i){i->hsp=4;i->alrn[0]=10;});
+  tl0->tladd(20,[](in*i){i->hsp=4;i->alrn[0]=10;i->alrn[1]=5;});
   //obs dec
   ob*ob0=new ob;  
   ob*ob1=new ob(sp0);
@@ -61,12 +61,20 @@ int main(int argc,char**argv){
 	i->del=true;
     });
   ob3->oeadd(ALRM,0,[](in*i){i->hsp*=-1;i->alrn[0]=40;});
+  ob3->oeadd(ALRM,1,[](in*i){ob*ob2=env.eoget(env.eoiget("ob2"));
+      unsigned s=chrono::system_clock::now().time_since_epoch().count();
+      minstd_rand0 g(s);
+      in*ob20=ob2->oiadd(i->x,i->y);
+      ob20->dir=g()%360;
+      ob20->spe=g()%4+4;
+      i->alrn[1]=5;
+    });
   ob3->tl=tl0;
   //ins dec/def
   ob0->oiadd(0,0);
-  ob1->oiadd(100,100);
-  in*ob30=ob3->oiadd(50,300);
-  ob30->xsc=ob30->ysc=5;
+  in*ob10=ob1->oiadd(0,0);
+  ob10->xsc=ob10->ysc=2;
+  ob3->oiadd(50,300);
   
   glutMainLoop();
   return 0;
