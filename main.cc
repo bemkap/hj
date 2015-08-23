@@ -43,7 +43,7 @@ int main(int argc,char**argv){
   tline*tl0=new tline;
   tl0->tladd( 1,[](in*i){i->dir=60;i->spe=40;i->fr=4;});
   tl0->tladd(11,[](in*i){i->fr=0;});
-  tl0->tladd(20,[](in*i){i->hsp=4;i->alrn[0]=10;i->alrn[1]=5;});
+  tl0->tladd(20,[](in*i){i->hsp=4;i->alrn[0]=10;i->alrn[1]=3;});
   //obs dec
   ob*ob0=new ob;  
   ob*ob1=new ob(sp0);
@@ -55,10 +55,17 @@ int main(int argc,char**argv){
   env.eoadd("ob3",ob3);
   //obs ev
   ob0->oeadd(KBDO,'q',[](in*i){exit(0);});
-  ob1->oeadd(STEP,[](in*i){i->x=env.pst.x;i->y=env.pst.y;});
-  ob1->oeadd(COLL,env.eoiget("ob3"),[](in*i){i->del=true;});
+  ob1->oeadd(KBDO,'a',[](in*i){i->hsp=-5;});
+  ob1->oeadd(KBDO,'o',[](in*i){i->vsp=-5;});
+  ob1->oeadd(KBDO,'e',[](in*i){i->hsp= 5;});
+  ob1->oeadd(KBDO,',',[](in*i){i->vsp= 5;});
+  ob1->oeadd(KBUP,'a',[](in*i){i->hsp= 0;});
+  ob1->oeadd(KBUP,'o',[](in*i){i->vsp= 0;});
+  ob1->oeadd(KBUP,'e',[](in*i){i->hsp= 0;});
+  ob1->oeadd(KBUP,',',[](in*i){i->vsp= 0;});
+  ob1->oeadd(COLL,env.eoiget("ob3"),[](in*i){i->st=DEAD;});
   ob2->oeadd(STEP,[](in*i){if(i->x>env.w||i->x<0||i->y>env.h||i->y<0)
-	i->del=true;
+	i->st=DEAD;
     });
   ob3->oeadd(ALRM,0,[](in*i){i->hsp*=-1;i->alrn[0]=40;});
   ob3->oeadd(ALRM,1,[](in*i){ob*ob2=env.eoget(env.eoiget("ob2"));
@@ -67,7 +74,7 @@ int main(int argc,char**argv){
       in*ob20=ob2->oiadd(i->x,i->y);
       ob20->dir=g()%360;
       ob20->spe=g()%4+4;
-      i->alrn[1]=5;
+      i->alrn[1]=3;
     });
   ob3->tl=tl0;
   //ins dec/def

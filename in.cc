@@ -6,7 +6,7 @@
 in::in(float x,float y):x(x),y(y){
   spe=dir=vsp=hsp=gr=fr=0;
   xsc=ysc=1;
-  del=false;
+  st=BORN;
   tlcurt=tlcurn=0;
   for(int i=0;i<11;++i) alrn[i]=0;
 }

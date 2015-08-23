@@ -11,7 +11,9 @@ ob::~ob(){
 void ob::oeadd(evt t,act a){
   ev*e=new ev;
   switch(t){
+  case CRTE: {e->crt={t,a};break;}
   case STEP: {e->stp={t,a};break;}
+  case DEST: {e->stp={t,a};break;}
   default  : {delete e;return;}
   }
   evs.push_back(e);
@@ -37,13 +39,14 @@ in*ob::oiadd(float x,float y){
   ins.push_back(i);
   return i;
 }
-void ob::oidel(in*i){
-  i->del=true;
-}
 void ob::oupd(){
   en&env=eget();
+  bool df=false;act b;
   for(auto i:evs){
     switch(i->ty){
+    case CRTE: {for(auto&j:ins)
+	  if(j->st==BORN){i->crt.a(j);j->st=LIVE;}
+  	break;}
     case KBDO: {if(env.kst[i->kbd.k]==PR)
 	  for(auto&j:ins) i->kbd.a(j);
 	break;}
@@ -59,8 +62,7 @@ void ob::oupd(){
 	  for(auto&j:ins) i->ptr.a(j);
 	break;}
     case STEP: {for(auto&j:ins) i->stp.a(j);break;}
-    case COLL: {en&env=eget();
-      ob*o=env.eoget(i->col.n);
+    case COLL: {ob*o=env.eoget(i->col.n);
       bool c=false;
       for(auto&j:ins)
 	for(auto&k:o->ins){
@@ -73,6 +75,7 @@ void ob::oupd(){
     case ALRM: {for(auto&j:ins)
 	  if(j->alrn[i->alr.n%11]>0&&--j->alrn[i->alr.n%11]<=0) i->alr.a(j);
 	break;}
+    case DEST: {df=true;b=i->des.a;break;}
     }
   }
   if(tl&&tl->st)
@@ -84,7 +87,7 @@ void ob::oupd(){
       }
   for(uint i=0;i<ins.size();++i){
     in*j=ins.front();ins.pop_front();
-    if(j->del) delete j;
+    if(j->st==DEAD){if(df) b(j); delete j;}
     else {j->move();ins.push_back(j);}
   }
 }

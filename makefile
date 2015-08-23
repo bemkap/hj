@@ -11,6 +11,10 @@ $(BIN): $(OBJ) $(HEA)
 %.o: %.cc
 	$(CC) $(FLAGS) -c $<
 
+.PHONY: run
+run:
+	./$(BIN)
+
 .PHONY: clean
 clean:
 	rm -f $(BIN) $(OBJ)

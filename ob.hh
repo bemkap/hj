@@ -19,7 +19,6 @@ class ob {public:
   void oeadd(evt,uint,act);  // coll/alrm/kbd[o/u]
   void oeadd(evt,ptbtn,act); // mouse
   in*  oiadd(float,float);
-  void oidel(in*);
   void oupd();
 };
 
