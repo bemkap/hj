@@ -7,12 +7,12 @@ using namespace std;
 enum inst { BORN,LIVE,DEAD };
 
 class in {public:
-  float x,y;
-  float spe,dir,vsp,hsp,gr,fr;
-  float xsc,ysc;
+  double x,y;
+  double spe,dir,vsp,hsp,gr,fr;
+  double xsc,ysc;
   inst st;
   uint tlcurt,tlcurn;
   uint alrn[11];
-  in(float,float);
+  in(double,double);
   void move();
 };

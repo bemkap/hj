@@ -1,12 +1,12 @@
 #pragma once
 
-const int   FPS=50;
-const float PIE=3.141592653;
+const int    FPS=50;
+const double PIE=3.141592653;
 
-typedef int obid;
-typedef int spid;
 typedef unsigned char uchar;
 typedef unsigned int uint;
+typedef uint obid;
+typedef uint spid;
 
 #define KB_TAB     9
 #define KB_ENTER  13

@@ -2,20 +2,20 @@
 #include"cm.hh"
 #include"ut.hh"
 
-float point_direction(float x0,float y0,float x1,float y1){
-  float r=atan2(y1-y0,x1-x0);
+double point_direction(double x0,double y0,double x1,double y1){
+  double r=atan2(y1-y0,x1-x0);
   return r<0?r+2*PIE:r;
 }
-float point_distance(float x0,float y0,float x1,float y1){
+double point_distance(double x0,double y0,double x1,double y1){
   return sqrt(pow(x1-x0,2)+pow(y1-y0,2));
 }
-float degtorad(float x){
+double degtorad(double x){
   return x/180*PIE;
 }
-float radtodeg(float x){
+double radtodeg(double x){
   return x*180/PIE;
 }
-int sign(float x){  
+int sign(double x){  
   return (x>0)-(x<0);
 }
 int rand(int i){

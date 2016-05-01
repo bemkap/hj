@@ -35,8 +35,8 @@ void init(int*argc,char**argv){
 int main(int argc,char**argv){
   init(&argc,argv);
   //sps dec
-  sp*sp0=new sp({{0,0},{3,0},{3,3}});
-  sp*sp1=new sp({{0,0},{5,0},{5,5},{0,5}});
+  sp*sp0=new sp({{0,0},{5,0},{5,5}});
+  sp*sp1=new sp({{0,0},{8,0},{8,8},{0,8}});
   env.esadd("sp0",sp0);
   env.esadd("sp1",sp1);
   //tl dec
@@ -45,35 +45,38 @@ int main(int argc,char**argv){
   tl0->tladd(11,[](in*i){i->fr=0;});
   tl0->tladd(20,[](in*i){i->hsp=4;i->alrn[0]=10;i->alrn[1]=3;});
   //obs dec
-  ob*ob0=new ob;  
-  ob*ob1=new ob(sp0);
-  ob*ob2=new ob(sp1);
-  ob*ob3=new ob(sp1);
-  env.eoadd("ob0",ob0);
-  env.eoadd("ob1",ob1);
-  env.eoadd("ob2",ob2);  
-  env.eoadd("ob3",ob3);
+  ob*worl=new ob;  
+  ob*ship=new ob(sp0);
+  ob*bull=new ob(sp1);
+  ob*enem=new ob(sp1);
+  env.eoadd("worl",worl);
+  env.eoadd("ship",ship);
+  env.eoadd("bull",bull);  
+  env.eoadd("enem",enem);
   //obs ev
-  ob0->oeadd(KBDO,'q',[](in*i){exit(0);});
-  ob1->oeadd(STEP,[](in*i){i->x=env.pst.x;i->y=env.pst.y;});
-  ob1->oeadd(COLL,env.eoiget("ob3"),[](in*i){i->st=DEAD;});
-  ob1->oeadd(COLL,env.eoiget("ob2"),[](in*i){i->st=DEAD;});
-  ob2->oeadd(STEP,[](in*i){if(i->x>env.w||i->x<0||i->y>env.h||i->y<0)
+  worl->oeadd(KBDO,'q',[](in*i){exit(0);});
+  ship->oeadd(STEP,[](in*i){i->x=env.pst.x;i->y=env.pst.y;});
+  ship->oeadd(COLL,env.eoiget("bull"),[](in*i){i->st=DEAD;});
+  ship->oeadd(COLL,env.eoiget("enem"),[](in*i){i->st=DEAD;});
+  bull->oeadd(STEP,[](in*i){if(i->x>env.w||i->x<0||i->y>env.h||i->y<0)
 	i->st=DEAD;
     });
-  ob3->oeadd(ALRM,0,[](in*i){i->hsp*=-1;i->alrn[0]=40;});
-  ob3->oeadd(ALRM,1,[](in*i){ob*ob2=env.eoget(env.eoiget("ob2"));
-      in*ob20=ob2->oiadd(i->x,i->y);
-      ob20->dir=rand(360);
-      ob20->spe=rand(4)+4;
+  bull->oeadd(STEP,[](in*i){i->dir+=2;});
+  enem->oeadd(ALRM,0,[](in*i){i->hsp*=-1;i->alrn[0]=40;});
+  enem->oeadd(ALRM,1,[](in*i){
+      in*ship0=env.eoget(env.eoiget("ship"))[0];
+      ob*bull=env.eoget(env.eoiget("bull"));
+      in*bull0=bull->oiadd(i->x,i->y);
+      if(ship0) bull0->dir=point_direction(i->x,i->y,ship0->x,ship0->y);
+      bull0->spe=rand(8)+4;
       i->alrn[1]=3;
     });
-  ob3->tl=tl0;
+  enem->tl=tl0;
   //ins dec/def
-  ob0->oiadd(0,0);
-  in*ob10=ob1->oiadd(0,0);
-  ob10->xsc=ob10->ysc=2;
-  ob3->oiadd(50,300);
+  worl->oiadd(0,0);
+  in*ship0=ship->oiadd(0,0);
+  ship0->xsc=ship0->ysc=2;
+  enem->oiadd(50,300);
   
   glutMainLoop();
   return 0;

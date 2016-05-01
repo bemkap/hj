@@ -4,12 +4,12 @@
 #include"ge.hh"
 using namespace std;
 
-struct color { float r,g,b; };
+struct color { double r,g,b; };
 
 class sp {public:
   poly msk;
   color c;
   sp(initializer_list<point>);
-  poly smget(float,float,float,float);
-  void disp(float,float,float,float);
+  poly smget(double,double,double,double);
+  void disp(double,double,double,double);
 };

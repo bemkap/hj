@@ -3,11 +3,11 @@
 #include<chrono>
 #include<random>
 
-float point_direction(float,float,float,float);
-float point_distance (float,float,float,float);
-float degtorad(float);
-float radtodeg(float);
-int   sign(float);
+double point_direction(double,double,double,double);
+double point_distance (double,double,double,double);
+double degtorad(double);
+double radtodeg(double);
+int   sign(double);
 int   rand(int);
 
 using namespace std;

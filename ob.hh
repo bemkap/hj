@@ -17,6 +17,7 @@ class ob {public:
   void oeadd(evt,act);       // step
   void oeadd(evt,uint,act);  // coll/alrm/kbd[o/u]
   void oeadd(evt,ptbtn,act); // mouse
-  in*  oiadd(float,float);
+  in*  oiadd(double,double);
+  in*  operator[](uint);
   void oupd();
 };

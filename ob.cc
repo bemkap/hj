@@ -34,10 +34,14 @@ void ob::oeadd(evt t,ptbtn b,act a){
   e->ptr={t,a,b};
   evs.push_back(e);
 }
-in*ob::oiadd(float x,float y){
+in*ob::oiadd(double x,double y){
   in*i=new in(x,y);
   ins.push_back(i);
   return i;
+}
+in*ob::operator[](uint i){
+  try{return ins.at(i);}
+  catch(out_of_range e){return nullptr;}
 }
 void ob::oupd(){
   en&env=eget();
@@ -63,15 +67,13 @@ void ob::oupd(){
 	break;}
     case STEP: {for(auto&j:ins) i->stp.a(j);break;}
     case COLL: {ob*o=env.eoget(i->col.n);
-      bool c=false;
-      for(auto&j:ins)
-	for(auto&k:o->ins){
-	  poly p1=spr->smget(j->x,j->y,j->xsc,j->ysc);
-	  poly p2=o->spr->smget(k->x,k->y,k->xsc,k->ysc);
-	  c=intersect(p1,p2);
-	}
-      if(c) for(auto&j:ins) i->col.a(j);
-      break;}
+	for(auto&j:ins)
+	  for(auto&k:o->ins){
+	    poly p1=spr->smget(j->x,j->y,j->xsc,j->ysc);
+	    poly p2=o->spr->smget(k->x,k->y,k->xsc,k->ysc);
+	    if(intersect(p1,p2)) i->col.a(j);
+	  }
+	break;}
     case ALRM: {for(auto&j:ins)
 	  if(j->alrn[i->alr.n%11]>0&&--j->alrn[i->alr.n%11]<=0) i->alr.a(j);
 	break;}
@@ -82,7 +84,7 @@ void ob::oupd(){
     for(auto&i:ins)
       if(++i->tlcurt>=tl->nds[i->tlcurn].step){
 	tl->nds[i->tlcurn].a(i);
-	if(i->tlcurn<tl->nds.size()) ++i->tlcurn;
+	if(i->tlcurn<tl->nds.size()-1) ++i->tlcurn;
 	else tl->st=false;
       }
   for(uint i=0;i<ins.size();++i){

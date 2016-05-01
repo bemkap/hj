@@ -3,7 +3,7 @@
 #include"cm.hh"
 #include"ut.hh"
 
-in::in(float x,float y):x(x),y(y){
+in::in(double x,double y):x(x),y(y){
   spe=dir=vsp=hsp=gr=fr=0;
   xsc=ysc=1;
   st=BORN;

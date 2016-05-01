@@ -3,8 +3,8 @@
 #include<vector>
 using namespace std;
 
-struct point { float x,y; };
-struct line  { point p,q; };
+struct point { double x,y; };
+struct line  { point  p,q; };
 
 class poly {public:
   vector<point> pts;

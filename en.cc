@@ -17,8 +17,7 @@ void en::eoadd(string n,ob*o){
   oids.insert(pair<string,obid>(n,oav++));
 }
 ob*en::eoget(obid n){
-  if(n<obid(obs.size())) return obs[n];
-  else return nullptr;
+  return n<obs.size()?obs[n]:nullptr;
 }
 obid en::eoiget(string n){
   MOIT i;
@@ -31,8 +30,7 @@ void en::esadd(string n,sp*s){
   sids.insert(pair<string,spid>(n,sav++));
 }
 sp*en::esget(spid n){
-  if(n<(spid)sps.size()) return sps[n];
-  else return nullptr;
+  return n<sps.size()?sps[n]:nullptr;
 }
 spid en::esiget(string n){
   MSIT i;
