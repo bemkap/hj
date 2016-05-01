@@ -1,5 +1,4 @@
-#ifndef CM_HH
-#define CM_HH
+#pragma once
 
 const int   FPS=50;
 const float PIE=3.141592653;
@@ -42,5 +41,3 @@ typedef unsigned int uint;
 #define KB_Y     121
 #define KB_Z     122
 #define KB_DEL   127
-
-#endif

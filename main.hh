@@ -1,9 +1,6 @@
-#ifndef MAIN_HH
-#define MAIN_HH
+#pragma once
 
 #include<iostream>
-#include<chrono>
-#include<random>
 #include<GL/glew.h>
 #include<GL/glu.h>
 #include<GL/glut.h>
@@ -16,5 +13,3 @@
 using namespace std;
 
 int main(int,char**);
-
-#endif

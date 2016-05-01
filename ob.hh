@@ -1,5 +1,4 @@
-#ifndef OB_HH
-#define OB_HH
+#pragma once
 
 #include<deque>
 #include<vector>
@@ -21,5 +20,3 @@ class ob {public:
   in*  oiadd(float,float);
   void oupd();
 };
-
-#endif

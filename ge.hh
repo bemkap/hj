@@ -1,5 +1,4 @@
-#ifndef GE_HH
-#define GE_HH
+#pragma once
 
 #include<vector>
 using namespace std;
@@ -17,5 +16,3 @@ class poly {public:
 bool left(point,line);
 bool intersect(point,poly);
 bool intersect(poly,poly);
-
-#endif

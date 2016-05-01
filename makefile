@@ -1,5 +1,5 @@
 CC   = g++
-FLAGS= -Wall -std=c++11 -lGL -lGLU -lglut
+FLAGS= -Wall -g -std=c++11 -lGL -lGLU -lglut
 BIN  = hj
 SRC  = $(wildcard *.cc)
 HEA  = $(wildcard *.hh)

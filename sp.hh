@@ -1,5 +1,4 @@
-#ifndef SP_HH
-#define SP_HH
+#pragma once
 
 #include<vector>
 #include"ge.hh"
@@ -14,5 +13,3 @@ class sp {public:
   poly smget(float,float,float,float);
   void disp(float,float,float,float);
 };
-
-#endif

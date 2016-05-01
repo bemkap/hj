@@ -1,5 +1,4 @@
-#ifndef EN_HH
-#define EN_HH
+#pragma once
 
 #include<map>
 #include<vector>
@@ -44,5 +43,3 @@ en&eget();
   
 typedef map<string,obid>::iterator MOIT;
 typedef map<string,spid>::iterator MSIT;
-
-#endif

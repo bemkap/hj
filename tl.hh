@@ -1,5 +1,4 @@
-#ifndef TL_HH
-#define TL_HH
+#pragma once
 
 #include<vector>
 #include"ev.hh"
@@ -14,5 +13,3 @@ class tline {public:
   void tladd(uint,act);
   void tltog();
 };
-
-#endif

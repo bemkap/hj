@@ -55,25 +55,17 @@ int main(int argc,char**argv){
   env.eoadd("ob3",ob3);
   //obs ev
   ob0->oeadd(KBDO,'q',[](in*i){exit(0);});
-  ob1->oeadd(KBDO,'a',[](in*i){i->hsp=-5;});
-  ob1->oeadd(KBDO,'o',[](in*i){i->vsp=-5;});
-  ob1->oeadd(KBDO,'e',[](in*i){i->hsp= 5;});
-  ob1->oeadd(KBDO,',',[](in*i){i->vsp= 5;});
-  ob1->oeadd(KBUP,'a',[](in*i){i->hsp= 0;});
-  ob1->oeadd(KBUP,'o',[](in*i){i->vsp= 0;});
-  ob1->oeadd(KBUP,'e',[](in*i){i->hsp= 0;});
-  ob1->oeadd(KBUP,',',[](in*i){i->vsp= 0;});
+  ob1->oeadd(STEP,[](in*i){i->x=env.pst.x;i->y=env.pst.y;});
   ob1->oeadd(COLL,env.eoiget("ob3"),[](in*i){i->st=DEAD;});
+  ob1->oeadd(COLL,env.eoiget("ob2"),[](in*i){i->st=DEAD;});
   ob2->oeadd(STEP,[](in*i){if(i->x>env.w||i->x<0||i->y>env.h||i->y<0)
 	i->st=DEAD;
     });
   ob3->oeadd(ALRM,0,[](in*i){i->hsp*=-1;i->alrn[0]=40;});
   ob3->oeadd(ALRM,1,[](in*i){ob*ob2=env.eoget(env.eoiget("ob2"));
-      unsigned s=chrono::system_clock::now().time_since_epoch().count();
-      minstd_rand0 g(s);
       in*ob20=ob2->oiadd(i->x,i->y);
-      ob20->dir=g()%360;
-      ob20->spe=g()%4+4;
+      ob20->dir=rand(360);
+      ob20->spe=rand(4)+4;
       i->alrn[1]=3;
     });
   ob3->tl=tl0;

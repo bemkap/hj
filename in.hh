@@ -1,5 +1,4 @@
-#ifndef IN_HH
-#define IN_HH
+#pragma once
 
 #include<vector>
 #include"cm.hh"
@@ -17,5 +16,3 @@ class in {public:
   in(float,float);
   void move();
 };
-
-#endif

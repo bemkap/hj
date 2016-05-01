@@ -1,5 +1,5 @@
-#ifndef EV_HH
-#define EV_HH
+#pragma once
+
 #include<vector>
 #include<stack>
 #include"cm.hh"
@@ -19,5 +19,3 @@ struct ealr { evt ty;act a;uint n;  };
 struct edes { evt ty;act a;         };
 
 union ev { evt ty;ecrt crt;ekbd kbd;eptr ptr;estp stp;ecol col;ealr alr;edes des; };
-
-#endif
