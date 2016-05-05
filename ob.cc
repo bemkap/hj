@@ -65,13 +65,14 @@ void ob::oupd(){
 	  for(auto&j:ins) i->ptr.a(j);
 	break;}
     case STEP: {for(auto&j:ins) i->stp.a(j);break;}
-    case COLL: {ob*o=env.eoget(i->col.n);
-	for(auto&j:ins)
-	  for(auto&k:o->ins){
-	    poly p1=spr->smget(j->x,j->y,j->xsc,j->ysc);
-	    poly p2=o->spr->smget(k->x,k->y,k->xsc,k->ysc);
-	    if(intersect(p1,p2)) i->col.a(j);
-	  }
+    case COLL: {ob*o;
+	if((o=env.eoget(i->col.n)))
+	  for(auto&j:ins)
+	    for(auto&k:o->ins){
+	      poly p1=spr->smget(j->x,j->y,j->xsc,j->ysc);
+	      poly p2=o->spr->smget(k->x,k->y,k->xsc,k->ysc);
+	      if(intersect(p1,p2)) i->col.a(j);
+	    }
 	break;}
     case ALRM: {for(auto&j:ins)
 	  if(j->alrn[i->alr.n%11]>0&&--j->alrn[i->alr.n%11]<=0) i->alr.a(j);

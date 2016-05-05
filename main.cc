@@ -33,7 +33,7 @@ void init(int*argc,char**argv){
 }
 
 int main(int argc,char**argv){
-  //init(&argc,argv);
+  init(&argc,argv);
   loadsps();
   loadobs();
   //tl dec
@@ -48,6 +48,6 @@ int main(int argc,char**argv){
   in*ship0=OGET(env,"ship")->oiadd(0,0);
   ship0->xsc=ship0->ysc=2;
   OGET(env,"enem")->oiadd(50,300);
-  //glutMainLoop();
+  glutMainLoop();
   return 0;
 }

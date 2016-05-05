@@ -9,6 +9,7 @@
 #include"ob.hh"
 #include"en.hh"
 #include"ev.hh"
+#include"lo.hh"
 #include"ut.hh"
 using namespace std;
 
