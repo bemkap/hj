@@ -4,6 +4,7 @@
 #include<vector>
 #include"cm.hh"
 #include"in.hh"
+#include"en.hh"
 #include"ev.hh"
 #include"sp.hh"
 #include"tl.hh"

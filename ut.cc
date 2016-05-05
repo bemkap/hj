@@ -18,7 +18,7 @@ double radtodeg(double x){
 int sign(double x){  
   return (x>0)-(x<0);
 }
-int rand(int i){
+int arb(int i){
   uint s=chrono::system_clock::now().time_since_epoch().count();
   minstd_rand0 g(s);
   return g()%i;

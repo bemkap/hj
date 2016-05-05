@@ -11,6 +11,8 @@ using namespace std;
 enum st { PR,RE,NPR };
 struct ptr { int x,y;st le,ri; };
 
+class ob; // mutual include
+
 class en {public:
   en();~en();
   //obs
@@ -40,6 +42,11 @@ class en {public:
 };
 
 en&eget();
-  
+void loadsps();
+void loadobs();
+
 typedef map<string,obid>::iterator MOIT;
 typedef map<string,spid>::iterator MSIT;
+
+#define SGET(e,s) (e).esget((e).esiget((s)))
+#define OGET(e,s) (e).eoget((e).eoiget((s)))

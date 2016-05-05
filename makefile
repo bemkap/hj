@@ -1,15 +1,16 @@
-CC   = g++
-FLAGS= -Wall -g -std=c++11 -lGL -lGLU -lglut
-BIN  = hj
-SRC  = $(wildcard *.cc)
-HEA  = $(wildcard *.hh)
-OBJ  = $(SRC:.cc=.o)
+CFLAGS  = `pkg-config --cflags gl glu glew lua5.2` -Wall -g -std=c++11 
+LDFLAGS = `pkg-config --libs gl glu glew lua5.2`
+LDFLAGS+= -lglut -lboost_filesystem -lboost_system
+SRC     = $(wildcard *.cc)
+HEA     = $(wildcard *.hh)
+OBJ     = $(SRC:.cc=.o)
+BIN     = hj
 
 $(BIN): $(OBJ) $(HEA)
-	$(CC) $(FLAGS) -o $(BIN) $(OBJ)
+	$(CXX) $(CFLAGS) $(LDFLAGS) -o $(BIN) $(OBJ)
 
 %.o: %.cc
-	$(CC) $(FLAGS) -c $<
+	$(CXX) $(CFLAGS) -c $<
 
 .PHONY: run
 run:

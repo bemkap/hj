@@ -41,3 +41,5 @@ typedef uint spid;
 #define KB_Y     121
 #define KB_Z     122
 #define KB_DEL   127
+
+#define REPEAT(n) for(int _i=0;_i<(n);++_i)

@@ -33,51 +33,21 @@ void init(int*argc,char**argv){
 }
 
 int main(int argc,char**argv){
-  init(&argc,argv);
-  //sps dec
-  sp*sp0=new sp({{0,0},{5,0},{5,5}});
-  sp*sp1=new sp({{0,0},{8,0},{8,8},{0,8}});
-  env.esadd("sp0",sp0);
-  env.esadd("sp1",sp1);
+  //init(&argc,argv);
+  loadsps();
+  loadobs();
   //tl dec
   tline*tl0=new tline;
-  tl0->tladd( 1,[](in*i){i->dir=60;i->spe=40;i->fr=4;});
-  tl0->tladd(11,[](in*i){i->fr=0;});
-  tl0->tladd(20,[](in*i){i->hsp=4;i->alrn[0]=10;i->alrn[1]=3;});
-  //obs dec
-  ob*worl=new ob;  
-  ob*ship=new ob(sp0);
-  ob*bull=new ob(sp1);
-  ob*enem=new ob(sp1);
-  env.eoadd("worl",worl);
-  env.eoadd("ship",ship);
-  env.eoadd("bull",bull);  
-  env.eoadd("enem",enem);
-  //obs ev
-  worl->oeadd(KBDO,'q',[](in*i){exit(0);});
-  ship->oeadd(STEP,[](in*i){i->x=env.pst.x;i->y=env.pst.y;});
-  ship->oeadd(COLL,env.eoiget("bull"),[](in*i){i->st=DEAD;});
-  ship->oeadd(COLL,env.eoiget("enem"),[](in*i){i->st=DEAD;});
-  bull->oeadd(STEP,[](in*i){if(i->x>env.w||i->x<0||i->y>env.h||i->y<0)
-	i->st=DEAD;
-    });
-  bull->oeadd(STEP,[](in*i){i->dir+=2;});
-  enem->oeadd(ALRM,0,[](in*i){i->hsp*=-1;i->alrn[0]=40;});
-  enem->oeadd(ALRM,1,[](in*i){
-      in*ship0=env.eoget(env.eoiget("ship"))[0];
-      ob*bull=env.eoget(env.eoiget("bull"));
-      in*bull0=bull->oiadd(i->x,i->y);
-      if(ship0) bull0->dir=point_direction(i->x,i->y,ship0->x,ship0->y);
-      bull0->spe=rand(8)+4;
-      i->alrn[1]=3;
-    });
-  enem->tl=tl0;
+  tl0->tladd(  1,[](in*i){i->dir=60;i->spe=40;i->fr=4;});
+  tl0->tladd( 11,[](in*i){i->fr=0;});
+  tl0->tladd( 20,[](in*i){i->hsp=4;i->alrn[0]=10;i->alrn[1]=3;});
+  tl0->tladd(100,[](in*i){i->alrn[1]=0;i->alrn[2]=1;});
+  OGET(env,"enem")->tl=tl0;
   //ins dec/def
-  worl->oiadd(0,0);
-  in*ship0=ship->oiadd(0,0);
+  OGET(env,"worl")->oiadd(0,0);
+  in*ship0=OGET(env,"ship")->oiadd(0,0);
   ship0->xsc=ship0->ysc=2;
-  enem->oiadd(50,300);
-  
-  glutMainLoop();
+  OGET(env,"enem")->oiadd(50,300);
+  //glutMainLoop();
   return 0;
 }

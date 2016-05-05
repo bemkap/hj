@@ -1,6 +1,5 @@
 #include"ob.hh"
 #include"cm.hh"
-#include"en.hh"
 
 ob::ob():spr(nullptr),tl(nullptr){}
 ob::ob(sp*s):spr(s),tl(nullptr){}
@@ -89,7 +88,7 @@ void ob::oupd(){
       }
   for(uint i=0;i<ins.size();++i){
     in*j=ins.front();ins.pop_front();
-    if(j->st==DEAD){if(df) b(j); delete j;}
-    else {j->move();ins.push_back(j);}
+    if(j->st==DEAD){if(df) b(j);delete j;}
+    else{j->move();ins.push_back(j);}
   }
 }
