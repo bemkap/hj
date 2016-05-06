@@ -6,10 +6,10 @@ using namespace std;
 
 struct node { act a;uint step; };
 
-class tline {public:
+class tl {public:
   vector<node> nds;
   bool st;
-  tline();
+  tl();
   void tladd(uint,act);
   void tltog();
 };

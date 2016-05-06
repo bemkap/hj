@@ -1,9 +1,9 @@
 #include"tl.hh"
 
-tline::tline():st(true){}
-void tline::tladd(uint s,act a){
+tl::tl():st(true){}
+void tl::tladd(uint s,act a){
   nds.push_back({a,s});
 }
-void tline::tltog(){
+void tl::tltog(){
   st=!st;
 }
