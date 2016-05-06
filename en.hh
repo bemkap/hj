@@ -4,8 +4,10 @@
 #include<vector>
 #include<string>
 #include"cm.hh"
+#include"di.hh"
 #include"ob.hh"
 #include"sp.hh"
+#include"tl.hh"
 using namespace std;
 
 enum st { PR,RE,NPR };
@@ -15,20 +17,9 @@ class ob; // mutual include
 
 class en {public:
   en();~en();
-  //obs
-  vector<ob*> obs;
-  map<string,obid> oids;
-  obid oav;
-  void eoadd(string,ob*);
-  ob*  eoget(obid);
-  obid eoiget(string);
-  //sps
-  vector<sp*> sps;
-  map<string,spid> sids;
-  spid sav;
-  void esadd(string,sp*);
-  sp*  esget(spid);
-  spid esiget(string);
+  dict<ob> obs;
+  dict<sp> sps;
+  dict<tl> tls;
   //keys,mouse
   st kst[256];
   ptr pst;
@@ -42,11 +33,3 @@ class en {public:
 };
 
 en&eget();
-void loadsps();
-void loadobs();
-
-typedef map<string,obid>::iterator MOIT;
-typedef map<string,spid>::iterator MSIT;
-
-#define SGET(e,s) (e).esget((e).esiget((s)))
-#define OGET(e,s) (e).eoget((e).eoiget((s)))

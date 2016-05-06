@@ -36,18 +36,12 @@ int main(int argc,char**argv){
   init(&argc,argv);
   loadsps();
   loadobs();
-  //tl dec
-  tline*tl0=new tline;
-  tl0->tladd(  1,[](in*i){i->dir=60;i->spe=40;i->fr=4;});
-  tl0->tladd( 11,[](in*i){i->fr=0;});
-  tl0->tladd( 20,[](in*i){i->hsp=4;i->alrn[0]=10;i->alrn[1]=3;});
-  tl0->tladd(100,[](in*i){i->alrn[1]=0;i->alrn[2]=1;});
-  OGET(env,"enem")->tl=tl0;
-  //ins dec/def
-  OGET(env,"worl")->oiadd(0,0);
-  in*ship0=OGET(env,"ship")->oiadd(0,0);
+  loadtls();
+  env.obs.get("enem")->tline=env.tls.get("tl0");
+  env.obs.get("worl")->oiadd(0,0);
+  in*ship0=env.obs.get("ship")->oiadd(0,0);
   ship0->xsc=ship0->ysc=2;
-  OGET(env,"enem")->oiadd(50,300);
+  env.obs.get("enem")->oiadd(50,300);
   glutMainLoop();
   return 0;
 }

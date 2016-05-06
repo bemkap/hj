@@ -14,7 +14,7 @@ struct ecrt { evt ty;act a;         };
 struct ekbd { evt ty;act a;uchar k; };
 struct eptr { evt ty;act a;ptbtn b; };
 struct estp { evt ty;act a;         };
-struct ecol { evt ty;act a;obid n;  };
+struct ecol { evt ty;act a;uint n;  };
 struct ealr { evt ty;act a;uint n;  };
 struct edes { evt ty;act a;         };
 

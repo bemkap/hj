@@ -13,7 +13,7 @@ class ob {public:
   vector<ev*> evs;
   deque<in*> ins;
   sp*spr;
-  tline*tl;
+  tl*tline;
   ob();ob(sp*);~ob();
   void oeadd(evt,act);       // step
   void oeadd(evt,uint,act);  // coll/alrm/kbd[o/u]

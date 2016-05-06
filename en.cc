@@ -4,40 +4,11 @@
 #include"en.hh"
 #include"ut.hh"
 
-en::en():oav(0),sav(0),quit(false){
+en::en():quit(false){
   for(int i=0;i<256;++i) kst[i]=NPR;
   pst.le=pst.ri=NPR;
 }
-en::~en(){
-  for(auto i:obs) delete i;
-  for(auto i:sps) delete i;
-}
-//obs
-void en::eoadd(string n,ob*o){
-  obs.push_back(o);
-  oids.insert(pair<string,obid>(n,oav++));
-}
-ob*en::eoget(obid n){
-  return n<obs.size()?obs[n]:nullptr;
-}
-obid en::eoiget(string n){
-  MOIT i;
-  if((i=oids.find(n))!=oids.end()) return (*i).second;
-  else return -1;
-}
-//sps
-void en::esadd(string n,sp*s){
-  sps.push_back(s);
-  sids.insert(pair<string,spid>(n,sav++));
-}
-sp*en::esget(spid n){
-  return n<sps.size()?sps[n]:nullptr;
-}
-spid en::esiget(string n){
-  MSIT i;
-  if((i=sids.find(n))!=sids.end()) return (*i).second;
-  else return -1;
-}
+en::~en(){}
 //
 void en::disp(){
   glClearColor(0,0,0,1);

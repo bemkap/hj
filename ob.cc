@@ -1,8 +1,8 @@
 #include"ob.hh"
 #include"cm.hh"
 
-ob::ob():spr(nullptr),tl(nullptr){}
-ob::ob(sp*s):spr(s),tl(nullptr){}
+ob::ob():spr(nullptr),tline(nullptr){}
+ob::ob(sp*s):spr(s),tline(nullptr){}
 ob::~ob(){
   for(auto i:evs) delete i;
   for(auto i:ins) delete i;
@@ -22,7 +22,7 @@ void ob::oeadd(evt t,uint n,act a){
   switch(t){
   case KBDO: {e->kbd={t,a,uchar(n)};break;}
   case KBUP: {e->kbd={t,a,uchar(n)};break;}
-  case COLL: {e->col={t,a,obid(n)};break;}
+  case COLL: {e->col={t,a,uint(n)};break;}
   case ALRM: {e->alr={t,a,n};break;}
   default  : {delete e;return;}
   }
@@ -66,7 +66,7 @@ void ob::oupd(){
 	break;}
     case STEP: {for(auto&j:ins) i->stp.a(j);break;}
     case COLL: {ob*o;
-	if((o=env.eoget(i->col.n)))
+	if((o=env.obs.get(i->col.n)))
 	  for(auto&j:ins)
 	    for(auto&k:o->ins){
 	      poly p1=spr->smget(j->x,j->y,j->xsc,j->ysc);
@@ -80,12 +80,12 @@ void ob::oupd(){
     case DEST: {df=true;b=i->des.a;break;}
     }
   }
-  if(tl&&tl->st)
+  if(tline&&tline->st)
     for(auto&i:ins)
-      if(++i->tlcurt>=tl->nds[i->tlcurn].step){
-	tl->nds[i->tlcurn].a(i);
-	if(i->tlcurn<tl->nds.size()-1) ++i->tlcurn;
-	else tl->st=false;
+      if(++i->tlcurt>=tline->nds[i->tlcurn].step){
+	tline->nds[i->tlcurn].a(i);
+	if(i->tlcurn<tline->nds.size()-1) ++i->tlcurn;
+	else tline->st=false;
       }
   for(uint i=0;i<ins.size();++i){
     in*j=ins.front();ins.pop_front();
