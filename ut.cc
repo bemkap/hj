@@ -1,5 +1,6 @@
 #include<cmath>
 #include"cm.hh"
+#include"ob.hh"
 #include"ut.hh"
 
 double point_direction(double x0,double y0,double x1,double y1){
@@ -22,4 +23,11 @@ int arb(int i){
   uint s=chrono::system_clock::now().time_since_epoch().count();
   minstd_rand0 g(s);
   return g()%i;
+}
+in*instance_create(en&env,string n,double x,double y){
+  ob*o=env.obs.get(n);
+  return o?o->oiadd(x,y):nullptr;
+}
+void instance_destroy(in*i){
+  i->st=DEAD;
 }

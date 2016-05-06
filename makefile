@@ -18,4 +18,4 @@ run:
 
 .PHONY: clean
 clean:
-	rm -f $(BIN) $(OBJ)
+	rm -f $(BIN) *.o

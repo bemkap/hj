@@ -1,5 +1,6 @@
-#include"ob.hh"
 #include"cm.hh"
+#include"di.hh"
+#include"ob.hh"
 
 ob::ob():spr(nullptr),tline(nullptr){}
 ob::ob(sp*s):spr(s),tline(nullptr){}
