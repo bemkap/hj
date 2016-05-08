@@ -1,7 +1,6 @@
 #pragma once
 
 #include<vector>
-#include<stack>
 #include"cm.hh"
 #include"in.hh"
 using namespace std;

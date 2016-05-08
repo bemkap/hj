@@ -3,24 +3,27 @@
 #include"en.hh"
 #include"ob.hh"
 #include"ut.hh"
-
+#include<lua5.2/lua.hpp>
+#include<iostream>
+using namespace std;
+/*
 static void defworl(en&env){ob*worl=env.obs.get("worl");
-  worl->oeadd(KBDO,KB_Q,[](in*i){eget().quit=true;});
+  worl->oeadd(KBDO,kb_q,[](in*i){eget().quit=true;});
 }
 static void defship(en&env){ob*ship=env.obs.get("ship");
   ship->spr=env.sps.get("sp0");
-  ship->oeadd(COLL,env.obs.iget("bull"),[](in*i){i->st=DEAD;});
-  ship->oeadd(COLL,env.obs.iget("enem"),[](in*i){i->st=DEAD;});
-  ship->oeadd(KBDO,KB_LEFT,[](in*i){i->x-=5-2*(eget().kst[KB_LSHF]==PR);});
-  ship->oeadd(KBDO,KB_RIGHT,[](in*i){i->x+=5-2*(eget().kst[KB_LSHF]==PR);});
-  ship->oeadd(KBDO,KB_DOWN,[](in*i){i->y-=5-2*(eget().kst[KB_LSHF]==PR);});
-  ship->oeadd(KBDO,KB_UP,[](in*i){i->y+=5-2*(eget().kst[KB_LSHF]==PR);});
+  ship->oeadd(COLL,env.obs.iget("bull"),[](in*i){instance_destroy(i);});
+  ship->oeadd(COLL,env.obs.iget("enem"),[](in*i){instance_destroy(i);});
+  ship->oeadd(KBDO,kb_left,[](in*i){i->x-=5-2*(eget().kst[kb_lshf]==PR);});
+  ship->oeadd(KBDO,kb_right,[](in*i){i->x+=5-2*(eget().kst[kb_lshf]==PR);});
+  ship->oeadd(KBDO,kb_down,[](in*i){i->y-=5-2*(eget().kst[kb_lshf]==PR);});
+  ship->oeadd(KBDO,kb_up,[](in*i){i->y+=5-2*(eget().kst[kb_lshf]==PR);});
 }
 static void defbull(en&env){ob*bull=env.obs.get("bull");
   bull->spr=env.sps.get("sp1");
   bull->oeadd(STEP,[](in*i){
       if(i->x>eget().curo->vpw||i->x<0||i->y>eget().curo->vph||i->y<0)
-	i->st=DEAD;
+	instance_destroy(i);
     });
 }
 static void defbull1(en&env){ob*bull1=env.obs.get("bull1");
@@ -57,13 +60,45 @@ static void defenem(en&env){ob*enem=env.obs.get("enem");
       bull1->spe=4;
       i->alrn[2]=30;
     });
-}
-void loadobs(){en&env=eget();
+    }*/
+void loadobs(){/*en&env=eget();
   string obs[]={"worl","ship","bull","bull1","enem"};
   for(auto s:obs) env.obs.add(s,new ob);
   defworl(env);
   defship(env);
   defbull(env);
   defbull1(env);
-  defenem(env);
+  defenem(env);*/
+  lua_State*L=luaL_newstate();
+  static const luaL_Reg lualibs[] =
+    {
+      { "base", luaopen_base },
+      { "io", luaopen_io },
+      { NULL, NULL}
+    };
+  const luaL_Reg *lib = lualibs;
+  for(; lib->func != NULL; lib++)
+    {
+      lib->func(L);
+      lua_settop(L, 0);
+    }
+  luaL_dofile(L,"obs/ship.lua");
+  if(LUA_TTABLE==lua_type(L,lua_gettop(L))){
+    lua_pushnil(L);
+    while(lua_next(L,-2)!=0){
+      string s=lua_tostring(L,-2);
+      if(s=="spr"){
+	cout<<lua_tostring(L,-2)<<"="<<lua_tostring(L,-1)<<endl;
+      }else if(s=="coll"){
+	lua_pushnil(L);
+	while(lua_next(L,-2)!=0){
+	  cout<<lua_typename(L,lua_type(L,-3))<<endl;
+	  lua_pop(L,1);
+	}
+      }else if(s=="kbdo"){
+      }
+      lua_pop(L,1);
+    }
+  }
+  lua_close(L);
 }

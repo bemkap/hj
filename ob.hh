@@ -21,4 +21,5 @@ class ob {public:
   in*  oiadd(double,double);
   in*  operator[](uint);
   void oupd();
+  void disp(double,double,double,double);
 };

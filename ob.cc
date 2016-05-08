@@ -60,8 +60,8 @@ void ob::oupd(){en&env=eget();bool df=false;act b;
 	  for(auto&j:ins) i->ptr.a(j);
 	break;}
     case STEP: {for(auto&j:ins) i->stp.a(j);break;}
-    case COLL: {ob*o;
-	if((o=env.obs.get(i->col.n)))
+    case COLL: {ob*o=env.obs.get(i->col.n);
+	if(o)
 	  for(auto&j:ins)
 	    for(auto&k:o->ins){
 	      poly p1=spr->smget(j->x,j->y,j->xsc,j->ysc);
@@ -86,4 +86,7 @@ void ob::oupd(){en&env=eget();bool df=false;act b;
     if((*i)->st==DEAD){if(df) b(*i);i=ins.erase(i);}
     else{(*i)->move();i++;}
   }
+}
+void ob::disp(double x,double y,double xsc,double ysc){
+  if(spr) spr->disp(x,y,xsc,ysc);
 }

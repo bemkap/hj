@@ -20,11 +20,8 @@ void en::disp(){
   glLoadIdentity();
   for(auto i:obs.obs)
     for(auto j:i->ins)
-      if(i->spr){
-	if(!curo) i->spr->disp(j->x,j->y,j->xsc,j->ysc);
-	else if(insight(j,curo))
-	  i->spr->disp(j->x-curo->vpx,j->y-curo->vpy,j->xsc,j->ysc);
-      }
+      if(insight(j,curo))
+	i->disp(j->x-curo->vpx,j->y-curo->vpy,j->xsc,j->ysc);
   glutSwapBuffers();
 }
 void en::resh(int we,int he){
@@ -50,7 +47,7 @@ void en::swro(string r){ro*nro=ros.get(r);
   if(nro!=curo){
     for(auto i:obs.obs)
       for(auto j:i->ins)
-	j->st=DEAD;
+	instance_destroy(j);
     nro->disp();
     curo=nro;
     glutReshapeWindow(curo->vpw,curo->vph);

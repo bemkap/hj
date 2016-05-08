@@ -1,5 +1,5 @@
-CFLAGS  = `pkg-config --cflags gl glu glew` -Wall -g -std=c++11
-LDFLAGS = `pkg-config --libs gl glu glew`
+CFLAGS  = `pkg-config --cflags gl glu glew lua5.2` -Wall -g -std=c++11
+LDFLAGS = `pkg-config --libs gl glu glew lua5.2`
 LDFLAGS+= -lglut -lboost_filesystem -lboost_system
 SRC     = $(wildcard *.cc)
 HEA     = $(wildcard *.hh)
