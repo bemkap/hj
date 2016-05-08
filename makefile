@@ -1,4 +1,4 @@
-CFLAGS  = `pkg-config --cflags gl glu glew` -Wall -g -std=c++11 
+CFLAGS  = `pkg-config --cflags gl glu glew` -Wall -g -std=c++11
 LDFLAGS = `pkg-config --libs gl glu glew`
 LDFLAGS+= -lglut -lboost_filesystem -lboost_system
 SRC     = $(wildcard *.cc)
@@ -9,6 +9,8 @@ BIN     = hj
 $(BIN): $(OBJ) $(HEA)
 	$(CXX) $(CFLAGS) $(LDFLAGS) -o $(BIN) $(OBJ)
 
+$(LIB): 
+
 %.o: %.cc
 	$(CXX) $(CFLAGS) -c $<
 
@@ -18,4 +20,4 @@ run:
 
 .PHONY: clean
 clean:
-	rm -f $(BIN) *.o
+	rm -f $(BIN) $(OBJ)

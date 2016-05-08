@@ -5,7 +5,11 @@
 #include"di.hh"
 #include"ut.hh"
 
-en::en():quit(false){
+static bool insight(in*i,ro*r){
+  return i->x>r->vpx&&i->y>r->vpy&&
+    i->x<r->vpx+r->vpw&&i->y<r->vpy+r->vph;
+}
+en::en():curo(nullptr),quit(false){
   for(int i=0;i<256;++i) kst[i]=NPR;
   pst.le=pst.ri=NPR;
 }
@@ -16,15 +20,24 @@ void en::disp(){
   glLoadIdentity();
   for(auto i:obs.obs)
     for(auto j:i->ins)
-      if(i->spr) i->spr->disp(j->x,j->y,j->xsc,j->ysc);
+      if(i->spr){
+	if(!curo) i->spr->disp(j->x,j->y,j->xsc,j->ysc);
+	else if(insight(j,curo))
+	  i->spr->disp(j->x-curo->vpx,j->y-curo->vpy,j->xsc,j->ysc);
+      }
   glutSwapBuffers();
 }
 void en::resh(int we,int he){
-  w=we;h=he;
+  if(curo){
+    curo->w*=we/curo->vpw;
+    curo->h*=he/curo->vph;
+    curo->vpw=we;
+    curo->vph=he;
+  }
   glViewport(0,0,(GLsizei)we,(GLsizei)he);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluOrtho2D(0,w,0,h);
+  gluOrtho2D(0,we,0,he);
   glMatrixMode(GL_MODELVIEW);
 }
 void en::eupd(){
@@ -33,7 +46,16 @@ void en::eupd(){
   if(pst.le==RE) pst.le=NPR;
   if(pst.ri==RE) pst.ri=NPR;
 }
-en&eget(){
-  static en env;
+void en::swro(string r){ro*nro=ros.get(r);
+  if(nro!=curo){
+    for(auto i:obs.obs)
+      for(auto j:i->ins)
+	j->st=DEAD;
+    nro->disp();
+    curo=nro;
+    glutReshapeWindow(curo->vpw,curo->vph);
+  }
+}
+en&eget(){static en env;
   return env;
 }

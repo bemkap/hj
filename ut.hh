@@ -11,6 +11,6 @@ double radtodeg(double);
 int    sign(double);
 int    arb(int);
 in*    instance_create(en&,string,double,double);
-void   instance_destroy(en&,in*);
+void   instance_destroy(in*);
 
 using namespace std;

@@ -6,6 +6,7 @@
 #include"cm.hh"
 #include"di.hh"
 #include"ob.hh"
+#include"ro.hh"
 #include"sp.hh"
 #include"tl.hh"
 using namespace std;
@@ -20,16 +21,16 @@ class en {public:
   dict<ob> obs;
   dict<sp> sps;
   dict<tl> tls;
+  dict<ro> ros;ro*curo;
   //keys,mouse
   st kst[256];
   ptr pst;
-  //win
-  int w,h;
   //
   bool quit;
   void disp();
   void resh(int,int);
   void eupd();
+  void swro(string);
 };
 
 en&eget();

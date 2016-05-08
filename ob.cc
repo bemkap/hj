@@ -8,8 +8,7 @@ ob::~ob(){
   for(auto i:evs) delete i;
   for(auto i:ins) delete i;
 }
-void ob::oeadd(evt t,act a){
-  ev*e=new ev;
+void ob::oeadd(evt t,act a){ev*e=new ev;
   switch(t){
   case CRTE: {e->crt={t,a};break;}
   case STEP: {e->stp={t,a};break;}
@@ -18,8 +17,7 @@ void ob::oeadd(evt t,act a){
   }
   evs.push_back(e);
 }
-void ob::oeadd(evt t,uint n,act a){
-  ev*e=new ev;
+void ob::oeadd(evt t,uint n,act a){ev*e=new ev;
   switch(t){
   case KBDO: {e->kbd={t,a,uchar(n)};break;}
   case KBUP: {e->kbd={t,a,uchar(n)};break;}
@@ -29,13 +27,11 @@ void ob::oeadd(evt t,uint n,act a){
   }
   evs.push_back(e);
 }
-void ob::oeadd(evt t,ptbtn b,act a){
-  ev*e=new ev;
+void ob::oeadd(evt t,ptbtn b,act a){ev*e=new ev;
   e->ptr={t,a,b};
   evs.push_back(e);
 }
-in*ob::oiadd(double x,double y){
-  in*i=new in(x,y);
+in*ob::oiadd(double x,double y){in*i=new in(x,y);
   ins.push_back(i);
   return i;
 }
@@ -43,9 +39,7 @@ in*ob::operator[](uint i){
   try{return ins.at(i);}
   catch(out_of_range e){return nullptr;}
 }
-void ob::oupd(){
-  en&env=eget();
-  bool df=false;act b;
+void ob::oupd(){en&env=eget();bool df=false;act b;
   for(auto i:evs){
     switch(i->ty){
     case CRTE: {for(auto&j:ins)
@@ -88,9 +82,8 @@ void ob::oupd(){
 	if(i->tlcurn<tline->nds.size()-1) ++i->tlcurn;
 	else tline->st=false;
       }
-  for(uint i=0;i<ins.size();++i){
-    in*j=ins.front();ins.pop_front();
-    if(j->st==DEAD){if(df) b(j);delete j;}
-    else{j->move();ins.push_back(j);}
+  for(auto i=ins.begin();i!=ins.end();){
+    if((*i)->st==DEAD){if(df) b(*i);i=ins.erase(i);}
+    else{(*i)->move();i++;}
   }
 }

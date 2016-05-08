@@ -1,6 +1,5 @@
 #pragma once
 
-#include<vector>
 #include"cm.hh"
 using namespace std;
 

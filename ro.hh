@@ -2,10 +2,13 @@
 
 #include<vector>
 #include<tuple>
-#include"ob.hh"
 
 class ro {public:
-  vector<tuple<ob*,double,double>> obs;
-  void add(ob*,double,double);
+  ro(int,int);
+  int w,h,vpx,vpy,vpw,vph;
+  vector<tuple<string,double,double>> obs;
+  void add(string,double,double);
+  void move(int,int);
+  void scal(int,int);
   void disp();
 };

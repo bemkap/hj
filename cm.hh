@@ -39,5 +39,26 @@ typedef unsigned int uint;
 #define KB_Y     121
 #define KB_Z     122
 #define KB_DEL   127
+#define KB_LEFT  227
+#define KB_RIGHT 229
+#define KB_UP    228
+#define KB_DOWN  230
+#define KB_F1    128
+#define KB_F2    129
+#define KB_F3    130
+#define KB_F4    131
+#define KB_F5    132
+#define KB_F6    133
+#define KB_F7    134
+#define KB_F8    135
+#define KB_F9    136
+#define KB_F10   137
+#define KB_F11   138
+#define KB_F12   139
+#define KB_LSHF  239
+#define KB_RSHF  240
+#define KB_LCTRL 241
+#define KB_RCTRL 242
+#define KB_ALT   243
 
 #define REPEAT(n) for(int _i=0;_i<(n);++_i)

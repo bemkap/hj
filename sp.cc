@@ -2,8 +2,7 @@
 #include"sp.hh"
 
 sp::sp(initializer_list<point> l):msk(l),c({1,1,1}){}
-poly sp::smget(double x,double y,double xsc,double ysc){
-  poly rmsk;
+poly sp::smget(double x,double y,double xsc,double ysc){poly rmsk;
   for(auto i:msk.pts)
     rmsk.ppadd({i.x*xsc+x,i.y*ysc+y});
   return rmsk;
