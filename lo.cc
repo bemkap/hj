@@ -70,6 +70,10 @@ void printcoll(lua_State*L){
     lua_pushstring(L,"id");
     lua_gettable(L,-2);
     cout<<lua_tostring(L,-1)<<endl;
+    lua_pop(L,1);
+    lua_pushstring(L,"act");
+    lua_gettable(L,-2);
+    cout<<(LUA_TFUNCTION==lua_type(L,-1))<<endl;
     lua_pop(L,2);
   }
 }
@@ -79,6 +83,10 @@ void printkbdo(lua_State*L){
     lua_pushstring(L,"key");
     lua_gettable(L,-2);
     cout<<lua_tonumber(L,-1)<<endl;
+    lua_pop(L,1);
+    lua_pushstring(L,"act");
+    lua_gettable(L,-2);
+    lua_CFunction act=lua_tocfunction(L,-1);
     lua_pop(L,2);
   }
 }
