@@ -6,13 +6,13 @@ local ship={
       {id="enem";
        act=function(i) instance_destroy(i) end;}},
    kbdo={
-      {key=kb_left;
+      {key=1,--kb_left;
        act=function(i) i.x=i.x-5-2*keypressed(kb_lshift) end;},
-      {key=kb_right;
+      {key=2,--kb_right,
        act=function(i) i.x=i.x+5-2*keypressed(kb_lshift) end;},
-      {key=kb_up;
+      {key=3,--kb_up;
        act=function(i) i.y=i.y+5-2*keypressed(kb_lshift) end;},
-      {key=kb_down;
+      {key=4,--kb_down;
        act=function(i) i.y=i.y-5-2*keypressed(kb_lshift) end;}}
 }
 return ship;

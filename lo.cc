@@ -61,42 +61,41 @@ static void defenem(en&env){ob*enem=env.obs.get("enem");
       i->alrn[2]=30;
     });
     }*/
-void loadobs(){/*en&env=eget();
-  string obs[]={"worl","ship","bull","bull1","enem"};
-  for(auto s:obs) env.obs.add(s,new ob);
-  defworl(env);
-  defship(env);
-  defbull(env);
-  defbull1(env);
-  defenem(env);*/
+void printspr(lua_State*L){
+  cout<<lua_tostring(L,-1)<<endl;
+}
+void printcoll(lua_State*L){
+  lua_pushnil(L);
+  while(lua_next(L,-2)!=0){
+    lua_pushstring(L,"id");
+    lua_gettable(L,-2);
+    cout<<lua_tostring(L,-1)<<endl;
+    lua_pop(L,2);
+  }
+}
+void printkbdo(lua_State*L){
+  lua_pushnil(L);
+  while(lua_next(L,-2)!=0){
+    lua_pushstring(L,"key");
+    lua_gettable(L,-2);
+    cout<<lua_tonumber(L,-1)<<endl;
+    lua_pop(L,2);
+  }
+}
+void loadobs(){
   lua_State*L=luaL_newstate();
-  static const luaL_Reg lualibs[] =
-    {
-      { "base", luaopen_base },
-      { "io", luaopen_io },
-      { NULL, NULL}
-    };
-  const luaL_Reg *lib = lualibs;
-  for(; lib->func != NULL; lib++)
-    {
-      lib->func(L);
-      lua_settop(L, 0);
-    }
+  static const luaL_Reg lualibs[]=
+    {{"base",luaopen_base},{"io",luaopen_io},{NULL,NULL}};
+  const luaL_Reg*lib=lualibs;
+  for(;lib->func!=NULL;lib++){lib->func(L);lua_settop(L,0);}
   luaL_dofile(L,"obs/ship.lua");
   if(LUA_TTABLE==lua_type(L,lua_gettop(L))){
     lua_pushnil(L);
     while(lua_next(L,-2)!=0){
       string s=lua_tostring(L,-2);
-      if(s=="spr"){
-	cout<<lua_tostring(L,-2)<<"="<<lua_tostring(L,-1)<<endl;
-      }else if(s=="coll"){
-	lua_pushnil(L);
-	while(lua_next(L,-2)!=0){
-	  cout<<lua_typename(L,lua_type(L,-3))<<endl;
-	  lua_pop(L,1);
-	}
-      }else if(s=="kbdo"){
-      }
+      if(s=="spr") printspr(L);
+      else if(s=="coll") printcoll(L);
+      else if(s=="kbdo") printkbdo(L);
       lua_pop(L,1);
     }
   }
