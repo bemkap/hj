@@ -1,5 +1,6 @@
 #pragma once
 
+#include<lua5.2/lua.hpp>
 #include"cm.hh"
 using namespace std;
 
@@ -15,3 +16,4 @@ class in {public:
   in(double,double);
   void move();
 };
+int xy(lua_State*);

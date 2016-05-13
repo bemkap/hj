@@ -13,15 +13,14 @@ int printkbdo(lua_State*L){
   lua_next(L,-2);
   lua_getfield(L,-1,"act");
   int r=luaL_ref(L,LUA_REGISTRYINDEX);
-  //cout<<lua_typename(L,lua_type(L,-1))<<endl;
-  //cout<<lua_tostring(L,-1)<<endl;
   lua_pop(L,2);
   return r;
 }
 void loadobs(){int r;
   lua_State*L=luaL_newstate();
   static const luaL_Reg lualibs[]=
-    {{"base",luaopen_base},{"io",luaopen_io},{NULL,NULL}};
+    {{"base",luaopen_base},{"io",luaopen_io},
+     {"xy",xy},{NULL,NULL}};
   const luaL_Reg*lib=lualibs;
   for(;lib->func!=NULL;lib++){lib->func(L);lua_settop(L,0);}
   luaL_dofile(L,"obs/ship.lua");
@@ -35,18 +34,10 @@ void loadobs(){int r;
       lua_pop(L,1);
     }
   }
-  in*i=new in(0,0);
-  lua_rawgeti(L,LUA_REGISTRYINDEX,r);
-  lua_newtable(L);
-  lua_pushstring(L,"x");
-  lua_pushnumber(L,i->x);
-  lua_settable(L,-3);
-  lua_pushstring(L,"y");
-  lua_pushnumber(L,i->y);
-  lua_settable(L,-3);
-  lua_pcall(L,1,0,0);
-  
-  cout<<lua_typename(L,lua_type(L,-1))<<endl;
-    
+  in*i=new in(10,10);
+  act a(r,L);
+  a(i);
+  cout<<i->x<<" "<<i->y<<endl;
+  delete i;
   lua_close(L);
 }
