@@ -10,7 +10,8 @@
 #include"tl.hh"
 
 class ob {public:
-  vector<ev*> evs;
+  act[EVMX] evh;
+  //vector<ev*> evs;
   deque<in*> ins;
   sp*spr;
   tl*tline;
