@@ -4,14 +4,12 @@
 #include<vector>
 #include"cm.hh"
 #include"in.hh"
-#include"en.hh"
 #include"ev.hh"
 #include"sp.hh"
 #include"tl.hh"
 
 class ob {public:
-  act[EVMX] evh;
-  //vector<ev*> evs;
+  vector<ev*> evs;
   deque<in*> ins;
   sp*spr;
   tl*tline;

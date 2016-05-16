@@ -1,24 +1,13 @@
 #pragma once
 
-#include<lua5.2/lua.hpp>
 #include<vector>
 #include"cm.hh"
 #include"in.hh"
-#include"ob.hh"
 using namespace std;
 
 enum ptbtn { BTN_LE,BTN_RI };
-
-class act {public:
-  int r;lua_State*L;
-  act(int,lua_State*);void operator()(in*);
-};
-
-class evmng {public:
-  vector<ob*>[EVMX] obs;
-  void signal(evty);
-  void listen(evty,ob*);
-};
+enum evt { CRTE,KBDO,KBUP,PTDO,PTUP,STEP,COLL,ALRM,DEST };
+typedef void (*act)(in*);
 
 struct ecrt { evt ty;act a;         };
 struct ekbd { evt ty;act a;uchar k; };

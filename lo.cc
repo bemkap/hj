@@ -34,10 +34,5 @@ void loadobs(){int r;
       lua_pop(L,1);
     }
   }
-  in*i=new in(10,10);
-  act a(r,L);
-  a(i);
-  cout<<i->x<<" "<<i->y<<endl;
-  delete i;
   lua_close(L);
 }

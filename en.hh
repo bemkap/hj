@@ -14,8 +14,6 @@ using namespace std;
 enum st { PR,RE,NPR };
 struct ptr { int x,y;st le,ri; };
 
-class ob; // mutual include
-
 class en {public:
   en();~en();
   dict<ob> obs;
