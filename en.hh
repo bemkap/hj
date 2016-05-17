@@ -18,7 +18,7 @@ class en {public:
   en();~en();
   dict<ob> obs;
   dict<sp> sps;
-  dict<tl> tls;
+  //dict<tl> tls;
   dict<ro> ros;ro*curo;
   //keys,mouse
   st kst[256];
