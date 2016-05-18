@@ -5,13 +5,13 @@
 #include"ev.hh"
 using namespace std;
 
-struct node { ehdl h;uint step; };
+struct node { act a;uint step; };
 
 class tl {public:
   lua_State*L;
   vector<node> nds;
   bool st;
   tl(lua_State*);
-  void tladd(uint,int);
+  void tladd(act,uint);
   void tltog();
 };

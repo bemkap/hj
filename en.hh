@@ -18,7 +18,7 @@ class en {public:
   en();~en();
   dict<ob> obs;
   dict<sp> sps;
-  //dict<tl> tls;
+  dict<tl> tls;
   dict<ro> ros;ro*curo;
   //keys,mouse
   st kst[256];
@@ -29,6 +29,9 @@ class en {public:
   void resh(int,int);
   void eupd();
   void swro(string);
+
+  instance_create(string,double,double);
+  instance_destroy(in*);
 };
 
 en&eget();

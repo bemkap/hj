@@ -4,41 +4,13 @@
 #include"di.hh"
 #include"ob.hh"
 
-ob::ob(sp*s):spr(s){}//,tline(nullptr){}
+ob::ob(sp*s):spr(s),tline(nullptr){}
 ob::ob():ob(nullptr){}
 ob::~ob(){
-  //for(auto i:evs) delete i;
+  for(auto i:evs) delete i;
   for(auto i:ins) delete i;
 }
-in*ob::oiadd(double x,double y){in*i=new in(x,y);
-  ins.push_back(i);
-  if(evs.crte) (*evs.crte)(i);
-  return i;
-}
-void ob::oidel(in*i){
-  if(evs.dest) (*evs.dest)(i);
-  i->st=DEAD;
-}
-void ob::oupd(){
-  if(evs.step)
-    for(auto&i:ins) (*evs.step)(i);
-  for(int n=0;n<11;++n)
-    if(evs.alrm&&0<(*evs.alrm)[n])
-      for(auto&i:ins)
-	if(i->alrn[n]>0&&--i->alrn[n]<=0) (*evs.alrm)(i,n);
-  if(tline&&tline->st)
-    for(auto&i:ins)
-      if(++i->tlcurt>=tline->nds[i->tlcurn].step){
-	tline->nds[i->tlcurn].h(i);
-	if(i->tlcurn<tline->nds.size()-1) ++i->tlcurn;
-	else tline->st=false;
-      }
-  remove_if(ins.begin(),ins.end(),[](in*i){return i->st==DEAD;});
-}
-void ob::disp(double x,double y,double xsc,double ysc){
-  if(spr) spr->disp(x,y,xsc,ysc);
-}
-/*
+void ob::oidel(in*i){i->st=DEAD;}
 void ob::oeadd(evt t,act a){ev*e=new ev;
   switch(t){
   case CRTE: {e->crt={t,a};break;}
@@ -121,4 +93,3 @@ void ob::oupd(){en&env=eget();bool df=false;act b;
 void ob::disp(double x,double y,double xsc,double ysc){
   if(spr) spr->disp(x,y,xsc,ysc);
 }
-*/
