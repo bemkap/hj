@@ -5,7 +5,7 @@
 #include"ev.hh"
 using namespace std;
 
-struct node { hdl h;uint step; };
+struct node { ehdl h;uint step; };
 
 class tl {public:
   lua_State*L;

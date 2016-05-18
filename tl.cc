@@ -2,7 +2,8 @@
 
 tl::tl(lua_State*M):L(M),st(true){}
 void tl::tladd(uint s,int r){
-  nds.push_back({r,s});
+  estp h(L);h.r=r;
+  nds.push_back({h,s});
 }
 void tl::tltog(){
   st=!st;

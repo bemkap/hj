@@ -10,29 +10,30 @@ enum ptbtn { BTN_LE,BTN_RI };
 enum evt { CRTE,KBDO,KBUP,PTDO,PTUP,STEP,COLL,ALRM,DEST };
 
 class ehdl {public:lua_State*L;
-  ehdl(lua_State*);ehdl();
+  ehdl(lua_State*);
   virtual void add(){};
   virtual void operator()(in*){};
 };
 class ecrt:public ehdl {public: int r;
-  void operator()(in*);};
+  ecrt(lua_State*);void operator()(in*);};
 class estp:public ehdl {public: int r;
-  void operator()(in*);};
+  estp(lua_State*);void operator()(in*);};
 class ealr:public ehdl {public: int r[11];
-  void operator()(in*,int);
+  ealr(lua_State*);void operator()(in*,int);
   int  operator[](uint);};
 class edes:public ehdl {public: int r;
-  void operator()(in*);};
+  edes(lua_State*);void operator()(in*);};
 class eptd:public ehdl {public: int r;
-  void operator()(in*);};
+  eptd(lua_State*);void operator()(in*);};
 class eptu:public ehdl {public: int r;
-  void operator()(in*);};
+  eptu(lua_State*);void operator()(in*);};
 class ekbd:public ehdl {public: map<uint,int> m;
-  void operator()(in*,uint);};
+  ekbd(lua_State*);void operator()(in*,uint);};
 class ecol:public ehdl {public: map<uint,int> m;
-  void operator()(in*,uint);};
+  ecol(lua_State*);void operator()(in*,uint);};
 
-struct ev {
+class ev {public:
+  ~ev();
   ecrt*crte;
   estp*step;
   ealr*alrm;

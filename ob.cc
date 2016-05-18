@@ -29,7 +29,7 @@ void ob::oupd(){
   if(tline&&tline->st)
     for(auto&i:ins)
       if(++i->tlcurt>=tline->nds[i->tlcurn].step){
-	tline->nds[i->tlcurn].a(i);
+	tline->nds[i->tlcurn].h(i);
 	if(i->tlcurn<tline->nds.size()-1) ++i->tlcurn;
 	else tline->st=false;
       }
