@@ -1,23 +1,11 @@
 #pragma once
 
-#include<vector>
-#include"cm.hh"
+#include<lua5.2/lua.hpp>
 #include"in.hh"
 using namespace std;
 
-enum ptbtn { BTN_LE,BTN_RI };
-enum evt { CRTE,KBDO,KBUP,PTDO,PTUP,STEP,COLL,ALRM,DEST };
-typedef void (*act)(in*);
-
-struct ecrt { evt ty;act a;         };
-struct ekbd { evt ty;act a;uchar k; };
-struct eptr { evt ty;act a;ptbtn b; };
-struct estp { evt ty;act a;         };
-struct ecol { evt ty;act a;uint n;  };
-struct ealr { evt ty;act a;uint n;  };
-struct edes { evt ty;act a;         };
-
-union ev {
-  evt ty;ecrt crt;ekbd kbd;eptr ptr;
-  estp stp;ecol col;ealr alr;edes des;
+class act {public:
+  int r;lua_State*L;
+  act(int,lua_State*);
+  int operator()(in*);
 };

@@ -15,14 +15,14 @@ void timer(int v){
   else{exit(0);}
 }
 void reshape(int w,int h){env.resh(w,h);}
-void keyboard(uchar k,int x,int y){env.kst[k]=PR;}
-void skeyboard(int k,int x,int y){env.kst[k+127]=PR;}
-void keyboaru(uchar k,int x,int y){env.kst[k]=RE;}
-void skeyboaru(int k,int x,int y){env.kst[k+127]=RE;}
-void mouse(int x,int y){env.pst.x=x;env.pst.y=env.curo->vph-y;}
+void keyboard(uchar k,int x,int y){env.kbobs[k].sign(k);}
+void skeyboard(int k,int x,int y){env.kbobs[k+127].sign(k);}
+void keyboaru(uchar k,int x,int y){env.kbobs[k].sign(k);}
+void skeyboaru(int k,int x,int y){env.kbobs[k+127].sign(k);}
+void mouse(int x,int y){}
 void mousebtn(int b,int st,int x,int y){switch(b){
-  case GLUT_LEFT_BUTTON : {env.pst.le=(st==GLUT_UP)?RE:PR;break;}
-  case GLUT_RIGHT_BUTTON: {env.pst.ri=(st==GLUT_UP)?RE:PR;break;}
+  case GLUT_LEFT_BUTTON : {env.ptobs[0].sign(PT_LE);break;};
+  case GLUT_RIGHT_BUTTON: {env.ptobs[1].sign(PT_RI);break;}
   }
 }
 void init(int*argc,char**argv){

@@ -9,29 +9,24 @@
 #include"ro.hh"
 #include"sp.hh"
 #include"tl.hh"
+#include"wa.hh"
 using namespace std;
 
-enum st { PR,RE,NPR };
-struct ptr { int x,y;st le,ri; };
-
 class en {public:
-  en();~en();
+  en();
   dict<ob> obs;
   dict<sp> sps;
   dict<tl> tls;
   dict<ro> ros;ro*curo;
-  //keys,mouse
-  st kst[256];
-  ptr pst;
+  //observer
+  wa<uchar> kbobs[256];
+  wa<ptbtn> ptobs[  2];
   //
   bool quit;
   void disp();
   void resh(int,int);
   void eupd();
   void swro(string);
-
-  instance_create(string,double,double);
-  instance_destroy(in*);
 };
 
 en&eget();

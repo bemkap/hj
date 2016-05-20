@@ -6,6 +6,8 @@ const double PIE=3.141592653;
 typedef unsigned char uchar;
 typedef unsigned int uint;
 
+enum ptbtn { PT_RI,PT_LE };
+
 enum kb_code {
   kb_tab  =   9,
   kb_enter=  13,
@@ -62,5 +64,3 @@ enum kb_code {
   kb_rctrl= 242,
   kb_alt  = 243
 };
-  
-#define REPEAT(n) for(int _i=0;_i<(n);++_i)

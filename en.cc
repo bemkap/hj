@@ -9,11 +9,7 @@ static bool insight(in*i,ro*r){
   return i->x>r->vpx&&i->y>r->vpy&&
     i->x<r->vpx+r->vpw&&i->y<r->vpy+r->vph;
 }
-en::en():curo(nullptr),quit(false){
-  for(int i=0;i<256;++i) kst[i]=NPR;
-  pst.le=pst.ri=NPR;
-}
-en::~en(){}
+en::en():curo(nullptr),quit(false){}
 void en::disp(){
   glClearColor(0,0,0,1);
   glClear(GL_COLOR_BUFFER_BIT);
@@ -39,15 +35,11 @@ void en::resh(int we,int he){
 }
 void en::eupd(){
   for(auto i:obs.obs) i->oupd();
-  for(int i=0;i<256;++i) if(kst[i]==RE) kst[i]=NPR;
-  if(pst.le==RE) pst.le=NPR;
-  if(pst.ri==RE) pst.ri=NPR;
 }
 void en::swro(string r){ro*nro=ros.get(r);
   if(nro!=curo){
     for(auto i:obs.obs)
-      for(auto j:i->ins)
-	instance_destroy(j);
+      for(auto j:i->ins) i->oidel(j);
     nro->disp();
     curo=nro;
     glutReshapeWindow(curo->vpw,curo->vph);
