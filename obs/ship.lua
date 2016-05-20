@@ -13,6 +13,6 @@ local ship={
       --{key=228,--kb_up
       -- act=function(i) i.y=i.y+5-2*keydown(239) end;},--lshf
       {key=230,--kb_down
-       act=function() xy(0,-5) end;}}--2*keydown(239) end;}}--lshf
+       act=function(i) print("hola") end;}}--2*keydown(239) end;}}--lshf
 }
 return ship;

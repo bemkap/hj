@@ -19,8 +19,7 @@ int printkbdo(lua_State*L){
 void loadobs(){int r;
   lua_State*L=luaL_newstate();
   static const luaL_Reg lualibs[]=
-    {{"base",luaopen_base},{"io",luaopen_io},
-     {"xy",xy},{NULL,NULL}};
+    {{"base",luaopen_base},{"io",luaopen_io},{NULL,NULL}};
   const luaL_Reg*lib=lualibs;
   for(;lib->func!=NULL;lib++){lib->func(L);lua_settop(L,0);}
   luaL_dofile(L,"obs/ship.lua");
@@ -34,5 +33,9 @@ void loadobs(){int r;
       lua_pop(L,1);
     }
   }
+  in*i=new in(0,0);
+  lua_rawgeti(L,LUA_REGISTRYINDEX,r);
+  lua_pushstring(L,"i");lua_pushlightuserdata(L,i);
+  cout<<lua_pcall(L,1,0,0)<<endl;
   lua_close(L);
 }

@@ -20,12 +20,3 @@ void in::move(){
   vsp-=fr*sign(vsp);
   spe-=fr*sign(spe);
 }
-int xy(lua_State*L){
-  //in*i=(in*)lua_touserdata(L,-1);
-  double xx=lua_tonumber(L,-1);
-  double yy=lua_tonumber(L,-2);
-  cout<<xx<<" "<<yy<<endl;
-  //i->x+=xx;
-  //i->y+=yy;
-  return 0;
-}
