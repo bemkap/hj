@@ -8,7 +8,7 @@
 #include<iostream>
 using namespace std;
 
-int printkbdo(lua_State*L){
+int parsekb(lua_State*L){
   lua_pushnil(L);
   lua_next(L,-2);
   lua_getfield(L,-1,"act");
@@ -19,7 +19,8 @@ int printkbdo(lua_State*L){
 void loadobs(){int r;
   lua_State*L=luaL_newstate();
   luaL_openlibs(L);
-  luaL_dofile(L,"obs/ship.lua");
+  inreg(L);
+  luaL_dofile(L,"obs/ship.lua"); 
   if(lua_istable(L,lua_gettop(L))){
     lua_pushnil(L);
     while(lua_next(L,-2)!=0){

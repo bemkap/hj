@@ -1,9 +1,9 @@
 #pragma once
 
+#include<lua5.2/lua.hpp>
 #include"cm.hh"
-using namespace std;
 
-enum inst { BORN,LIVE,DEAD };
+enum inst { NOTDEAD,DEAD };
 
 class in {public:
   double x,y;
@@ -15,3 +15,6 @@ class in {public:
   in(double,double);
   void move();
 };
+int tr(lua_State*);
+int set(lua_State*);
+void inreg(lua_State*);
