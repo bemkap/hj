@@ -3,8 +3,8 @@
 #include<GL/glu.h>
 #include<GL/glut.h>
 
-#include"cm.hh"
-#include"en.hh"
+#include"common.hh"
+#include"env.hh"
 #include"gl.hh"
 
 static en&env=eget();

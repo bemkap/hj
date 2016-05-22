@@ -1,5 +1,5 @@
 #include<GL/glew.h>
-#include"sp.hh"
+#include"sprite.hh"
 
 sp::sp(initializer_list<point> l):msk(l),c({1,1,1}){}
 poly sp::smget(double x,double y,double xsc,double ysc){poly rmsk;

@@ -1,7 +1,7 @@
 #include<cmath>
-#include"in.hh"
-#include"cm.hh"
-#include"ut.hh"
+#include"instance.hh"
+#include"common.hh"
+#include"utils.hh"
 
 in::in(double x,double y):x(x),y(y){
   spe=dir=vsp=hsp=gr=fr=0;

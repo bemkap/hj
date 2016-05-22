@@ -1,8 +1,8 @@
 #include<algorithm>
-#include"cm.hh"
-#include"en.hh"
-#include"di.hh"
-#include"ob.hh"
+#include"common.hh"
+#include"env.hh"
+#include"dict.hh"
+#include"object.hh"
 
 ob::ob(sp*s):spr(s),tline(nullptr){}
 ob::ob():ob(nullptr){}

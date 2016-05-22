@@ -1,6 +1,6 @@
 local worl={
-   kbdo={
-      {key=k("kb_q");
-       act=function(i) quit() end}}
+   --kbdo={
+   --   {key=27;
+   --    act=function(i) end}}
 }
 return worl;

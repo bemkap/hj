@@ -1,19 +1,21 @@
 #pragma once
 
-#include<vector>
-#include<map>
 #include<iostream>
+#include<map>
+#include<vector>
 using namespace std;
 
-template<typename T>class dict{public:
+template<typename T>class dict{
+public:
   dict();~dict();
-  vector<T*> obs;
-  map<string,int> oids;
-  int idav;
   void add(string,T*);
   int  iget(string);
   T*   get(int);
   T*   get(string);
+protected:
+  vector<T*> obs;
+  map<string,int> oids;
+  int idav;
 };
 
 template<typename T>dict<T>::dict():idav(0){}

@@ -1,5 +1,5 @@
-#include"en.hh"
-#include"ro.hh"
+#include"env.hh"
+#include"room.hh"
 
 ro::ro(int w,int h):w(w),h(h),vpx(0),vpy(0),vpw(w),vph(h){}
 void ro::add(string o,double x,double y){

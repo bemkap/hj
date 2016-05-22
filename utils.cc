@@ -1,7 +1,7 @@
 #include<cmath>
-#include"cm.hh"
-#include"ob.hh"
-#include"ut.hh"
+#include"common.hh"
+#include"object.hh"
+#include"utils.hh"
 
 double point_direction(double x0,double y0,double x1,double y1){double r=atan2(y1-y0,x1-x0);
   return radtodeg(r<0?r+2*PIE:r);

@@ -2,11 +2,11 @@
 
 #include<chrono>
 #include<random>
-#include"en.hh"
+#include"env.hh"
 
 double point_direction(double,double,double,double);
 double point_distance (double,double,double,double);
 double degtorad(double);
 double radtodeg(double);
 int    sign(double);
-int    arb(int);
+int    arbitrary(int);

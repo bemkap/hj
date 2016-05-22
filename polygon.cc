@@ -1,5 +1,4 @@
-#include"ge.hh"
-#include"cm.hh"
+#include"polygon.hh"
 
 poly::poly(){}
 poly::poly(initializer_list<point> l){

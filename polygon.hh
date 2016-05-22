@@ -6,11 +6,12 @@ using namespace std;
 struct point { double x,y; };
 struct line  { point  p,q; };
 
-class poly {public:
-  vector<point> pts;
-  poly();
-  poly(initializer_list<point>);
-  void ppadd(point);
+class polygon {
+public:
+  vector<point> points;
+  polygon();
+  polygon(initializer_list<point>);
+  void pointadd(point);
 };
 
 bool left(point,line);
