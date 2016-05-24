@@ -7,22 +7,26 @@
 #include"env.hh"
 #include"gl.hh"
 
-static en&env=eget();
+static env&env=envget();
 
-void display(){env.disp();}
+void display(){env.display();}
 void timer(int v){
-  if(!env.quit){env.eupd();glutTimerFunc(uint(1000/FPS),timer,v);}
-  else{exit(0);}
+  if(!env.quit){
+    env.update();
+    glutTimerFunc(uint(1000/FPS),timer,v);
+  }
+  else exit(0);
 }
-void reshape(int w,int h){env.resh(w,h);}
-void keyboard(uchar k,int x,int y){env.kbobs[k].sign(k);}
-void skeyboard(int k,int x,int y){env.kbobs[k+127].sign(k);}
-void keyboaru(uchar k,int x,int y){env.kbobs[k].sign(k);}
-void skeyboaru(int k,int x,int y){env.kbobs[k+127].sign(k);}
+void reshape(int w,int h){env.reshape(w,h);}
+void keyboard(uchar k,int x,int y){env.watcherkb[k].signal(k);}
+void skeyboard(int k,int x,int y){env.watcherkb[k+127].signal(k);}
+void keyboaru(uchar k,int x,int y){env.watcherkb[k].signal(k);}
+void skeyboaru(int k,int x,int y){env.watcherkb[k+127].signal(k);}
 void mouse(int x,int y){}
-void mousebtn(int b,int st,int x,int y){switch(b){
-  case GLUT_LEFT_BUTTON : {env.ptobs[0].sign(PT_LE);break;};
-  case GLUT_RIGHT_BUTTON: {env.ptobs[1].sign(PT_RI);break;}
+void mousebtn(int b,int st,int x,int y){
+  switch(b){
+  case GLUT_LEFT_BUTTON : env.watchermouse[0].signal(PT_LE);break;
+  case GLUT_RIGHT_BUTTON: env.watchermouse[1].signal(PT_RI);break;
   }
 }
 void init(int*argc,char**argv){

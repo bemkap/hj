@@ -1,15 +1,18 @@
 #include"env.hh"
 #include"room.hh"
 
-ro::ro(int w,int h):w(w),h(h),vpx(0),vpy(0),vpw(w),vph(h){}
-void ro::add(string o,double x,double y){
+room::room(int w,int h):width(w),height(h),viewportw(w),viewporth(h){
+  viewportx=viewporty=0;
+}
+void room::add(string o,double x,double y){
   obs.push_back(tuple<string,double,double>(o,x,y));
 }
-void ro::move(int xo,int yo){vpx+=xo;vpy+=yo;}
-void ro::scal(int xs,int ys){vpw+=xs;vph+=ys;}
-void ro::disp(){en&env=eget();
-  for(auto t:obs){
-    ob*o=env.obs.get(get<0>(t));
-    if(o) o->oiadd(get<1>(t),get<2>(t));
+void room::move(int xo,int yo){viewportx+=xo;viewporty+=yo;}
+void room::scalale(int xs,int ys){viewportw+=xs;viewporth+=ys;}
+void room::display(){
+  env&env=envget();
+  for(auto t:objects){
+    object*o=env.objects.get(get<0>(t));
+    if(o) o->instancecreate(get<1>(t),get<2>(t));
   }
 }

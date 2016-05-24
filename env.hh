@@ -16,7 +16,7 @@ public:
   dict<object> objects;
   dict<sprite> sprites;
   dict<timeline> timelines;
-  dict<room> rooms;ro*currentroom;
+  dict<room> rooms;room*currentroom;
   //watcher
   watcher<uchar> watcherkb[256];
   watcher<ptbtn> watchermouse[2];

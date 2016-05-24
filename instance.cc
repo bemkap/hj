@@ -3,25 +3,25 @@
 #include"common.hh"
 #include"utils.hh"
 
-in::in(double x,double y):x(x),y(y){
-  spe=dir=vsp=hsp=gr=fr=0;
-  xsc=ysc=1;
-  st=NOTDEAD;
-  tlcurt=tlcurn=0;
-  for(int i=0;i<11;++i) alrn[i]=0;
+instance::instance(double x,double y):x(x),y(y){
+  speed=direction=vspeed=hspeed=gravity=friction=0;
+  xscale=yscale=1;
+  state=NOTDEAD;
+  tltime=tlnode=0;
+  for(int i=0;i<11;++i) alarm[i]=0;
 }
-void in::move(){
-  x+=hsp;
-  y+=vsp;
-  x+=spe*cos(degtorad(dir));
-  y+=spe*sin(degtorad(dir));
-  vsp-=gr;
-  hsp-=fr*sign(hsp);
-  vsp-=fr*sign(vsp);
-  spe-=fr*sign(spe);
+void instance::move(){
+  x+=hspeed;
+  y+=vspeed;
+  x+=speed*cos(degtorad(direction));
+  y+=speed*sin(degtorad(direction));
+  vspeed-=gravity;
+  hspeed-=friction*sign(hspeed);
+  vspeed-=friction*sign(vspeed);
+  speed-=friction*sign(speed);
 }
-int tr(lua_State*L){
-  in*i=(in*)lua_touserdata(L,1);
+int translate(lua_State*L){
+  instance*i=(instance*)lua_touserdata(L,1);
   double tx=lua_tonumber(L,2);
   double ty=lua_tonumber(L,3);
   i->x+=tx;
@@ -29,16 +29,16 @@ int tr(lua_State*L){
   return 0;
 } 
 int set(lua_State*L){
-  in*i=(in*)lua_touserdata(L,1);
+  instance*i=(instance*)lua_touserdata(L,1);
   double tx=lua_tonumber(L,2);
   double ty=lua_tonumber(L,3);
   i->x=tx;
   i->y=ty;
   return 0;
 }
-void inreg(lua_State*L){
-  lua_pushcfunction(L,tr);
-  lua_setglobal(L,"tr");
+void inregister(lua_State*L){
+  lua_pushcfunction(L,translate);
+  lua_setglobal(L,"translate");
   lua_pushcfunction(L,set);
   lua_setglobal(L,"set");
 }

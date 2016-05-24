@@ -2,13 +2,14 @@
 
 #include<lua5.2/lua.hpp>
 #include<string>
-#include"in.hh"
 using namespace std;
+
+class instance;
 
 class action {public:
   int r;lua_State*L;
   action(int,lua_State*);
-  int operator()(in*);
+  int operator()(instance*);
 };
 int getaction(lua_State*);
 template<typename T>T getnumeric(lua_State*L,string s){

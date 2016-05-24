@@ -18,3 +18,18 @@ ob*scriptmng::loadobj(const char*f){
   }
   return o;
 }
+void scriptmng::parsekbdo(ob*o){
+  int r=getact(L);
+  uchar k=getnum<uchar>(L,"key");
+  o->kbh.insert(pair<uchar,act>(k,act(r,L)));
+}
+void scriptmng::parseptdo(ob*o){
+  int r=getact(L);
+  ptbtn k=getnum<ptbtn>(L,"mouse");
+  o->pth.insert(pair<ptbtn,act>(k,act(r,L)));
+}
+void scriptmng::parsestep(ob*o){
+  int r=getact(L);
+  if(!o->step) o->step=new act(r,L);
+  else{o->step->r=r;o->step->L=L;}
+}

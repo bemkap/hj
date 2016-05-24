@@ -13,29 +13,29 @@ public:
   T*   get(int);
   T*   get(string);
 protected:
-  vector<T*> obs;
-  map<string,int> oids;
-  int idav;
+  vector<T*> entries;
+  map<string,int> ids;
+  int available;
 };
 
-template<typename T>dict<T>::dict():idav(0){}
+template<typename T>dict<T>::dict():available(0){}
 template<typename T>dict<T>::~dict(){
-  for(auto i:obs) delete i;
+  for(auto i:entries) delete i;
 }
 template<typename T>void dict<T>::add(string n,T*o){
-  obs.push_back(o);
-  auto i=oids.insert(pair<string,int>(n,idav));
-  if(i.second) idav++;
+  entries.push_back(o);
+  auto i=ids.insert(pair<string,int>(n,available));
+  if(i.second) available++;
 }
 template<typename T>int dict<T>::iget(string n){
   map<string,int>::iterator i;
-  if((i=oids.find(n))!=oids.end()) return (*i).second;
+  if((i=ids.find(n))!=ids.end()) return (*i).second;
   else return -1;
 }
 template<typename T>T*dict<T>::get(int n){
-  return n>=0&&n<int(obs.size())?obs[n]:nullptr;
+  return n>=0&&n<int(entries.size())?entries[n]:nullptr;
 }
 template<typename T>T*dict<T>::get(string n){
   int i=iget(n);
-  return -1<i?obs[i]:nullptr;
+  return -1<i?entries[i]:nullptr;
 }

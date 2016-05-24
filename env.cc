@@ -9,49 +9,36 @@
 using namespace boost::filesystem;
 using namespace std;
 
-static inline bool insight(in*i,ro*r){
+static inline bool insight(in*i,room*r){
   return i->x>r->vpx&&i->y>r->vpy&&
     i->x<r->vpx+r->vpw&&i->y<r->vpy+r->vph;
 }
-void parsekbdo(ob*o,lua_State*L){
-  int r=getact(L);
-  uchar k=getnum<uchar>(L,"key");
-  o->kbh.insert(pair<uchar,act>(k,act(r,L)));
-}
-void parseptdo(ob*o,lua_State*L){
-  int r=getact(L);
-  ptbtn k=getnum<ptbtn>(L,"mouse");
-  o->pth.insert(pair<ptbtn,act>(k,act(r,L)));
-}
-void parsestep(ob*o,lua_State*L){
-  int r=getact(L);
-  if(!o->step) o->step=new act(r,L);
-  else{o->step->r=r;o->step->L=L;}
-}
-en::en():curo(nullptr),quit(false){}
-void en::init(){
-  path p("./obs");directory_iterator i(p);
-  for(;i!=directory_iterator();i++){
-    ob*o=sm.loadobj((*i).path().string().c_str());
-    obs.add(path().string().c_str(),o);
+env::env():currentroom(nullptr),quit(false){}
+void env::init(){
+  path p("./obs");
+  for(directory_iterator i(p);i!=directory_iterator();i++){
+    ob*o=scriptmng.loadobj((*i).path().string().c_str());
+    objects.add(path().string().c_str(),o);
   }
 }
-void en::disp(){
+void env::display(){
   glClearColor(0,0,0,1);
   glClear(GL_COLOR_BUFFER_BIT);
   glLoadIdentity();
-  for(auto i:obs.obs)
-    for(auto j:i->ins)
-      if(insight(j,curo))
-	i->disp(j->x-curo->vpx,j->y-curo->vpy,j->xsc,j->ysc);
+  for(object*i:objects.entries)
+    for(instance*j:i->instances)
+      if(insight(j,currentroom))
+	i->disp(j->x-currentroom->viewportx,
+		j->y-currentroom->viewporty,
+		j->xscale,j->yscale);
   glutSwapBuffers();
 }
-void en::resh(int we,int he){
-  if(curo){
-    curo->w*=we/curo->vpw;
-    curo->h*=he/curo->vph;
-    curo->vpw=we;
-    curo->vph=he;
+void env::reshape(int we,int he){
+  if(currentroom){
+    currentroom->weight*=we/currentroom->viewportw;
+    currentroom->height*=he/currentroom->viewporth;
+    currentroom->viewportw=we;
+    currentroom->viewporth=he;
   }
   glViewport(0,0,(GLsizei)we,(GLsizei)he);
   glMatrixMode(GL_PROJECTION);
@@ -59,18 +46,20 @@ void en::resh(int we,int he){
   gluOrtho2D(0,we,0,he);
   glMatrixMode(GL_MODELVIEW);
 }
-void en::eupd(){
-  for(auto i:obs.obs) i->oupd();
+void env::update(){
+  for(object*i:objects.entries) i->update();
 }
-void en::swro(string r){ro*nro=ros.get(r);
-  if(nro!=curo){
-    for(auto i:obs.obs)
-      for(auto j:i->ins) i->oidel(j);
-    nro->disp();
-    curo=nro;
-    glutReshapeWindow(curo->vpw,curo->vph);
+void env::switchroom(string r){
+  room*newroom=rooms.get(r);
+  if(newroom!=currentroom){
+    for(object*i:objects.entries)
+      for(instance*j:i->instances) i->instancedelete(j);
+    newroom->display();
+    currentroom=newroom;
+    glutReshapeWindow(currentroom->viewportw,currentroom->viewporth);
   }
 }
-en&eget(){static en env;
+env&envget(){
+  static env env;
   return env;
 }

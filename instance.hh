@@ -8,11 +8,11 @@ enum instate { NOTDEAD,DEAD };
 class instance {
 public:
   double x,y;
-  double spe,dir,vsp,hsp,gr,fr;
-  double xsc,ysc;
-  instate st;
-  uint tlcurt,tlcurn;
-  uint alrn[11];
+  double speed,direction,vspeed,hspeed,gravity,friction;
+  double xscale,yscale;
+  instate state;
+  uint tltime,tlnode;
+  uint alarm[11];
   instance(double,double);
   void move();
 };
