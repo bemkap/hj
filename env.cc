@@ -17,7 +17,7 @@ env::env():currentroom(nullptr),quit(false){}
 void env::init(){
   path p("./obs");
   for(directory_iterator i(p);i!=directory_iterator();i++){
-    ob*o=scriptmng.loadobj((*i).path().string().c_str());
+    object*o=scriptmng.loadobj((*i).path().string().c_str());
     objects.add(path().string().c_str(),o);
   }
 }

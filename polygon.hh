@@ -15,5 +15,5 @@ public:
 };
 
 bool left(point,line);
-bool intersect(point,poly);
-bool intersect(poly,poly);
+bool intersect(point,polygon);
+bool intersect(polygon,polygon);

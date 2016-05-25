@@ -6,12 +6,12 @@
 class scriptmng {
   lua_State*L;
   scriptmng();~scriptmng();
-  ob*loadobj(const char*);
-  void parsesprite(ob*);
-  void parsekeyboard(ob*);
-  void parsemouse(ob*);
-  void parsestep(ob*);
-  //void parsealarm(ob*);
-  //void parsedestroy(ob*);
-  //void parsecreate(ob*);
+  object*loadobj(const char*);
+  void parsesprite(object*);
+  void parsekeyboard(object*);
+  void parsemouse(object*);
+  void parsestep(object*);
+  //void parsealarm(object*);
+  //void parsedestroy(object*);
+  //void parsecreate(object*);
 };

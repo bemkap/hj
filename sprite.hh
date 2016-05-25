@@ -4,13 +4,13 @@
 #include"polygon.hh"
 using namespace std;
 
-struct color { double r,g,b; };
+struct rgb { double r,g,b; };
 
-class sprite {
+class csprite {
 public:
-  poly mask;
-  color color;
-  sprite(initializer_list<point>);
+  polygon mask;
+  rgb color;
+  csprite(initializer_list<point>);
   polygon maskget(double,double,double,double);
   void display(double,double,double,double);
 };

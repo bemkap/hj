@@ -6,7 +6,7 @@ const double PIE=3.141592653;
 typedef unsigned char uchar;
 typedef unsigned int  uint;
 
-enum ptbtn { PT_RI,PT_LE };
+enum ptbutton { PT_RI,PT_LE };
 
 enum kb_code {
   kb_tab  =   9,

@@ -1,22 +1,24 @@
 #include"polygon.hh"
 
-poly::poly(){}
-poly::poly(initializer_list<point> l){
-  for(auto i:l) pts.push_back(i);
+polygon::polygon(){}
+polygon::polygon(initializer_list<point> list){
+  for(auto i:list) points.push_back(i);
 }
-void poly::ppadd(point p){
-  pts.push_back(p);
+void polygon::ppadd(point p){
+  points.push_back(p);
 }
 bool left(point p,line l){
   return (l.q.x-l.p.x)*(p.y-l.p.y)>=(l.q.y-l.p.y)*(p.x-l.p.x);
 }
-bool intersect(point p,poly q){bool c=true;
-  for(uint i=0;c&&i<q.pts.size();++i)
-    c=c&&left(p,{q.pts[i],q.pts[(i+1)%q.pts.size()]});
+bool intersect(point p,polygon q){
+  bool c=true;
+  for(uint i=0;c&&i<q.points.size();++i)
+    c=c&&left(p,{q.points[i],q.points[(i+1)%q.points.size()]});
   return c;
 }
-bool intersect(poly p,poly q){bool c=false;
-  for(uint i=0;!c&&i<p.pts.size();++i)
-    c=c||intersect(p.pts[i],q);
+bool intersect(polygon p,polygon q){
+  bool c=false;
+  for(uint i=0;!c&&i<p.points.size();++i)
+    c=c||intersect(p.points[i],q);
   return c;
 }

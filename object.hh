@@ -11,19 +11,19 @@
 class object {
 public:
   map<uchar,action> handlerkb;
-  map<ptbtn,action> handlermouse;
-  map<uint ,action> handlercollision;
-  act*create,*step,*destroy,*alarm[11];
-  vector<in*> instances;
-  sprite*sprite;
-  timeline*timeline;
-  object(sp*);object();~object();
+  map<ptbutton,action> handlermouse;
+  map<uint,action> handlercollision;
+  action*create,*step,*destroy,*alarm[11];
+  vector<instance*> instances;
+  csprite*sprite;
+  ctimeline*timeline;
+  object(csprite*);object();~object();
   void apply(uchar);
-  void apply(ptbtn);
-  void apply(uint );
-  void instancedelete(in*);
-  in*  instancecreate(double,double);
-  in*  operator[](uint);
+  void apply(ptbutton);
+  void apply(uint);
+  void instancedelete(instance*);
+  instance*instancecreate(double,double);
+  instance*operator[](uint);
   void update();
   void display(double,double,double,double);
 };

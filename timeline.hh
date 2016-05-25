@@ -5,14 +5,14 @@
 #include"event.hh"
 using namespace std;
 
-struct node { act a;uint step; };
+struct node { action a;uint step; };
 
-class timeline {
+class ctimeline {
 public:
   lua_State*L;
   vector<node> nodes;
   bool state;
-  timeline(lua_State*);
-  void nodeadd(act,uint);
+  ctimeline(lua_State*);
+  void nodeadd(action,uint);
   void toggle();
 };

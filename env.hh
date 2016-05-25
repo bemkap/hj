@@ -14,12 +14,12 @@ class env {
 public:
   env();
   dict<object> objects;
-  dict<sprite> sprites;
-  dict<timeline> timelines;
+  dict<csprite> sprites;
+  dict<ctimeline> timelines;
   dict<room> rooms;room*currentroom;
   //watcher
   watcher<uchar> watcherkb[256];
-  watcher<ptbtn> watchermouse[2];
+  watcher<ptbutton> watchermouse[2];
   //script
   scriptmng scriptmng;
   //

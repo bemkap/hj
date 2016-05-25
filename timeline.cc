@@ -1,9 +1,9 @@
 #include"timeline.hh"
 
-tl::tl(lua_State*M):L(M),st(true){}
-void tl::tladd(act a,uint s){
-  nds.push_back({a,s});
+ctimeline::ctimeline(lua_State*M):L(M),st(true){}
+void ctimeline::timelineadd(action a,uint s){
+  nodes.push_back({a,s});
 }
-void tl::tltog(){
-  st=!st;
+void ctimeline::timelinetog(){
+  state=!state;
 }
