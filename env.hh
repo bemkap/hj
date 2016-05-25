@@ -5,6 +5,7 @@
 #include"dict.hh"
 #include"object.hh"
 #include"room.hh"
+#include"scriptmng.hh"
 #include"sprite.hh"
 #include"timeline.hh"
 #include"watcher.hh"
@@ -21,7 +22,7 @@ public:
   watcher<uchar> watcherkb[256];
   watcher<ptbutton> watchermouse[2];
   //script
-  scriptmng scriptmng;
+  cscriptmng scriptmng;
   //
   void init();
   bool quit;
@@ -29,6 +30,7 @@ public:
   void reshape(int,int);
   void update();
   void switchroom(string);
+  instance*instancecreate(string,double,double);
 };
 
 env&envget();

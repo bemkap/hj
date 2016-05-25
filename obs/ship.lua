@@ -1,5 +1,6 @@
 local ship={
-   spr="sp0";
+   name="ship",
+   spr="sp0",
    coll={
       {id="bull",
        act=function(i) instance_destroy(i) end;},

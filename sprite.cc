@@ -1,7 +1,7 @@
 #include<GL/glew.h>
 #include"sprite.hh"
 
-csprite::csprite(initializer_list<point> l):msk(l),c({1,1,1}){}
+csprite::csprite(initializer_list<point> l):mask(l),color({1,1,1}){}
 polygon csprite::maskget(double x,double y,double xsc,double ysc){
   polygon maskret;
   for(auto i:mask.points)
@@ -11,7 +11,7 @@ polygon csprite::maskget(double x,double y,double xsc,double ysc){
 void csprite::display(double x,double y,double xsc,double ysc){
   glPushMatrix();
   glBegin(GL_POLYGON);
-  glColor3f(c.r,c.g,c.b);
+  glColor3f(color.r,color.g,color.b);
   for(auto i:mask.points)
     glVertex2f(i.x*xsc+x,i.y*ysc+y);
   glEnd();

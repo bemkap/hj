@@ -5,10 +5,10 @@ room::room(int w,int h):width(w),height(h),viewportw(w),viewporth(h){
   viewportx=viewporty=0;
 }
 void room::add(string o,double x,double y){
-  obs.push_back(tuple<string,double,double>(o,x,y));
+  objects.push_back(tuple<string,double,double>(o,x,y));
 }
 void room::move(int xo,int yo){viewportx+=xo;viewporty+=yo;}
-void room::scalale(int xs,int ys){viewportw+=xs;viewporth+=ys;}
+void room::scale(int xs,int ys){viewportw+=xs;viewporth+=ys;}
 void room::display(){
   env&env=envget();
   for(auto t:objects){

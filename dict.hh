@@ -12,7 +12,6 @@ public:
   int  iget(string);
   T*   get(int);
   T*   get(string);
-protected:
   vector<T*> entries;
   map<string,int> ids;
   int available;

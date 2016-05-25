@@ -1,9 +1,10 @@
+#include"common.hh"
 #include"timeline.hh"
 
-ctimeline::ctimeline(lua_State*M):L(M),st(true){}
-void ctimeline::timelineadd(action a,uint s){
+ctimeline::ctimeline(lua_State*M):L(M),state(true){}
+void ctimeline::nodeadd(action a,uint s){
   nodes.push_back({a,s});
 }
-void ctimeline::timelinetog(){
+void ctimeline::toggle(){
   state=!state;
 }

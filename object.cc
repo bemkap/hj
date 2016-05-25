@@ -4,16 +4,26 @@
 #include"dict.hh"
 #include"object.hh"
 
-object::object(csprite*s):sprite(s),timeline(nullptr){}
+object::object(csprite*s):sprite(s),timeline(nullptr){
+  create=step=destroy=nullptr;
+  for(uint i=0;i<11;++i) alarm[i]=nullptr;
+}
 object::object():object(nullptr){}
-object::~object(){for(auto i:instances) delete i;}
+object::~object(){
+  for(auto i:instances) delete i;
+  if(create) delete create;
+  if(step) delete step;
+  if(destroy) delete destroy;
+  for(uint i=0;i<11;++i) if(alarm[i]) delete alarm[i];
+  if(timeline) delete timeline;
+}
 void object::apply(uchar k){
   auto a=handlerkb.find(k);
   if(a!=handlerkb.end()) for(auto i:instances) ((*a).second)(i);
 }
 void object::apply(ptbutton b){
   auto a=handlermouse.find(b);
-  if(a!=handlermouse.end()) for(auto i:intances) ((*a).second)(i);
+  if(a!=handlermouse.end()) for(auto i:instances) ((*a).second)(i);
 }
 void object::apply(uint n){
   auto a=handlercollision.find(n);
@@ -23,9 +33,9 @@ void object::instancedelete(instance*i){
   if(destroy) (*destroy)(i);
   i->state=DEAD;
 }
-in*object::instancecreate(double x,double y){
+instance*object::instancecreate(double x,double y){
   instance*i=new instance(x,y);
-  if(crte) (*crte)(i);
+  if(create) (*create)(i);
   instances.push_back(i);
   return i;
 }

@@ -9,16 +9,16 @@
 using namespace boost::filesystem;
 using namespace std;
 
-static inline bool insight(in*i,room*r){
-  return i->x>r->vpx&&i->y>r->vpy&&
-    i->x<r->vpx+r->vpw&&i->y<r->vpy+r->vph;
+static inline bool insight(instance*i,room*r){
+  return i->x>r->viewportx&&i->y>r->viewporty&&
+    i->x<r->viewportx+r->viewportw&&i->y<r->viewporty+r->viewporth;
 }
 env::env():currentroom(nullptr),quit(false){}
 void env::init(){
   path p("./obs");
   for(directory_iterator i(p);i!=directory_iterator();i++){
-    object*o=scriptmng.loadobj((*i).path().string().c_str());
-    objects.add(path().string().c_str(),o);
+    pair<string,object*> o=scriptmng.loadobj((*i).path().string().c_str());
+    objects.add(o.first,o.second);
   }
 }
 void env::display(){
@@ -27,15 +27,19 @@ void env::display(){
   glLoadIdentity();
   for(object*i:objects.entries)
     for(instance*j:i->instances)
-      if(insight(j,currentroom))
-	i->disp(j->x-currentroom->viewportx,
-		j->y-currentroom->viewporty,
-		j->xscale,j->yscale);
+      if(currentroom){
+	if(insight(j,currentroom))
+	  i->display(j->x-currentroom->viewportx,
+		     j->y-currentroom->viewporty,
+		     j->xscale,j->yscale);
+	else
+	  i->display(j->x,j->y,j->xscale,j->yscale);
+      }
   glutSwapBuffers();
 }
 void env::reshape(int we,int he){
   if(currentroom){
-    currentroom->weight*=we/currentroom->viewportw;
+    currentroom->width*=we/currentroom->viewportw;
     currentroom->height*=he/currentroom->viewporth;
     currentroom->viewportw=we;
     currentroom->viewporth=he;
@@ -58,6 +62,10 @@ void env::switchroom(string r){
     currentroom=newroom;
     glutReshapeWindow(currentroom->viewportw,currentroom->viewporth);
   }
+}
+instance*env::instancecreate(string n,double x,double y){
+  object*o=objects.get(n);
+  return o?o->instancecreate(x,y):nullptr;
 }
 env&envget(){
   static env env;

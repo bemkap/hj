@@ -1,10 +1,11 @@
+#include"common.hh"
 #include"polygon.hh"
 
 polygon::polygon(){}
 polygon::polygon(initializer_list<point> list){
   for(auto i:list) points.push_back(i);
 }
-void polygon::ppadd(point p){
+void polygon::pointadd(point p){
   points.push_back(p);
 }
 bool left(point p,line l){
