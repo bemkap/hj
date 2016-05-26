@@ -16,6 +16,3 @@ public:
   instance(double,double);
   void move();
 };
-int translate(lua_State*);
-int set(lua_State*);
-void inregister(lua_State*);

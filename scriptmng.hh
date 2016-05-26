@@ -1,6 +1,5 @@
 #pragma once
 
-#include<utility>
 #include<lua5.2/lua.hpp>
 #include"object.hh"
 using namespace std;
@@ -8,7 +7,7 @@ using namespace std;
 class cscriptmng {
 public:
   cscriptmng();~cscriptmng();
-  pair<string,object*>loadobj(const char*);
+  object*loadobj(const char*);
   void parsesprite(object*);
   void parsekeyboard(object*);
   void parsemouse(object*);

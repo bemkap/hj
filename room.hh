@@ -10,6 +10,6 @@ public:
   vector<tuple<string,double,double>> objects;
   void add(string,double,double);
   void move(int,int);
-  void scale(int,int);
+  void scale(double,double);
   void display();
 };

@@ -4,7 +4,7 @@
 #include"dict.hh"
 #include"object.hh"
 
-object::object(csprite*s):sprite(s),timeline(nullptr){
+object::object(string s):sprite(s),timeline(nullptr){
   create=step=destroy=nullptr;
   for(uint i=0;i<11;++i) alarm[i]=nullptr;
 }
@@ -61,7 +61,4 @@ void object::update(){
   for(auto i:instances) i->move();
   remove_if(instances.begin(),instances.end(),
 	    [](instance*i){return i->state==DEAD;});
-}
-void object::display(double x,double y,double xsc,double ysc){
-  if(sprite) sprite->display(x,y,xsc,ysc);
 }

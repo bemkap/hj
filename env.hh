@@ -1,8 +1,8 @@
 #pragma once
 
-#include<lua5.2/lua.hpp>
 #include"common.hh"
 #include"dict.hh"
+#include"graphicmng.hh"
 #include"object.hh"
 #include"room.hh"
 #include"scriptmng.hh"
@@ -15,7 +15,6 @@ class env {
 public:
   env();
   dict<object> objects;
-  dict<csprite> sprites;
   dict<ctimeline> timelines;
   dict<room> rooms;room*currentroom;
   //watcher
@@ -23,6 +22,8 @@ public:
   watcher<ptbutton> watchermouse[2];
   //script
   cscriptmng scriptmng;
+  //graphics
+  cgraphicmng graphicmng;
   //
   void init();
   bool quit;
@@ -32,5 +33,4 @@ public:
   void switchroom(string);
   instance*instancecreate(string,double,double);
 };
-
 env&envget();

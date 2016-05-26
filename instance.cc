@@ -20,25 +20,3 @@ void instance::move(){
   vspeed-=friction*sign(vspeed);
   speed-=friction*sign(speed);
 }
-int translate(lua_State*L){
-  instance*i=(instance*)lua_touserdata(L,1);
-  double tx=lua_tonumber(L,2);
-  double ty=lua_tonumber(L,3);
-  i->x+=tx;
-  i->y+=ty;
-  return 0;
-} 
-int set(lua_State*L){
-  instance*i=(instance*)lua_touserdata(L,1);
-  double tx=lua_tonumber(L,2);
-  double ty=lua_tonumber(L,3);
-  i->x=tx;
-  i->y=ty;
-  return 0;
-}
-void inregister(lua_State*L){
-  lua_pushcfunction(L,translate);
-  lua_setglobal(L,"translate");
-  lua_pushcfunction(L,set);
-  lua_setglobal(L,"set");
-}
