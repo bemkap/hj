@@ -1,7 +1,4 @@
 #include<boost/filesystem.hpp>
-#include<GL/glew.h>
-//#include<GL/glu.h>
-//#include<GL/glut.h>
 #include"env.hh"
 #include"event.hh"
 #include"dict.hh"
@@ -19,6 +16,7 @@ void env::init(){
     for(auto e:o->handlermouse) watchermouse[e.first].watch(e.first,o);
   }
   graphicmng.init();
+  glfwSetKeyCallback(graphicmng.w,callbackkb);
 }
 void env::close(){
   graphicmng.close();
@@ -57,4 +55,8 @@ instance*env::instancecreate(string n,double x,double y){
 env&envget(){
   static env env;
   return env;
+}
+//
+void callbackkb(GLFWwindow*w,int k,int sc,int a,int m){
+  envget().watcherkb[k%256].signal(k%256);
 }

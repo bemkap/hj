@@ -1,5 +1,7 @@
 #pragma once
 
+#include<GL/glew.h>
+#include<GLFW/glfw3.h>
 #include"common.hh"
 #include"dict.hh"
 #include"graphicmng.hh"
@@ -35,3 +37,5 @@ public:
   instance*instancecreate(string,double,double);
 };
 env&envget();
+//
+void callbackkb(GLFWwindow*w,int,int,int,int);

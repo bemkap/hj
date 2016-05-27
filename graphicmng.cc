@@ -1,10 +1,30 @@
 #include<GL/glew.h>
 #include<GLFW/glfw3.h>
-//#include<GL/glu.h>
-//#include<GL/glut.h>
+#include<fstream>
 #include"common.hh"
 #include"graphicmng.hh"
+using namespace std;
 
+static GLuint newprogram(GLuint vertexshader,GLuint fragmentshader){
+  GLuint prg=glCreateProgram();
+  glAttachShader(prg,vertexshader);
+  glAttachShader(prg,fragmentshader);
+  glLinkProgram(prg);
+  return prg;
+}
+static GLuint newshader(GLenum t,const char*f){
+  GLuint shader=glCreateShader(t);
+  ifstream stream(f,ios::in);
+  string code;
+  if(stream.is_open()){
+    for(string line="";getline(stream,line);code+="\n"+line);
+    stream.close();
+  }
+  const char*source=code.c_str();
+  glShaderSource(shader,1,&source,nullptr);
+  glCompileShader(shader);
+  return shader;
+}
 void loadspr(){}
 void cgraphicmng::init(){
   glfwInit();
@@ -20,21 +40,23 @@ void cgraphicmng::init(){
   int width,height;
   glfwGetFramebufferSize(w,&width,&height);
   glViewport(0,0,width,height);
+  GLuint vs=newshader(GL_VERTEX_SHADER,"vs.glsl");
+  GLuint fs=newshader(GL_FRAGMENT_SHADER,"fs.glsl");
+  GLuint prg=newprogram(vs,fs);
+  glUseProgram(prg);
+  glDeleteShader(vs);
+  glDeleteShader(fs);
   while(!glfwWindowShouldClose(w)){
     glfwPollEvents();
+    clear();
     glfwSwapBuffers(w);
-  }
-  //glutInit(0,NULL);
-  //glutInitDisplayMode(GLUT_DOUBLE);
-  //glutInitWindowSize(240,480);
-  //glutCreateWindow("OpenGL");
-  //glutReshapeFunc(cgraphicmng::reshape);
+  }  
 }
 void cgraphicmng::close(){
   glfwTerminate();
 }
 void cgraphicmng::clear(){
-  glClearColor(0,0,0,1);
+  glClearColor(0.1,0.2,0.6,1);
   glClear(GL_COLOR_BUFFER_BIT);
   glLoadIdentity();
 }
