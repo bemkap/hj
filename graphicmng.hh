@@ -1,14 +1,18 @@
 #pragma once
 
 #include<GL/glew.h>
-#include<GL/glu.h>
-#include<GL/glut.h>
+#include<GLFW/glfw3.h>
+//#include<GL/glu.h>
+//#include<GL/glut.h>
+#include"dict.hh"
 #include"sprite.hh"
 
 class cgraphicmng {
 public:
+  GLFWwindow*w;
   dict<csprite> sprites;
-  cgraphicmng();~cgraphicmng();
+  void init();
+  void close();
   void loadspr();
   void clear();
   void reshape(GLsizei,GLsizei);

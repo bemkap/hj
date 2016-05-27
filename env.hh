@@ -13,7 +13,6 @@ using namespace std;
 
 class env {
 public:
-  env();
   dict<object> objects;
   dict<ctimeline> timelines;
   dict<room> rooms;room*currentroom;
@@ -25,7 +24,9 @@ public:
   //graphics
   cgraphicmng graphicmng;
   //
+  env();
   void init();
+  void close();
   bool quit;
   void display();
   void reshape(int,int);

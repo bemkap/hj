@@ -12,4 +12,5 @@ public:
   void move(int,int);
   void scale(double,double);
   void display();
+  void reshape(int,int);
 };
