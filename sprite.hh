@@ -10,10 +10,9 @@ struct rgb { double r,g,b; };
 class csprite {
 public:
   GLfloat*vertices;
-  GLuint vbo;
+  GLsizeiptr size;
   //polygon mask;
   rgb color;
   csprite();//initializer_list<point>);
-  polygon maskget(double,double,double,double);
   void display(double,double,double,double);
 };

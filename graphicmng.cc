@@ -40,17 +40,12 @@ void cgraphicmng::init(){
   int width,height;
   glfwGetFramebufferSize(w,&width,&height);
   glViewport(0,0,width,height);
+  glGenBuffers(1,&vbo);
   GLuint vs=newshader(GL_VERTEX_SHADER,"vs.glsl");
   GLuint fs=newshader(GL_FRAGMENT_SHADER,"fs.glsl");
-  GLuint prg=newprogram(vs,fs);
-  glUseProgram(prg);
+  program=newprogram(vs,fs);
   glDeleteShader(vs);
   glDeleteShader(fs);
-  while(!glfwWindowShouldClose(w)){
-    glfwPollEvents();
-    clear();
-    glfwSwapBuffers(w);
-  }  
 }
 void cgraphicmng::close(){
   glfwTerminate();

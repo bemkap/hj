@@ -9,6 +9,7 @@
 
 class cgraphicmng {
 public:
+  GLuint vbo,program;
   GLFWwindow*w;
   dict<csprite> sprites;
   void init();
