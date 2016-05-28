@@ -4,11 +4,10 @@
 #include"dict.hh"
 #include"object.hh"
 
-object::object(string s):sprite(s),timeline(nullptr){
+object::object():timeline(nullptr){
   create=step=destroy=nullptr;
   for(uint i=0;i<11;++i) alarm[i]=nullptr;
 }
-object::object():object(""){}
 object::~object(){
   for(auto i:instances) delete i;
   if(create) delete create;

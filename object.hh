@@ -16,7 +16,7 @@ public:
   vector<instance*> instances;
   string name,sprite;
   ctimeline*timeline;
-  object(string);object();~object();
+  object();~object();
   void apply(uchar);
   void apply(ptbutton);
   void apply(uint);

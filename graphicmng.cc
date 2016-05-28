@@ -32,15 +32,13 @@ void cgraphicmng::init(){
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,3);
   glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
   glfwWindowHint(GLFW_RESIZABLE,GL_FALSE);
-  w=glfwCreateWindow(240,480,"OpenGL",nullptr,nullptr);
-  if(!w){cout<<"window failed"<<endl;close();}
+  w=glfwCreateWindow(800,600,"OpenGL",nullptr,nullptr);
   glfwMakeContextCurrent(w);
   glewExperimental=GL_TRUE;
-  if(glewInit()!=GLEW_OK){cout<<"init failed"<<endl;close();}
+  glewInit();
   int width,height;
   glfwGetFramebufferSize(w,&width,&height);
   glViewport(0,0,width,height);
-  glGenBuffers(1,&vbo);
   GLuint vs=newshader(GL_VERTEX_SHADER,"vs.glsl");
   GLuint fs=newshader(GL_FRAGMENT_SHADER,"fs.glsl");
   program=newprogram(vs,fs);
@@ -53,18 +51,15 @@ void cgraphicmng::close(){
 void cgraphicmng::clear(){
   glClearColor(0.1,0.2,0.6,1);
   glClear(GL_COLOR_BUFFER_BIT);
-  glLoadIdentity();
 }
 void cgraphicmng::reshape(GLsizei w,GLsizei h){
-  glViewport(0,0,w,h);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  gluOrtho2D(0,w,0,h);
-  glMatrixMode(GL_MODELVIEW);
 }
 void cgraphicmng::display(string n,double x,double y,double xsc,double ysc){
   csprite*s=sprites.get(n);
-  if(s) s->display(x,y,xsc,ysc);
+  if(s){
+    glUseProgram(program);
+    s->display(x,y,xsc,ysc);
+  }
 }
 void cgraphicmng::flip(){
   glfwSwapBuffers(w);

@@ -10,13 +10,21 @@ env::env():currentroom(nullptr),quit(false){}
 void env::init(){
   path p("./obs");
   for(directory_iterator i(p);i!=directory_iterator();i++){
-    object*o=scriptmng.loadobj((*i).path().string().c_str());
-    objects.add(o->name,o);
-    for(auto e:o->handlerkb) watcherkb[e.first].watch(e.first,o);
-    for(auto e:o->handlermouse) watchermouse[e.first].watch(e.first,o);
+    if(object*o=scriptmng.loadobj((*i).path().string().c_str())){
+      objects.add(o->name,o);
+      for(auto e:o->handlerkb) watcherkb[e.first].watch(e.first,o);
+      for(auto e:o->handlermouse) watchermouse[e.first].watch(e.first,o);
+    }
   }
   graphicmng.init();
-  glfwSetKeyCallback(graphicmng.w,callbackkb);
+  path q("./sps");
+  for(directory_iterator i(q);i!=directory_iterator();i++){
+    if(csprite*s=scriptmng.loadspr((*i).path().string().c_str())){
+      s->bind();
+      graphicmng.sprites.add(s->name,s);
+    }
+  }
+  //glfwSetKeyCallback(graphicmng.w,callbackkb);
 }
 void env::close(){
   graphicmng.close();
@@ -25,10 +33,10 @@ void env::display(){
   graphicmng.clear();
   for(object*o:objects.entries)
     for(instance*i:o->instances)
-      graphicmng.display(o->sprite,
-			 i->x-currentroom->viewportx,
-			 i->y-currentroom->viewporty,
-			 i->xscale,i->yscale);
+	graphicmng.display(o->sprite,
+			   i->x,//-currentroom->viewportx,
+			   i->y,//-currentroom->viewporty,
+			   i->xscale,i->yscale);
   graphicmng.flip();
 }
 void env::reshape(int w,int h){
@@ -36,7 +44,7 @@ void env::reshape(int w,int h){
   graphicmng.reshape(w,h);
 }
 void env::update(){
-  for(object*i:objects.entries) i->update();
+  for(object*o:objects.entries) o->update();
 }
 void env::switchroom(string r){
   room*newroom=rooms.get(r);

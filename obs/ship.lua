@@ -1,4 +1,4 @@
-require"common"
+--require"common"
 local ship={
    name="ship",
    spr="sp0",
@@ -18,4 +18,3 @@ local ship={
        act=function(i) translate(i,0,-2) end;}}
 }
 return ship;
-

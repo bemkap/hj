@@ -1,18 +1,20 @@
 #include<GL/glew.h>
 #include"sprite.hh"
 
-csprite::csprite(){}//initializer_list<point> l):mask(l),color({1,1,1}){}
-void csprite::display(double x,double y,double xsc,double ysc){
+csprite::csprite():size(0){
+  glGenBuffers(1,&vbo);
+  glGenVertexArrays(1,&vao);
+}
+void csprite::bind(){
+  glBindVertexArray(vao);
+  glBindBuffer(GL_ARRAY_BUFFER,vbo);
   glBufferData(GL_ARRAY_BUFFER,size,vertices,GL_STATIC_DRAW);
   glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3*sizeof(GLfloat),(GLvoid*)0);
   glEnableVertexAttribArray(0);
-  /*
-  glPushMatrix();
-  glBegin(GL_POLYGON);
-  glColor3f(color.r,color.g,color.b);
-  for(auto i:mask.points)
-    glVertex2f(i.x*xsc+x,i.y*ysc+y);
-  glEnd();
-  glPopMatrix();
-  */
+  glBindVertexArray(0);
+}
+void csprite::display(double x,double y,double xsc,double ysc){
+  glBindVertexArray(vao);
+  glDrawArrays(GL_TRIANGLES,0,size/sizeof(GLfloat));
+  glBindVertexArray(0);
 }

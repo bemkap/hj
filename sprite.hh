@@ -1,7 +1,7 @@
 #pragma once
 
 #include<GL/glew.h>
-#include<vector>
+#include<string>
 #include"polygon.hh"
 using namespace std;
 
@@ -11,8 +11,10 @@ class csprite {
 public:
   GLfloat*vertices;
   GLsizeiptr size;
-  //polygon mask;
+  GLuint vao,vbo;
   rgb color;
-  csprite();//initializer_list<point>);
+  string name;
+  csprite();
+  void bind();
   void display(double,double,double,double);
 };

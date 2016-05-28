@@ -1,11 +1,12 @@
+#include<iostream>
 #include"scriptmng.hh"
+using namespace std;
 
 cscriptmng::cscriptmng(){L=luaL_newstate();}
 cscriptmng::~cscriptmng(){lua_close(L);}
 object*cscriptmng::loadobj(const char*f){
   luaL_dofile(L,f);
   object*o=new object;
-  string n;
   if(lua_istable(L,-1)){
     lua_pushnil(L);
     while(lua_next(L,-2)!=0){
@@ -20,9 +21,32 @@ object*cscriptmng::loadobj(const char*f){
       else if(s=="alrm") parsealarm(o);      
       lua_pop(L,1);
     }
-  }
+  }else{delete o;o=nullptr;}
   return o;
 }
+csprite*cscriptmng::loadspr(const char*f){
+  luaL_dofile(L,f);
+  csprite*s=new csprite;
+  if(lua_istable(L,-1)){
+    lua_pushnil(L);
+    while(lua_next(L,-2)!=0){
+      string a=lua_tostring(L,-2);
+      if(a=="name") s->name=lua_tostring(L,-1);
+      else if(a=="vertices"){
+	vector<GLfloat>*v=new vector<GLfloat>;
+	lua_pushnil(L);
+	while(lua_next(L,-2)!=0){
+	  v->push_back((GLfloat)lua_tonumber(L,-1));
+	  lua_pop(L,1);
+	}
+	s->size=v->size()*sizeof(GLfloat);
+	s->vertices=&(*v)[0];
+      }      
+      lua_pop(L,1);
+    }
+  }else{delete s;s=nullptr;}
+  return s;
+}  
 void cscriptmng::parsekeyboard(object*o){
   int r=getaction(L);
   uchar k=getnumeric<uchar>(L,"key");
