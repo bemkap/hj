@@ -2,12 +2,19 @@
 #include"scriptmng.hh"
 using namespace std;
 
-cscriptmng::cscriptmng(){L=luaL_newstate();}
+cscriptmng::cscriptmng(){
+  L=luaL_newstate();
+  luaL_openlibs(L);
+}
 cscriptmng::~cscriptmng(){lua_close(L);}
-template<typename T>void parse1(lua_State*L,object*o,string s,map<T,action>&d){
-  int r=getaction(L);
-  T k=getnumeric<T>(L,s);
-  d.insert(pair<T,action>(k,action(r,L)));
+template<typename T>void parse1(lua_State*L,string s,map<T,action>&d){
+  lua_pushnil(L);
+  while(lua_next(L,-2)!=0){
+    int r=getaction(L);
+    T k=(T)getnumeric(L,s);
+    d.insert(pair<T,action>(k,action(r,L)));
+    lua_pop(L,1);
+  }
 }
 action*parse2(lua_State*L,action*a){
   int r=getaction(L);
@@ -17,14 +24,14 @@ action*parse2(lua_State*L,action*a){
 }
 void parse3(lua_State*L,object*o){
   int r=getaction(L);
-  uint n=getnumeric<uint>(L,"n")%11;
+  uint n=((uint)(getnumeric(L,"n")))%11;
   if(!o->alarm[n]) o->alarm[n]=new action(r,L);
   else{o->alarm[n]->r=r;o->alarm[n]->L=L;}
 }
 object*cscriptmng::loadobj(const char*f){
   object*o=nullptr;
   if(0<luaL_dofile(L,f)){
-    cout<<"error loading sprite "<<f<<endl;
+    cout<<"lua error file "<<f<<endl;
   }else{
     if(lua_istable(L,-1)){
       o=new object;
@@ -33,8 +40,8 @@ object*cscriptmng::loadobj(const char*f){
 	string s=lua_tostring(L,-2);
 	if(s=="spr") o->sprite=lua_tostring(L,-1);
 	else if(s=="name") o->name=lua_tostring(L,-1);
-	else if(s=="ptdo") parse1<ptbutton>(L,o,"mouse",o->handlermouse);
-	else if(s=="kbdo") parse1<uchar>(L,o,"key",o->handlerkb);
+	else if(s=="ptdo") parse1<ptbutton>(L,"mouse",o->handlermouse);
+	else if(s=="kbdo") parse1<uchar>(L,"key",o->handlerkb);
 	else if(s=="step") o->step=parse2(L,o->step);
 	else if(s=="crte") o->create=parse2(L,o->create);
 	else if(s=="dest") o->destroy=parse2(L,o->destroy);
@@ -55,7 +62,7 @@ template<typename T>void parsevector(vector<T>&r,lua_State*L){
 csprite*cscriptmng::loadspr(const char*f){
   csprite*s=nullptr;
   if(0<luaL_dofile(L,f)){
-    cout<<"error loading sprite "<<f<<endl;
+    cout<<"lua error file "<<f<<endl;
   }else{
     vector<GLfloat> v,c;
     vector<GLuint> i;

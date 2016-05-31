@@ -1,10 +1,9 @@
 #pragma once
 
+#include"instance.hh"
 #include<lua5.2/lua.hpp>
 #include<string>
 using namespace std;
-
-class instance;
 
 class action {public:
   int r;lua_State*L;
@@ -12,9 +11,4 @@ class action {public:
   int operator()(instance*);
 };
 int getaction(lua_State*);
-template<typename T>T getnumeric(lua_State*L,string s){
-  lua_getfield(L,-1,s.c_str());
-  T r=(T)lua_tonumber(L,-1);
-  lua_pop(L,1);
-  return r;
-}
+double getnumeric(lua_State*,string);

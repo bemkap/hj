@@ -1,9 +1,9 @@
 #version 330 core
 
-in vec3 vcolor;
-in vec2 vtex;
+in vec3 col1;
+in vec2 tex1;
 out vec4 color;
-uniform sampler2D ftexture0;
+uniform sampler2D tex2;
 void main(){
-  color=texture(ftexture0,vtex)*vec4(vcolor,1.0f);
+  color=texture(tex2,tex1)*vec4(col1,1.0f);
 }

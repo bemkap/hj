@@ -62,10 +62,7 @@ void cgraphicmng::reshape(GLsizei w,GLsizei h){
 }
 void cgraphicmng::display(string n,double x,double y,double xsc,double ysc){
   csprite*s=sprites.get(n);
-  if(s){
-    glUseProgram(program);
-    s->display(x,y,xsc,ysc);
-  }
+  if(s) s->display(program,x,y,xsc,ysc);
 }
 void cgraphicmng::flip(){
   glfwSwapBuffers(w);

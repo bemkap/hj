@@ -1,6 +1,10 @@
 #include<iostream>
 #include<GL/glew.h>
 #include<SOIL/SOIL.h>
+#include<glm/glm.hpp>
+#define GLM_FORCE_RADIANS
+#include<glm/gtc/matrix_transform.hpp>
+#include<glm/gtc/type_ptr.hpp>
 #include"sprite.hh"
 
 csprite::csprite():size(0){
@@ -39,7 +43,13 @@ void csprite::texture(string f){
   SOIL_free_image_data(img);
   glBindTexture(GL_TEXTURE_2D,0);
 }
-void csprite::display(double x,double y,double xsc,double ysc){
+void csprite::display(GLuint prg,double x,double y,double xsc,double ysc){
+  glUseProgram(prg);
+  GLuint transform=glGetUniformLocation(prg,"transform");
+  glm::mat4 matrix;
+  matrix=glm::scale(matrix,glm::vec3(xsc,ysc,1.0f));
+  matrix=glm::translate(matrix,glm::vec3(x,y,0.0f));
+  glUniformMatrix4fv(transform,1,GL_FALSE,glm::value_ptr(matrix));
   glBindTexture(GL_TEXTURE_2D,tex);
   glBindVertexArray(vao);
   glDrawElements(GL_TRIANGLES,size,GL_UNSIGNED_INT,0);

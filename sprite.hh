@@ -12,5 +12,5 @@ public:
   csprite();
   void bind(GLuint*,GLsizeiptr,GLfloat*,GLsizeiptr);
   void texture(string);
-  void display(double,double,double,double);
+  void display(GLuint,double,double,double,double);
 };
