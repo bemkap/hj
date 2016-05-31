@@ -23,9 +23,15 @@ static GLuint newshader(GLenum t,const char*f){
   const char*source=code.c_str();
   glShaderSource(shader,1,&source,nullptr);
   glCompileShader(shader);
+  GLint success;
+  GLchar infoLog[512];
+  glGetShaderiv(shader,GL_COMPILE_STATUS,&success);
+  if(!success){
+    glGetShaderInfoLog(shader,512,NULL,infoLog);
+    cout<<"ERROR::SHADER::VERTEX::COMPILATION_FAILED"<<endl<<infoLog<<endl;
+  }
   return shader;
 }
-void loadspr(){}
 void cgraphicmng::init(){
   glfwInit();
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,3);
@@ -49,7 +55,7 @@ void cgraphicmng::close(){
   glfwTerminate();
 }
 void cgraphicmng::clear(){
-  glClearColor(0.1,0.2,0.6,1);
+  glClearColor(0.0,0.0,0.1,1);
   glClear(GL_COLOR_BUFFER_BIT);
 }
 void cgraphicmng::reshape(GLsizei w,GLsizei h){

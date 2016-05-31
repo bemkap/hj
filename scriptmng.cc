@@ -4,77 +4,79 @@ using namespace std;
 
 cscriptmng::cscriptmng(){L=luaL_newstate();}
 cscriptmng::~cscriptmng(){lua_close(L);}
-object*cscriptmng::loadobj(const char*f){
-  luaL_dofile(L,f);
-  object*o=new object;
-  if(lua_istable(L,-1)){
-    lua_pushnil(L);
-    while(lua_next(L,-2)!=0){
-      string s=lua_tostring(L,-2);
-      if(s=="spr") o->sprite=lua_tostring(L,-1);
-      if(s=="name") o->name=lua_tostring(L,-1);
-      else if(s=="ptdo") parsemouse(o);
-      else if(s=="kbdo") parsekeyboard(o);
-      else if(s=="step") parsestep(o);
-      else if(s=="crte") parsecreate(o);
-      else if(s=="dest") parsedestroy(o);
-      else if(s=="alrm") parsealarm(o);      
-      lua_pop(L,1);
-    }
-  }else{delete o;o=nullptr;}
-  return o;
-}
-csprite*cscriptmng::loadspr(const char*f){
-  luaL_dofile(L,f);
-  csprite*s=new csprite;
-  if(lua_istable(L,-1)){
-    lua_pushnil(L);
-    while(lua_next(L,-2)!=0){
-      string a=lua_tostring(L,-2);
-      if(a=="name") s->name=lua_tostring(L,-1);
-      else if(a=="vertices"){
-	vector<GLfloat>*v=new vector<GLfloat>;
-	lua_pushnil(L);
-	while(lua_next(L,-2)!=0){
-	  v->push_back((GLfloat)lua_tonumber(L,-1));
-	  lua_pop(L,1);
-	}
-	s->size=v->size()*sizeof(GLfloat);
-	s->vertices=&(*v)[0];
-      }      
-      lua_pop(L,1);
-    }
-  }else{delete s;s=nullptr;}
-  return s;
-}  
-void cscriptmng::parsekeyboard(object*o){
+template<typename T>void parse1(lua_State*L,object*o,string s,map<T,action>&d){
   int r=getaction(L);
-  uchar k=getnumeric<uchar>(L,"key");
-  o->handlerkb.insert(pair<uchar,action>(k,action(r,L)));
+  T k=getnumeric<T>(L,s);
+  d.insert(pair<T,action>(k,action(r,L)));
 }
-void cscriptmng::parsemouse(object*o){
+action*parse2(lua_State*L,action*a){
   int r=getaction(L);
-  ptbutton b=getnumeric<ptbutton>(L,"mouse");
-  o->handlermouse.insert(pair<ptbutton,action>(b,action(r,L)));
+  if(!a) a=new action(r,L);
+  else{a->r=r;a->L=L;}
+  return a;
 }
-void cscriptmng::parsestep(object*o){
-  int r=getaction(L);
-  if(!o->step) o->step=new action(r,L);
-  else{o->step->r=r;o->step->L=L;}
-}
-void cscriptmng::parsecreate(object*o){
-  int r=getaction(L);
-  if(!o->create) o->create=new action(r,L);
-  else{o->create->r=r;o->create->L=L;}
-}
-void cscriptmng::parsedestroy(object*o){
-  int r=getaction(L);
-  if(!o->destroy) o->destroy=new action(r,L);
-  else{o->destroy->r=r;o->destroy->L=L;}
-}
-void cscriptmng::parsealarm(object*o){
+void parse3(lua_State*L,object*o){
   int r=getaction(L);
   uint n=getnumeric<uint>(L,"n")%11;
   if(!o->alarm[n]) o->alarm[n]=new action(r,L);
   else{o->alarm[n]->r=r;o->alarm[n]->L=L;}
+}
+object*cscriptmng::loadobj(const char*f){
+  object*o=nullptr;
+  if(0<luaL_dofile(L,f)){
+    cout<<"error loading sprite "<<f<<endl;
+  }else{
+    if(lua_istable(L,-1)){
+      o=new object;
+      lua_pushnil(L);
+      while(lua_next(L,-2)!=0){
+	string s=lua_tostring(L,-2);
+	if(s=="spr") o->sprite=lua_tostring(L,-1);
+	else if(s=="name") o->name=lua_tostring(L,-1);
+	else if(s=="ptdo") parse1<ptbutton>(L,o,"mouse",o->handlermouse);
+	else if(s=="kbdo") parse1<uchar>(L,o,"key",o->handlerkb);
+	else if(s=="step") o->step=parse2(L,o->step);
+	else if(s=="crte") o->create=parse2(L,o->create);
+	else if(s=="dest") o->destroy=parse2(L,o->destroy);
+	else if(s=="alrm") parse3(L,o);
+	lua_pop(L,1);
+      }
+    }
+  }
+  return o;
+}
+template<typename T>void parsevector(vector<T>&r,lua_State*L){
+  lua_pushnil(L);
+  while(lua_next(L,-2)!=0){
+    r.push_back((T)lua_tonumber(L,-1));
+    lua_pop(L,1);
+  }
+}
+csprite*cscriptmng::loadspr(const char*f){
+  csprite*s=nullptr;
+  if(0<luaL_dofile(L,f)){
+    cout<<"error loading sprite "<<f<<endl;
+  }else{
+    vector<GLfloat> v,c;
+    vector<GLuint> i;
+    if(lua_istable(L,-1)){
+      s=new csprite;
+      lua_pushnil(L);
+      while(lua_next(L,-2)!=0){
+	string a=lua_tostring(L,-2);
+	if(a=="name") s->name=lua_tostring(L,-1);
+	else if(a=="vertices") parsevector<GLfloat>(v,L);
+	else if(a=="indices") parsevector<GLuint>(i,L);
+	/*
+	  else if(a=="color"){
+	  parsevector<GLfloat>(c,L);
+	  s->color.r=c[0];s->color.g=c[1];s->color.b=c[2];
+	  }*/
+	else if(a=="texture") s->texture(lua_tostring(L,-1));
+	lua_pop(L,1);
+      }
+      s->bind(&i[0],i.size(),&v[0],v.size());
+    }
+  }
+  return s;
 }

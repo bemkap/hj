@@ -2,19 +2,15 @@
 
 #include<GL/glew.h>
 #include<string>
-#include"polygon.hh"
 using namespace std;
-
-struct rgb { double r,g,b; };
 
 class csprite {
 public:
-  GLfloat*vertices;
   GLsizeiptr size;
-  GLuint vao,vbo;
-  rgb color;
+  GLuint vao,vbo,ebo,tex;
   string name;
   csprite();
-  void bind();
+  void bind(GLuint*,GLsizeiptr,GLfloat*,GLsizeiptr);
+  void texture(string);
   void display(double,double,double,double);
 };

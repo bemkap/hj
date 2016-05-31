@@ -19,10 +19,8 @@ void env::init(){
   graphicmng.init();
   path q("./sps");
   for(directory_iterator i(q);i!=directory_iterator();i++){
-    if(csprite*s=scriptmng.loadspr((*i).path().string().c_str())){
-      s->bind();
+    if(csprite*s=scriptmng.loadspr((*i).path().string().c_str()))
       graphicmng.sprites.add(s->name,s);
-    }
   }
   //glfwSetKeyCallback(graphicmng.w,callbackkb);
 }
@@ -33,10 +31,10 @@ void env::display(){
   graphicmng.clear();
   for(object*o:objects.entries)
     for(instance*i:o->instances)
-	graphicmng.display(o->sprite,
-			   i->x,//-currentroom->viewportx,
-			   i->y,//-currentroom->viewporty,
-			   i->xscale,i->yscale);
+      graphicmng.display(o->sprite,
+			 i->x,//-currentroom->viewportx,
+			 i->y,//-currentroom->viewporty,
+			 i->xscale,i->yscale);
   graphicmng.flip();
 }
 void env::reshape(int w,int h){

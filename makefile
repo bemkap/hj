@@ -1,18 +1,14 @@
-CFLAGS  = `pkg-config --cflags glew glfw3 lua5.2` -Wall -g -std=c++11
+CC      = g++
+CPPFLAGS= `pkg-config --cflags glew glfw3 lua5.2` -Wall -g -std=c++11
 LDFLAGS = `pkg-config --libs glew glfw3 lua5.2`
-LDFLAGS+= -lglut -lboost_filesystem -lboost_system
+LDFLAGS+= -lboost_filesystem -lboost_system -lSOIL
 SRC     = $(wildcard *.cc)
 HEA     = $(wildcard *.hh)
 OBJ     = $(SRC:.cc=.o)
 BIN     = hj
 
 $(BIN): $(OBJ) $(HEA)
-	$(CXX) $(CFLAGS) $(LDFLAGS) -o $(BIN) $(OBJ)
-
-$(LIB): 
-
-%.o: %.cc
-	$(CXX) $(CFLAGS) -c $<
+	$(CC) $(LDFLAGS) $(OBJ) -o $(BIN)
 
 .PHONY: run
 run:
