@@ -52,37 +52,28 @@ object*cscriptmng::loadobj(const char*f){
   }
   return o;
 }
-template<typename T>void parsevector(vector<T>&r,lua_State*L){
-  lua_pushnil(L);
-  while(lua_next(L,-2)!=0){
-    r.push_back((T)lua_tonumber(L,-1));
-    lua_pop(L,1);
-  }
-}
 csprite*cscriptmng::loadspr(const char*f){
   csprite*s=nullptr;
   if(0<luaL_dofile(L,f)){
     cout<<"lua error file "<<f<<endl;
   }else{
-    vector<GLfloat> v,c;
-    vector<GLuint> i;
+    GLfloat v[4*5]={0.5,0.5,0, 0,0,
+		    0.5,-.5,0, 0,0,
+		    -.5,-.5,0, 0,0,
+		    -.5,0.5,0, 0,0};
+    GLuint i[2*3]={0,1,3, 1,2,3};
     if(lua_istable(L,-1)){
       s=new csprite;
       lua_pushnil(L);
       while(lua_next(L,-2)!=0){
 	string a=lua_tostring(L,-2);
 	if(a=="name") s->name=lua_tostring(L,-1);
-	else if(a=="vertices") parsevector<GLfloat>(v,L);
-	else if(a=="indices") parsevector<GLuint>(i,L);
-	/*
-	  else if(a=="color"){
-	  parsevector<GLfloat>(c,L);
-	  s->color.r=c[0];s->color.g=c[1];s->color.b=c[2];
-	  }*/
 	else if(a=="texture") s->texture(lua_tostring(L,-1));
+	else if(a=="tilex") v[3]=v[8]=1+(v[13]=v[18]=lua_tonumber(L,-1));
+	else if(a=="tiley") v[4]=v[19]=1+(v[14]=v[9]=lua_tonumber(L,-1));
 	lua_pop(L,1);
       }
-      s->bind(&i[0],i.size(),&v[0],v.size());
+      s->bind(i,6,v,20);
     }
   }
   return s;

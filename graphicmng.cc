@@ -45,8 +45,8 @@ void cgraphicmng::init(){
   int width,height;
   glfwGetFramebufferSize(w,&width,&height);
   glViewport(0,0,width,height);
-  GLuint vs=newshader(GL_VERTEX_SHADER,"vs.glsl");
-  GLuint fs=newshader(GL_FRAGMENT_SHADER,"fs.glsl");
+  GLuint vs=newshader(GL_VERTEX_SHADER,"shader/vs.glsl");
+  GLuint fs=newshader(GL_FRAGMENT_SHADER,"shader/fs.glsl");
   program=newprogram(vs,fs);
   glDeleteShader(vs);
   glDeleteShader(fs);

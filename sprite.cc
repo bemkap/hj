@@ -6,6 +6,7 @@
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
 #include"sprite.hh"
+using namespace glm;
 
 csprite::csprite():size(0){
   glGenBuffers(1,&vbo);
@@ -19,12 +20,10 @@ void csprite::bind(GLuint*i,GLsizeiptr si,GLfloat*v,GLsizeiptr sv){
   glBufferData(GL_ARRAY_BUFFER,sv*sizeof(GLfloat),v,GL_STATIC_DRAW);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,ebo);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER,si*sizeof(GLuint),i,GL_STATIC_DRAW);
-  glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,8*sizeof(GLfloat),(GLvoid*)0);
+  glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,5*sizeof(GLfloat),(GLvoid*)0);
   glEnableVertexAttribArray(0);
-  glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,8*sizeof(GLfloat),(GLvoid*)(3*sizeof(GLfloat)));
+  glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,5*sizeof(GLfloat),(GLvoid*)(3*sizeof(GLfloat)));
   glEnableVertexAttribArray(1);
-  glVertexAttribPointer(2,2,GL_FLOAT,GL_FALSE,8*sizeof(GLfloat),(GLvoid*)(6*sizeof(GLfloat)));
-  glEnableVertexAttribArray(2);
   glBindVertexArray(0);
 }
 void csprite::texture(string f){
@@ -45,11 +44,22 @@ void csprite::texture(string f){
 }
 void csprite::display(GLuint prg,double x,double y,double xsc,double ysc){
   glUseProgram(prg);
-  GLuint transform=glGetUniformLocation(prg,"transform");
-  glm::mat4 matrix;
-  matrix=glm::scale(matrix,glm::vec3(xsc,ysc,1.0f));
-  matrix=glm::translate(matrix,glm::vec3(x,y,0.0f));
-  glUniformMatrix4fv(transform,1,GL_FALSE,glm::value_ptr(matrix));
+  mat4 model;
+  model=rotate(model,radians(-60.0f),vec3(1.0f,0.0f,0.0f));
+  model=rotate(model,radians(-30.0f),vec3(0.0f,0.0f,1.0f));
+  model=scale(model,vec3(xsc,ysc,1.0f));
+  model=translate(model,vec3(x,y,0.0f));
+  mat4 view;
+  view=translate(view,vec3(0.0f,0.0f,-3.0f));
+  mat4 projection;
+  //projection=ortho(-0.0f,400.0f,-300.0f,300.0f,0.1f,100.0f);
+  projection=perspective(radians(45.0f),4.0f/3.0f,0.1f,100.0f);
+  GLuint modelloc=glGetUniformLocation(prg,"model");
+  GLuint viewloc=glGetUniformLocation(prg,"view");
+  GLuint projectionloc=glGetUniformLocation(prg,"projection");
+  glUniformMatrix4fv(modelloc,1,GL_FALSE,value_ptr(model));
+  glUniformMatrix4fv(viewloc,1,GL_FALSE,value_ptr(view));
+  glUniformMatrix4fv(projectionloc,1,GL_FALSE,value_ptr(projection));
   glBindTexture(GL_TEXTURE_2D,tex);
   glBindVertexArray(vao);
   glDrawElements(GL_TRIANGLES,size,GL_UNSIGNED_INT,0);
