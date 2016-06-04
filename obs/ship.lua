@@ -1,5 +1,5 @@
 local ship={
-   name="ship",
+   name="grass",
    spr="sp0",
    kbdo={
       {key=65,
