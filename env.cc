@@ -16,7 +16,6 @@ void env::init(){
     object*o=new object((*i).path().string().c_str(),L);
     objects.add(o->name,o);
     for(auto e:o->handlerkb) watcherkb[e.first%256].watch(e.first%256,o);
-    for(auto e:o->handlermouse) watchermouse[e.first].watch(e.first,o);
   }
   graphicmng.init();
   path q("./sps");

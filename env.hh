@@ -20,7 +20,6 @@ public:
   dict<room> rooms;room*currentroom;
   //watcher
   watcher<uchar> watcherkb[256];
-  watcher<ptbutton> watchermouse[2];
   //graphics
   cgraphicmng graphicmng;
   //script

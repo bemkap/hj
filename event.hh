@@ -5,7 +5,8 @@
 #include<string>
 using namespace std;
 
-class action {public:
+class action {
+public:
   int r;lua_State*L;
   action(int,lua_State*);
   int operator()(instance*);

@@ -37,12 +37,11 @@ object::object(const char*file,lua_State*L):timeline(nullptr){
 	string s=lua_tostring(L,-2);
 	if(s=="spr") sprite=lua_tostring(L,-1);
 	else if(s=="name") name=lua_tostring(L,-1);
-	else if(s=="ptdo") parse1<ptbutton>(L,"mouse",handlermouse);
-	else if(s=="kbdo") parse1<uchar>(L,"key",handlerkb);
-	else if(s=="step") step=parse2(L,step);
-	else if(s=="crte") create=parse2(L,create);
-	else if(s=="dest") destroy=parse2(L,destroy);
-	else if(s=="alrm") parse3(L,this);
+	else if(s=="stats"){
+	  lua_pushnil(L);
+	  stats[lua_tostring(L,-2)]=lua_tonumber(L,-1);
+	  lua_pop(L,1);
+	}
 	lua_pop(L,1);
       }
     }
@@ -59,10 +58,6 @@ object::~object(){
 void object::apply(uchar k){
   auto a=handlerkb.find(k);
   if(a!=handlerkb.end()) for(auto i:instances) ((*a).second)(i);
-}
-void object::apply(ptbutton b){
-  auto a=handlermouse.find(b);
-  if(a!=handlermouse.end()) for(auto i:instances) ((*a).second)(i);
 }
 void object::apply(uint n){
   auto a=handlercollision.find(n);
