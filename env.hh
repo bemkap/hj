@@ -2,12 +2,12 @@
 
 #include<GL/glew.h>
 #include<GLFW/glfw3.h>
-#include<lua5.2/lua.hpp>
 #include"common.hh"
 #include"dict.hh"
 #include"graphicmng.hh"
 #include"object.hh"
 #include"room.hh"
+#include"scriptmng.hh"
 #include"sprite.hh"
 #include"timeline.hh"
 #include"watcher.hh"
@@ -20,12 +20,16 @@ public:
   dict<room> rooms;room*currentroom;
   //watcher
   watcher<uchar> watcherkb[256];
+<<<<<<< HEAD
+=======
+  watcher<ptbutton> watchermouse[2];
+  //script
+  cscriptmng scriptmng;
+>>>>>>> parent of d7b0130... isometric? generico o ..?
   //graphics
   cgraphicmng graphicmng;
-  //script
-  lua_State*L;
   //
-  env();~env();
+  env();
   void init();
   void close();
   bool quit;
@@ -37,5 +41,4 @@ public:
 };
 env&envget();
 //
-void callbackkb(GLFWwindow*,int,int,int,int);
-void callbackmousepos(GLFWwindow*,double,double);
+void callbackkb(GLFWwindow*w,int,int,int,int);

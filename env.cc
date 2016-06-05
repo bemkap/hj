@@ -4,29 +4,29 @@
 #include"dict.hh"
 #include"utils.hh"
 using namespace boost::filesystem;
+using namespace std;
 
-env::env():currentroom(nullptr),quit(false){
-  L=luaL_newstate();
-  luaL_openlibs(L);
-}
-env::~env(){lua_close(L);}
+env::env():currentroom(nullptr),quit(false){}
 void env::init(){
   path p("./obs");
   for(directory_iterator i(p);i!=directory_iterator();i++){
+<<<<<<< HEAD
     object*o=new object((*i).path().string().c_str(),L);
     objects.add(o->name,o);
     for(auto e:o->handlerkb) watcherkb[e.first%256].watch(e.first%256,o);
+=======
+    if(object*o=scriptmng.loadobj((*i).path().string().c_str())){
+      objects.add(o->name,o);
+      for(auto e:o->handlerkb) watcherkb[e.first%256].watch(e.first%256,o);
+      for(auto e:o->handlermouse) watchermouse[e.first].watch(e.first,o);
+    }
+>>>>>>> parent of d7b0130... isometric? generico o ..?
   }
   graphicmng.init();
   path q("./sps");
   for(directory_iterator i(q);i!=directory_iterator();i++){
-    csprite*s=new csprite((*i).path().string().c_str(),L);
-    graphicmng.sprites.add(s->name,s);
-  }
-  path r("./rms");
-  for(directory_iterator i(r);i!=directory_iterator();i++){
-    room*r=new room((*i).path().string().c_str(),L);
-    rooms.add(r->name,r);
+    if(csprite*s=scriptmng.loadspr((*i).path().string().c_str()))
+      graphicmng.sprites.add(s->name,s);
   }
   glfwSetKeyCallback(graphicmng.w,callbackkb);
 }
@@ -46,14 +46,6 @@ void env::reshape(int w,int h){
 }
 void env::update(){
   for(object*o:objects.entries) o->update();
-  int width,height;
-  double x,y;
-  glfwGetFramebufferSize(graphicmng.w,&width,&height);
-  glfwGetCursorPos(graphicmng.w,&x,&y);
-  if(x>width-25){graphicmng.camera.x+=5;graphicmng.camera.y-=5;}
-  else if(x<25){graphicmng.camera.x-=5;graphicmng.camera.y+=5;}
-  if(y>height-25){graphicmng.camera.y+=5;graphicmng.camera.x+=5;}
-  else if(y<25){graphicmng.camera.y-=5;graphicmng.camera.x-=5;}
 }
 void env::switchroom(string r){
   room*newroom=rooms.get(r);

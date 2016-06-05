@@ -2,7 +2,6 @@
 
 #include<map>
 #include<vector>
-#include<lua5.2/lua.hpp>
 #include"common.hh"
 #include"instance.hh"
 #include"event.hh"
@@ -17,7 +16,7 @@ public:
   vector<instance*> instances;
   string name,sprite;
   ctimeline*timeline;
-  object(const char*,lua_State*);~object();
+  object();~object();
   void apply(uchar);
   void apply(uint);
   void instancedestroy(instance*);

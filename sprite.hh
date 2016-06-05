@@ -1,16 +1,16 @@
 #pragma once
 
 #include<GL/glew.h>
-#include<lua5.2/lua.hpp>
 #include<string>
 using namespace std;
 
 class csprite {
 public:
+  GLsizeiptr size;
   GLuint vao,vbo,ebo,tex;
   string name;
-  csprite(const char*,lua_State*);
-  void bind(GLfloat*);
+  csprite();
+  void bind(GLuint*,GLsizeiptr,GLfloat*,GLsizeiptr);
   void texture(string);
-  void display(double,double,double,double);
+  void display(GLuint,double,double,double,double);
 };

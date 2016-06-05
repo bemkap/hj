@@ -4,30 +4,10 @@
 #include"dict.hh"
 #include"object.hh"
 
-template<typename T>void parse1(lua_State*L,string s,map<T,action>&d){
-  lua_pushnil(L);
-  while(lua_next(L,-2)!=0){
-    int r=getaction(L);
-    T k=(T)getnumeric(L,s);
-    d.insert(pair<T,action>(k,action(r,L)));
-    lua_pop(L,1);
-  }
-}
-action*parse2(lua_State*L,action*a){
-  int r=getaction(L);
-  if(!a) a=new action(r,L);
-  else{a->r=r;a->L=L;}
-  return a;
-}
-void parse3(lua_State*L,object*o){
-  int r=getaction(L);
-  uint n=((uint)(getnumeric(L,"n")))%11;
-  if(!o->alarm[n]) o->alarm[n]=new action(r,L);
-  else{o->alarm[n]->r=r;o->alarm[n]->L=L;}
-}
-object::object(const char*file,lua_State*L):timeline(nullptr){
+object::object():timeline(nullptr){
   create=step=destroy=nullptr;
   for(uint i=0;i<11;++i) alarm[i]=nullptr;
+<<<<<<< HEAD
   if(0<luaL_dofile(L,file)){
     cout<<"lua error file "<<file<<endl;
   }else{
@@ -46,6 +26,8 @@ object::object(const char*file,lua_State*L):timeline(nullptr){
       }
     }
   }
+=======
+>>>>>>> parent of d7b0130... isometric? generico o ..?
 }
 object::~object(){
   for(auto i:instances) delete i;
