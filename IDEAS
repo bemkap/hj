@@ -20,7 +20,7 @@ clases				vida mana ataque defensa agilidad inteligencia concentracion
 		necromancer     2    7    1      5       1        8            8
 		mago blanco     3    9    1      5       1        9            4
 
-eventos.toma objeto(para variables internas),instancia,arbol de instancias hijas
+eventos.toma objeto(para variables internas),instancia
 	creacion
 	destruccion
 	cuadro
@@ -40,4 +40,3 @@ variables de objeto
 variables de instancia
 	  2 de cada stat,para buff/debuff
 	  objetivo
-	  instancias hijas(map?)
