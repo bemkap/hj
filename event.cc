@@ -5,7 +5,6 @@ using namespace std;
 action::action(int r,lua_State*L):r(r),L(L){}
 int action::operator()(instance*i){
   lua_rawgeti(L,LUA_REGISTRYINDEX,r);
-  lua_pushlightuserdata(L,i);
   double*v[]={&i->x,&i->y,&i->speed,&i->direction,
 	      &i->vspeed,&i->hspeed,&i->gravity,&i->friction};
   const char*f[]={"x","y","speed","direction","vspeed",
@@ -15,7 +14,7 @@ int action::operator()(instance*i){
     lua_setglobal(L,f[i]);
   }
   int r;
-  if(!(r=lua_pcall(L,1,0,0))){
+  if(!(r=lua_pcall(L,0,0,0))){
     for(int i=0;f[i];++i){
       lua_getglobal(L,f[i]);
       *v[i]=lua_tonumber(L,-1);

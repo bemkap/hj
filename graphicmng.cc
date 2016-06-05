@@ -28,7 +28,7 @@ static GLuint newshader(GLenum t,const char*f){
   glGetShaderiv(shader,GL_COMPILE_STATUS,&success);
   if(!success){
     glGetShaderInfoLog(shader,512,NULL,infoLog);
-    cout<<"ERROR::SHADER::VERTEX::COMPILATION_FAILED"<<endl<<infoLog<<endl;
+    cout<<"ERROR::SHADER::COMPILATION_FAILED"<<endl<<infoLog<<endl;
   }
   return shader;
 }
@@ -38,7 +38,11 @@ void cgraphicmng::init(){
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,3);
   glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
   glfwWindowHint(GLFW_RESIZABLE,GL_FALSE);
-  w=glfwCreateWindow(500,500,"OpenGL",nullptr,nullptr);
+  if(!(w=glfwCreateWindow(500,500,"OpenGL",nullptr,nullptr))){
+    cout<<"ERROR::WINDOW::CREATION_FAILED"<<endl;
+    close();
+    exit(0);
+  }
   glfwMakeContextCurrent(w);
   glewExperimental=GL_TRUE;
   glewInit();

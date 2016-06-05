@@ -21,7 +21,7 @@ public:
   void apply(uchar);
   void apply(ptbutton);
   void apply(uint);
-  void instancedelete(instance*);
+  void instancedestroy(instance*);
   instance*instancecreate(double,double);
   instance*operator[](uint);
   void update();

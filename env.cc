@@ -60,7 +60,7 @@ void env::switchroom(string r){
   room*newroom=rooms.get(r);
   if(newroom!=currentroom){
     for(object*o:objects.entries)
-      for(instance*i:o->instances) o->instancedelete(i);
+      for(instance*i:o->instances) o->instancedestroy(i);
     newroom->display();
     currentroom=newroom;
     reshape(currentroom->viewportw,currentroom->viewporth);

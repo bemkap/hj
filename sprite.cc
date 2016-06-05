@@ -10,7 +10,7 @@ csprite::csprite(const char*file,lua_State*L){
   glGenVertexArrays(1,&vao);
   glGenBuffers(1,&ebo);
   if(0<luaL_dofile(L,file)){
-    cout<<"lua error file "<<file<<endl;
+    cout<<"ERROR::LOAD_SCRIPT::"<<file<<endl;
   }else{
     GLfloat v[4*5]={32,32,0,0,0,32,0,0,0,0,0,0,0,0,0,0,32,0,0,0};
     if(lua_istable(L,-1)){
@@ -40,11 +40,11 @@ void csprite::bind(GLfloat*v){
   glEnableVertexAttribArray(1);
   glBindVertexArray(0);
 }
-void csprite::texture(string f){
+void csprite::texture(string file){
   int width,height;
-  unsigned char*img=SOIL_load_image(f.c_str(),&width,&height,0,SOIL_LOAD_RGB);
+  unsigned char*img=SOIL_load_image(file.c_str(),&width,&height,0,SOIL_LOAD_RGB);
   if(!img){
-    cout<<"failed to load image"<<f<<endl;
+    cout<<"ERROR::LOAD_IMAGE::"<<file<<endl;
     return;
   }
   glGenTextures(1,&tex);

@@ -68,7 +68,7 @@ void object::apply(uint n){
   auto a=handlercollision.find(n);
   if(a!=handlercollision.end()) for(auto i:instances) ((*a).second)(i);
 }
-void object::instancedelete(instance*i){
+void object::instancedestroy(instance*i){
   if(destroy) (*destroy)(i);
   i->state=DEAD;
 }
