@@ -1,9 +1,13 @@
 #include<GL/glew.h>
 #include<GLFW/glfw3.h>
+#include<glm/glm.hpp>
+#include<glm/gtc/type_ptr.hpp>
+#include<glm/gtx/transform.hpp>
 #include<fstream>
 #include"common.hh"
 #include"graphicmng.hh"
 using namespace std;
+using namespace glm;
 
 static GLuint newprogram(GLuint vertexshader,GLuint fragmentshader){
   GLuint prg=glCreateProgram();
@@ -38,23 +42,20 @@ void cgraphicmng::init(){
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,3);
   glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
   glfwWindowHint(GLFW_RESIZABLE,GL_FALSE);
-<<<<<<< HEAD
   if(!(w=glfwCreateWindow(500,500,"OpenGL",nullptr,nullptr))){
     cout<<"ERROR::WINDOW::CREATION_FAILED"<<endl;
     close();
     exit(0);
   }
-=======
   w=glfwCreateWindow(800,600,"OpenGL",nullptr,nullptr);
->>>>>>> parent of d7b0130... isometric? generico o ..?
   glfwMakeContextCurrent(w);
   glewExperimental=GL_TRUE;
   glewInit();
   int width,height;
   glfwGetFramebufferSize(w,&width,&height);
   glViewport(0,0,width,height);
-  GLuint vs=newshader(GL_VERTEX_SHADER,"shader/vs.glsl");
-  GLuint fs=newshader(GL_FRAGMENT_SHADER,"shader/fs.glsl");
+  GLuint vs=newshader(GL_VERTEX_SHADER,"vs.glsl");
+  GLuint fs=newshader(GL_FRAGMENT_SHADER,"fs.glsl");
   program=newprogram(vs,fs);
   glDeleteShader(vs);
   glDeleteShader(fs);
@@ -70,7 +71,15 @@ void cgraphicmng::reshape(GLsizei w,GLsizei h){
 }
 void cgraphicmng::display(string n,double x,double y,double xsc,double ysc){
   csprite*s=sprites.get(n);
-  if(s) s->display(program,x,y,xsc,ysc);
+  if(s){
+    glUseProgram(program);
+    mat4 model;
+    model=scale(model,vec3(xsc,ysc,1.0f));
+    model=translate(model,vec3(x,y,0.0f));
+    GLuint modelloc=glGetUniformLocation(program,"model");
+    glUniformMatrix4fv(modelloc,1,GL_FALSE,value_ptr(model));
+    s->display(program);
+  }
 }
 void cgraphicmng::flip(){
   glfwSwapBuffers(w);

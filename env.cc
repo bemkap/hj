@@ -6,26 +6,23 @@
 using namespace boost::filesystem;
 using namespace std;
 
-env::env():currentroom(nullptr),quit(false){}
+env::env():currentroom(nullptr),quit(false){
+  L=luaL_newstate();
+  luaL_openlibs(L);
+}
+env::~env(){lua_close(L);}
 void env::init(){
-  path p("./obs");
+  path p("./OBJECTS");
   for(directory_iterator i(p);i!=directory_iterator();i++){
-<<<<<<< HEAD
     object*o=new object((*i).path().string().c_str(),L);
     objects.add(o->name,o);
     for(auto e:o->handlerkb) watcherkb[e.first%256].watch(e.first%256,o);
-=======
-    if(object*o=scriptmng.loadobj((*i).path().string().c_str())){
-      objects.add(o->name,o);
-      for(auto e:o->handlerkb) watcherkb[e.first%256].watch(e.first%256,o);
-      for(auto e:o->handlermouse) watchermouse[e.first].watch(e.first,o);
-    }
->>>>>>> parent of d7b0130... isometric? generico o ..?
+    for(auto e:o->handlermouse) watchermouse[e.first].watch(e.first,o);
   }
   graphicmng.init();
-  path q("./sps");
+  path q("./SPRITES");
   for(directory_iterator i(q);i!=directory_iterator();i++){
-    if(csprite*s=scriptmng.loadspr((*i).path().string().c_str()))
+    if(csprite*s=new csprite((*i).path().string().c_str()))
       graphicmng.sprites.add(s->name,s);
   }
   glfwSetKeyCallback(graphicmng.w,callbackkb);

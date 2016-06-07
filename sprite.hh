@@ -6,11 +6,10 @@ using namespace std;
 
 class csprite {
 public:
-  GLsizeiptr size;
-  GLuint vao,vbo,ebo,tex;
+  GLuint vao,vertexvbo,texturevbo,ebo,tex;
   string name;
-  csprite();
-  void bind(GLuint*,GLsizeiptr,GLfloat*,GLsizeiptr);
-  void texture(string);
-  void display(GLuint,double,double,double,double);
+  uint frames,current;
+  uint fwidth,fheight;
+  csprite(string);
+  void display(GLuint);
 };

@@ -2,8 +2,6 @@
 
 #include<GL/glew.h>
 #include<GLFW/glfw3.h>
-//#include<GL/glu.h>
-//#include<GL/glut.h>
 #include"dict.hh"
 #include"sprite.hh"
 

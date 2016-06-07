@@ -4,11 +4,10 @@
 #include"dict.hh"
 #include"object.hh"
 
-object::object():timeline(nullptr){
+object::object(string file,lua_State*L):timeline(nullptr){
   create=step=destroy=nullptr;
   for(uint i=0;i<11;++i) alarm[i]=nullptr;
-<<<<<<< HEAD
-  if(0<luaL_dofile(L,file)){
+  if(0<luaL_dofile(L,file.c_str())){
     cout<<"lua error file "<<file<<endl;
   }else{
     if(lua_istable(L,-1)){
@@ -17,17 +16,9 @@ object::object():timeline(nullptr){
 	string s=lua_tostring(L,-2);
 	if(s=="spr") sprite=lua_tostring(L,-1);
 	else if(s=="name") name=lua_tostring(L,-1);
-	else if(s=="stats"){
-	  lua_pushnil(L);
-	  stats[lua_tostring(L,-2)]=lua_tonumber(L,-1);
-	  lua_pop(L,1);
-	}
-	lua_pop(L,1);
       }
     }
   }
-=======
->>>>>>> parent of d7b0130... isometric? generico o ..?
 }
 object::~object(){
   for(auto i:instances) delete i;
@@ -40,6 +31,10 @@ object::~object(){
 void object::apply(uchar k){
   auto a=handlerkb.find(k);
   if(a!=handlerkb.end()) for(auto i:instances) ((*a).second)(i);
+}
+void object::apply(ptbutton b){
+  auto a=handlermouse.find(b);
+  if(a!=handlermouse.end()) for(auto i:instances) ((*a).second)(i);
 }
 void object::apply(uint n){
   auto a=handlercollision.find(n);
