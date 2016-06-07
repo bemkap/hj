@@ -67,12 +67,11 @@ void cgraphicmng::clear(){
 }
 void cgraphicmng::reshape(GLsizei w,GLsizei h){
 }
-void cgraphicmng::display(string n,double x,double y,double xsc,double ysc){
+void cgraphicmng::display(string n,double x,double y){
   csprite*s=sprites.get(n);
   if(s){
     glUseProgram(program);
     mat4 model;
-    model=scale(model,vec3(xsc,ysc,1.0f));
     model=translate(model,vec3(x,y,0.0f));
     mat4 view;
     view=lookAt(camera,camera+vec3(3,3,3),vec3(0.0f,0.0f,1.0f));
@@ -84,7 +83,7 @@ void cgraphicmng::display(string n,double x,double y,double xsc,double ysc){
     glUniformMatrix4fv(modelloc,1,GL_FALSE,value_ptr(model));
     glUniformMatrix4fv(viewloc,1,GL_FALSE,value_ptr(view));
     glUniformMatrix4fv(projectionloc,1,GL_FALSE,value_ptr(projection));
-    s->display(x,y,xsc,ysc);
+    s->display();
   }
 }
 void cgraphicmng::flip(){

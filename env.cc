@@ -11,19 +11,19 @@ env::env():currentroom(nullptr),quit(false){
 }
 env::~env(){lua_close(L);}
 void env::init(){
-  path p("./obs");
+  path p("./OBJECTS");
   for(directory_iterator i(p);i!=directory_iterator();i++){
     object*o=new object((*i).path().string().c_str(),L);
     objects.add(o->name,o);
     for(auto e:o->handlerkb) watcherkb[e.first%256].watch(e.first%256,o);
   }
   graphicmng.init();
-  path q("./sps");
+  path q("./SPRITES");
   for(directory_iterator i(q);i!=directory_iterator();i++){
-    csprite*s=new csprite((*i).path().string().c_str(),L);
+    csprite*s=new csprite((*i).path().string());
     graphicmng.sprites.add(s->name,s);
   }
-  path r("./rms");
+  path r("./ROOMS");
   for(directory_iterator i(r);i!=directory_iterator();i++){
     room*r=new room((*i).path().string().c_str(),L);
     rooms.add(r->name,r);
