@@ -12,10 +12,7 @@ csprite::csprite(string file):current(0){
   glGenVertexArrays(1,&vao);
   glGenBuffers(1,&ebo);
   glGenTextures(1,&tex);
-  size_t n=file.find_last_of("/\\");
-  size_t m=file.find_last_of(".");
-  name=file.substr(n,m);
-  frames=5;
+  //parse filename
   //create texture
   int w,h;
   unsigned char*img=SOIL_load_image(file,&w,&h,0,SOIL_LOAD_RGB);
@@ -29,19 +26,21 @@ csprite::csprite(string file):current(0){
   SOIL_free_image_data(img);
   glBindTexture(GL_TEXTURE_2D,0);
   //bind
-  GLfloat v[]={w,h,0,
-	       w,0,0,
-	       0,0,0,
-	       0,h,0}
+  GLfloat v[]={fwidth,fheight,0,
+	       fwidth,      0,0,
+	            0,      0,0,
+	            0,fheight,0}
   GLuint  i[]={0,1,3,1,2,3};
   glBindVertexArray(vao);
-  glBindBuffer(GL_ARRAY_BUFFER,vbo);
-  glBufferData(GL_ARRAY_BUFFER,20*sizeof(GLfloat),v,GL_STATIC_DRAW);
+  glBindBuffer(GL_ARRAY_BUFFER,vertexvbo);
+  glBufferData(GL_ARRAY_BUFFER,12*sizeof(GLfloat),v,GL_STATIC_DRAW);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,ebo);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER,6*sizeof(GLuint),i,GL_STATIC_DRAW);
-  glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,5*sizeof(GLfloat),(GLvoid*)0);
+  glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3*sizeof(GLfloat),(GLvoid*)0);
   glEnableVertexAttribArray(0);
-  glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,5*sizeof(GLfloat),(GLvoid*)(3*sizeof(GLfloat)));
+  glBindBuffer(GL_ARRAY_BUFFER,texturevbo);
+  glBufferData(GL_ARRAY_BUFFER,8*frames*sizeof(GLfloat),v,GL_STATIC_DRAW);
+  glVertexAttribPointer(1,2,GL_FLOAT,GL_FALSE,3*sizeof(GLfloat),(GLvoid*)0);
   glEnableVertexAttribArray(1);
   glBindVertexArray(0);
 }
@@ -50,4 +49,5 @@ void csprite::display(){
   glBindVertexArray(vao);
   glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
   glBindVertexArray(0);
+  current=(current+1)%frames;
 }

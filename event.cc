@@ -5,10 +5,8 @@ using namespace std;
 action::action(int r,lua_State*L):r(r),L(L){}
 int action::operator()(instance*i){
   lua_rawgeti(L,LUA_REGISTRYINDEX,r);
-  double*v[]={&i->x,&i->y,&i->speed,&i->direction,
-	      &i->vspeed,&i->hspeed,&i->gravity,&i->friction};
-  const char*f[]={"x","y","speed","direction","vspeed",
-		  "hspeed","gravity","friction",NULL};
+  float*v[]={&i->xy.x,&i->xy.y};
+  const char*f[]={"x","y",NULL};
   for(int i=0;f[i];++i){
     lua_pushnumber(L,*v[i]);
     lua_setglobal(L,f[i]);

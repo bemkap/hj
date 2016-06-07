@@ -3,10 +3,11 @@
 #include"common.hh"
 #include"utils.hh"
 
-instance::instance(double x,double y):x(x),y(y){
+instance::instance(double x,double y){
+  xy.x=x;
+  xy.y=y;
   state=NOTDEAD;
 }
 void instance::move(){
-  x+=hspeed;
-  y+=vspeed;
+  xy+=movement;
 }

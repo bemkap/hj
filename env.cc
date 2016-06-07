@@ -37,7 +37,7 @@ void env::display(){
   graphicmng.clear();
   for(object*o:objects.entries)
     for(instance*i:o->instances)
-      graphicmng.display(o->sprite,i->x,i->y,i->xscale,i->yscale);
+      graphicmng.display(o->sprite,i->x,i->y);
   graphicmng.flip();
 }
 void env::reshape(int w,int h){

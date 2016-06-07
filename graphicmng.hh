@@ -21,6 +21,6 @@ public:
   void loadspr();
   void clear();
   void reshape(GLsizei,GLsizei);
-  void display(string,double,double,double,double);
+  void display(string,double,double);
   void flip();
 };

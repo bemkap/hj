@@ -6,7 +6,8 @@ out vec2 tex1;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform mat4 texmodel;
 void main(){
   gl_Position=projection*view*model*vec4(pos0,1.0f);
-  tex1=vec2(tex0.x/64,1.0f-tex0.y/48);
+  tex1=texmodel*tex0;
 }

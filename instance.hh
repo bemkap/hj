@@ -1,17 +1,16 @@
 #pragma once
 
 #include"common.hh"
+#include<glm/glm.hpp>
+using namespace glm;
 
 enum instate { NOTDEAD,DEAD };
 
 class instance {
 public:
-  double x,y;
-  double hp[2],mp[2],attack[2],defense[2],agility[2];
-  double intelligence[2],concentration[2];
-  double hspeed,vspeed;
+  vec2 xy,movement;
+  double hp[2],mp[2],atk[2],def[2],agi[2],inl[2],con[2];
   instate state;
-  uint alarm[11];
   instance(double,double);
   void move();
 };

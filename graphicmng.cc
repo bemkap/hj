@@ -77,12 +77,16 @@ void cgraphicmng::display(string n,double x,double y){
     view=lookAt(camera,camera+vec3(3,3,3),vec3(0.0f,0.0f,1.0f));
     mat4 projection;
     projection=ortho(-250.0f,250.0f,-250.0f,250.0f,-355.0f,355.0f);
+    mat4 texmodel;
+    texmodel=translate(texmodel,vec3(s->fwidth*s->fcurrent,0.0f,0.0f));
     GLuint modelloc=glGetUniformLocation(program,"model");
     GLuint viewloc=glGetUniformLocation(program,"view");
     GLuint projectionloc=glGetUniformLocation(program,"projection");
+    GLuint texmodelloc=glGetUniformLocation(program,"texmodel");
     glUniformMatrix4fv(modelloc,1,GL_FALSE,value_ptr(model));
     glUniformMatrix4fv(viewloc,1,GL_FALSE,value_ptr(view));
     glUniformMatrix4fv(projectionloc,1,GL_FALSE,value_ptr(projection));
+    glUniformMatrix4fv(texmodelloc,1,GL_FALSE,value_ptr(texmodel));
     s->display();
   }
 }
