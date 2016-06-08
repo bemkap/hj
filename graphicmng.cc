@@ -74,11 +74,14 @@ void cgraphicmng::display(string n,double x,double y,double xsc,double ysc){
   csprite*s=sprites.get(n);
   if(s){
     glUseProgram(program);
-    mat4 model;
+    mat4 model,view,projection;
     model=scale(model,vec3(xsc,ysc,1.0f));
     model=translate(model,vec3(x,y,0.0f));
+    projection=ortho(-250.0f,250.0f,-250.0f,250.0f,-100.0f,100.0f);
+    GLuint projectionloc=glGetUniformLocation(program,"projection");
     GLuint modelloc=glGetUniformLocation(program,"model");
     glUniformMatrix4fv(modelloc,1,GL_FALSE,value_ptr(model));
+    glUniformMatrix4fv(projectionloc,1,GL_FALSE,value_ptr(projection));
     s->display(program);
   }
 }

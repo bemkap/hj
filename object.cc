@@ -10,10 +10,10 @@ object::object(string file,lua_State*L):timeline(nullptr){
   if(0<luaL_dofile(L,file.c_str())){
     cout<<"lua error file "<<file<<endl;
   }else{
-    int n=file.find_last_of("/\\");
-    int m=file.find_last_of(".");
-    name=file.substr(n+1,m);
+    int n=file.find_last_of("/\\")+1;
+    int m=file.find_last_of(".");    
     if(lua_istable(L,-1)){
+      name=file.substr(n,m-n);
       lua_pushnil(L);
       while(lua_next(L,-2)!=0){
 	string s=lua_tostring(L,-2);
@@ -21,9 +21,9 @@ object::object(string file,lua_State*L):timeline(nullptr){
 	else if(s=="kbdo"){
 	  lua_pushnil(L);
 	  while(lua_next(L,-2)!=0){
-	    action a=getaction(L);
+	    int a=getaction(L);
 	    uchar k=(uchar)getnumeric(L,"key");
-	    handlerkb[k]=a;
+	    handlerkb.insert(pair<uchar,action>(k,action(a,L)));
 	    lua_pop(L,1);
 	  }
 	}

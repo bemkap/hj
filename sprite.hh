@@ -8,8 +8,8 @@ class csprite {
 public:
   GLuint vao,vertexvbo,texturevbo,ebo,tex;
   string name;
-  uint frames,current;
-  uint fwidth,fheight;
+  uint frames;
+  GLfloat current,fwidth,fheight,fspeed;
   csprite(string);
   void display(GLuint);
 };

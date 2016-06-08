@@ -23,10 +23,9 @@ int action::operator()(instance*i){
   }
   return r;
 }
-action getaction(lua_State*L){
+int getaction(lua_State*L){
   lua_getfield(L,-1,"act");
-  int r=luaL_ref(L,LUA_REGISTRYINDEX);
-  return action(r,L);
+  return luaL_ref(L,LUA_REGISTRYINDEX);
 }
 double getnumeric(lua_State*L,string s){
   lua_getfield(L,-1,s.c_str());

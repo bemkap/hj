@@ -11,5 +11,5 @@ public:
   action(int,lua_State*);
   int operator()(instance*);
 };
-action getaction(lua_State*);
+int getaction(lua_State*);
 double getnumeric(lua_State*,string);
