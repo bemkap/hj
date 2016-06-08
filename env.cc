@@ -58,11 +58,11 @@ instance*env::instancecreate(string n,double x,double y){
   object*o=objects.get(n);
   return o?o->instancecreate(x,y):nullptr;
 }
-env&envget(){
+env&env::envget(){
   static env env;
   return env;
 }
 //
 void callbackkb(GLFWwindow*w,int k,int sc,int a,int m){
-  envget().watcherkb[k%256].signal(k%256);
+  env::envget().watcherkb[k%256].signal(k%256);
 }

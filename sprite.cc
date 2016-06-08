@@ -1,6 +1,7 @@
 #include<iostream>
 #include<GL/glew.h>
 #include<SOIL/SOIL.h>
+#define GLM_FORCE_RADIANS
 #include<glm/glm.hpp>
 #include<glm/gtc/type_ptr.hpp>
 #include<glm/gtx/transform.hpp>

@@ -14,6 +14,8 @@
 using namespace std;
 
 class env {
+private:
+  env();~env();
 public:
   dict<object> objects;
   dict<ctimeline> timelines;
@@ -26,7 +28,6 @@ public:
   //scripts
   lua_State*L;
   //
-  env();~env();
   void init();
   void close();
   bool quit;
@@ -35,7 +36,7 @@ public:
   void update();
   void switchroom(string);
   instance*instancecreate(string,double,double);
+  static env&envget();
 };
-env&envget();
 //
 void callbackkb(GLFWwindow*w,int,int,int,int);

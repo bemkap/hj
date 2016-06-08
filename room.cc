@@ -10,7 +10,7 @@ void room::add(string o,double x,double y){
 void room::move(int xo,int yo){viewportx+=xo;viewporty+=yo;}
 void room::scale(double xs,double ys){viewportw*=xs;viewporth*=ys;}
 void room::display(){
-  env&env=envget();
+  env&env=env::envget();
   for(auto t:objects){
     object*o=env.objects.get(get<0>(t));
     if(o) o->instancecreate(get<1>(t),get<2>(t));
