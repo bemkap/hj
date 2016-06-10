@@ -5,10 +5,12 @@ using namespace std;
 action::action(int r,lua_State*L):r(r),L(L){}
 int action::operator()(instance*i){
   lua_rawgeti(L,LUA_REGISTRYINDEX,r);
-  double*v[]={&i->x,&i->y,&i->speed,&i->direction,
-	      &i->vspeed,&i->hspeed,&i->gravity,&i->friction};
-  const char*f[]={"x","y","speed","direction","vspeed",
-		  "hspeed","gravity","friction",NULL};
+  float*v[]={&i->x,&i->y,&i->speed,&i->direction,
+	     &i->vspeed,&i->hspeed,&i->gravity,&i->friction,
+	     &i->imagespeed,&i->current};
+  const char*f[]={"x","y","speed","direction",
+		  "vspeed","hspeed","gravity","friction",
+		  "imagespeed","imageindex",NULL};
   for(int i=0;f[i];++i){
     lua_pushnumber(L,*v[i]);
     lua_setglobal(L,f[i]);
@@ -27,9 +29,9 @@ int getaction(lua_State*L){
   lua_getfield(L,-1,"act");
   return luaL_ref(L,LUA_REGISTRYINDEX);
 }
-double getnumeric(lua_State*L,string s){
+float getnumeric(lua_State*L,string s){
   lua_getfield(L,-1,s.c_str());
-  double r=lua_tonumber(L,-1);
+  float r=lua_tonumber(L,-1);
   lua_pop(L,1);
   return r;
 }

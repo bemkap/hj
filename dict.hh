@@ -4,7 +4,7 @@
 #include<map>
 #include<vector>
 using namespace std;
-
+  
 template<typename T>class dict{
 public:
   dict();~dict();
@@ -35,6 +35,5 @@ template<typename T>T*dict<T>::get(int n){
   return n>=0&&n<int(entries.size())?entries[n]:nullptr;
 }
 template<typename T>T*dict<T>::get(string n){
-  int i=iget(n);
-  return -1<i?entries[i]:nullptr;
+  return get(iget(n));
 }

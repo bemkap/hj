@@ -9,5 +9,5 @@ uniform mat4 texmodel;
 void main(){
   gl_Position=projection*model*vec4(pos0,1.0f);
   vec4 v=texmodel*vec4(tex0,0.0f,1.0f);
-  tex1=v.xy;
+  tex1=vec2(v.x,1.0f-v.y);
 }

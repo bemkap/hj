@@ -1,5 +1,4 @@
 #include<iostream>
-#include<GL/glew.h>
 #include<SOIL/SOIL.h>
 #define GLM_FORCE_RADIANS
 #include<glm/glm.hpp>
@@ -9,7 +8,7 @@
 #include<stdio.h>
 using namespace glm;
 
-csprite::csprite(string file):current(0),fspeed(0.25){
+csprite::csprite(string file){
   //gen buffers
   glGenBuffers(1,&vertexvbo);
   glGenBuffers(1,&texturevbo);
@@ -25,14 +24,14 @@ csprite::csprite(string file):current(0),fspeed(0.25){
   name=temp;
   //create texture
   int w,h;
-  unsigned char*img=SOIL_load_image(file.c_str(),&w,&h,0,SOIL_LOAD_RGB);
+  unsigned char*img=SOIL_load_image(file.c_str(),&w,&h,0,SOIL_LOAD_RGBA);
   if(!img){
     cout<<"ERROR::LOAD_IMAGE::"<<file<<endl;
     return;
   }
   fwidth=(GLfloat)fw/w;fheight=(GLfloat)fh/h;
   glBindTexture(GL_TEXTURE_2D,tex);
-  glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,w,h,0,GL_RGB,GL_UNSIGNED_BYTE,img);
+  glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,w,h,0,GL_RGBA,GL_UNSIGNED_BYTE,img);
   glGenerateMipmap(GL_TEXTURE_2D);
   SOIL_free_image_data(img);
   glBindTexture(GL_TEXTURE_2D,0);
@@ -60,15 +59,25 @@ csprite::csprite(string file):current(0),fspeed(0.25){
   glBindVertexArray(0);
 }
 void csprite::display(GLuint program){
+  glBindTexture(GL_TEXTURE_2D,tex);
+  glBindVertexArray(vao);
+  glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
+  glBindVertexArray(0);
+}
+void csprite::display(GLuint program,float x,float y){
+  glUseProgram(program);
+  mat4 model,projection;
+  model=translate(model,vec3(x,y,0.0f));
+  projection=ortho(0.0f,w,0.0f,h);
+  GLuint projectionloc=glGetUniformLocation(program,"projection");
+  GLuint modelloc=glGetUniformLocation(program,"model");
+  glUniformMatrix4fv(modelloc,1,GL_FALSE,value_ptr(model));
+  glUniformMatrix4fv(projectionloc,1,GL_FALSE,value_ptr(projection));  
   mat4 texmodel;
-  GLfloat t=(GLuint)current*fwidth;
-  texmodel=translate(texmodel,vec3(t,0.0f,0.0f));
   GLuint texmodelloc=glGetUniformLocation(program,"texmodel");
   glUniformMatrix4fv(texmodelloc,1,GL_FALSE,value_ptr(texmodel));
   glBindTexture(GL_TEXTURE_2D,tex);
   glBindVertexArray(vao);
   glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
   glBindVertexArray(0);
-  current+=fspeed;
-  if(current>=frames) current-=frames;
 }

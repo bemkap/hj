@@ -1,16 +1,21 @@
 #pragma once
 
+#include<lua5.2/lua.hpp>
 #include<vector>
 #include<tuple>
 
 class room {
 public:
-  room(int,int);
+  room(const string&,lua_State*);
   int width,height,viewportx,viewporty,viewportw,viewporth;
-  vector<tuple<string,double,double>> objects;
-  void add(string,double,double);
+  string name;
+  vector<tuple<string,float,float>> objects;
+  vector<int> tiles;
+  vector<string> legend;
+  void add(string,float,float);
   void move(int,int);
-  void scale(double,double);
-  void display();
+  void scale(float,float);
+  void init();
+  void display(GLuint);
   void reshape(int,int);
 };

@@ -43,18 +43,19 @@ void cgraphicmng::init(){
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,3);
   glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
   glfwWindowHint(GLFW_RESIZABLE,GL_FALSE);
-  if(!(w=glfwCreateWindow(500,500,"OpenGL",nullptr,nullptr))){
+  if(!(window=glfwCreateWindow(500,500,"OpenGL",nullptr,nullptr))){
     cout<<"ERROR::WINDOW::CREATION_FAILED"<<endl;
     close();
     exit(0);
   }
-  w=glfwCreateWindow(800,600,"OpenGL",nullptr,nullptr);
-  glfwMakeContextCurrent(w);
+  glfwMakeContextCurrent(window);
   glewExperimental=GL_TRUE;
   glewInit();
   int width,height;
-  glfwGetFramebufferSize(w,&width,&height);
+  glfwGetFramebufferSize(window,&width,&height);
   glViewport(0,0,width,height);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
   GLuint vs=newshader(GL_VERTEX_SHADER,"vs.glsl");
   GLuint fs=newshader(GL_FRAGMENT_SHADER,"fs.glsl");
   program=newprogram(vs,fs);
@@ -69,22 +70,23 @@ void cgraphicmng::clear(){
   glClear(GL_COLOR_BUFFER_BIT);
 }
 void cgraphicmng::reshape(GLsizei w,GLsizei h){
+  glfwSetWindowSize(window,w,h);
+  glViewport(0,0,w,h);
 }
-void cgraphicmng::display(string n,double x,double y,double xsc,double ysc){
+void cgraphicmng::display(string n,float w,float h){
   csprite*s=sprites.get(n);
   if(s){
     glUseProgram(program);
-    mat4 model,view,projection;
-    model=scale(model,vec3(xsc,ysc,1.0f));
-    model=translate(model,vec3(x,y,0.0f));
-    projection=ortho(-250.0f,250.0f,-250.0f,250.0f,-100.0f,100.0f);
+    mat4 projection;
+    projection=ortho(0.0f,w,0.0f,h);
     GLuint projectionloc=glGetUniformLocation(program,"projection");
-    GLuint modelloc=glGetUniformLocation(program,"model");
-    glUniformMatrix4fv(modelloc,1,GL_FALSE,value_ptr(model));
     glUniformMatrix4fv(projectionloc,1,GL_FALSE,value_ptr(projection));
     s->display(program);
   }
 }
+void cgraphicmng::display(string n){
+  display(n,i,500,500);
+}
 void cgraphicmng::flip(){
-  glfwSwapBuffers(w);
+  glfwSwapBuffers(window);
 }

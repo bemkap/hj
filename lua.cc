@@ -5,9 +5,9 @@
 
 int instancecreate(lua_State*L){
   const char*s=lua_tostring(L,1);
-  double x=lua_tonumber(L,2);
-  double y=lua_tonumber(L,3);
-  instance*i=env::envget().instancecreate(s,x,y);
+  float x=lua_tonumber(L,2);
+  float y=lua_tonumber(L,3);
+  env::envget().instancecreate(s,x,y);
   return 0;
 }
 int instancedestroy(lua_State*L){

@@ -1,12 +1,12 @@
 #pragma once
 
-const int    FPS=50;
-const double PIE=3.141592653;
+const int   FPS=50;
+const float PIE=3.141592653;
 
 typedef unsigned char uchar;
 typedef unsigned int  uint;
 
-enum ptbutton { PT_RI,PT_LE };
+enum ptbutton { MOUSERIGHT,MOUSELEFT };
 
 enum kb_code {
   kb_tab  =   9,

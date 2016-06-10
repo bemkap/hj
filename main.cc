@@ -3,8 +3,9 @@
 int main(int argc,char**argv){
   env&env=env::envget();
   env.init();
-  env.instancecreate("eye",0,0);
-  while(!glfwWindowShouldClose(env.graphicmng.w)){
+  env.instancecreate("warrior",0.0f,0.0f);
+  env.switchroom("room0");
+  while(!glfwWindowShouldClose(env.graphicmng.window)){
     glfwPollEvents();    
     env.update();
     env.display();

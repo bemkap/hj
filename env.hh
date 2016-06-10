@@ -21,8 +21,10 @@ public:
   dict<ctimeline> timelines;
   dict<room> rooms;room*currentroom;
   //watcher
-  watcher<uchar> watcherkb[256];
-  watcher<ptbutton> watchermouse[2];
+  watcher<uchar> watcherkbdo[256];
+  watcher<uchar> watcherkbup[256];
+  watcher<ptbutton> watchermousedo[2];
+  watcher<ptbutton> watchermouseup[2];
   //graphics
   cgraphicmng graphicmng;
   //scripts
@@ -35,7 +37,7 @@ public:
   void reshape(int,int);
   void update();
   void switchroom(string);
-  instance*instancecreate(string,double,double);
+  instance*instancecreate(string,float,float);
   static env&envget();
 };
 //

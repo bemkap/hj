@@ -4,7 +4,16 @@
 #include"dict.hh"
 #include"object.hh"
 
-object::object(string file,lua_State*L):timeline(nullptr){
+template<typename T>void parse1(lua_State*L,map<T,action>&m,const char*s){
+  lua_pushnil(L);
+  while(lua_next(L,-2)!=0){
+    int a=getaction(L);
+    T k=(T)getnumeric(L,s);
+    m.insert(pair<T,action>(k,action(a,L)));
+    lua_pop(L,1);
+  }
+}
+object::object(const string&file,lua_State*L,dict<csprite>&sprites):timeline(nullptr){
   create=step=destroy=nullptr;
   for(uint i=0;i<11;++i) alarm[i]=nullptr;
   if(0<luaL_dofile(L,file.c_str())){
@@ -17,16 +26,17 @@ object::object(string file,lua_State*L):timeline(nullptr){
       lua_pushnil(L);
       while(lua_next(L,-2)!=0){
 	string s=lua_tostring(L,-2);
-	if(s=="sprite") sprite=lua_tostring(L,-1);
-	else if(s=="kbdo"){
-	  lua_pushnil(L);
-	  while(lua_next(L,-2)!=0){
-	    int a=getaction(L);
-	    uchar k=(uchar)getnumeric(L,"key");
-	    handlerkb.insert(pair<uchar,action>(k,action(a,L)));
-	    lua_pop(L,1);
-	  }
+	if(s=="sprite"){
+	  auto s=sprites.get(lua_tostring(L,-1));
+	  if(s) sprite=s;
 	}
+	else if(s=="kbdo") parse1(L,handlerkbdo,"key");
+	else if(s=="kbup") parse1(L,handlerkbup,"key");
+	else if(s=="ptdo") parse1(L,handlermousedo,"button");
+	else if(s=="ptup") parse1(L,handlermouseup,"button");
+	else if(s=="crte"){int a=getaction(L);create=new action(a,L);}
+	else if(s=="dest"){int a=getaction(L);destroy=new action(a,L);}
+	else if(s=="step"){int a=getaction(L);step=new action(a,L);}
 	lua_pop(L,1);
       }
     }
@@ -40,15 +50,19 @@ object::~object(){
   for(uint i=0;i<11;++i) if(alarm[i]) delete alarm[i];
   if(timeline) delete timeline;
 }
-void object::apply(uchar k){
-  auto a=handlerkb.find(k);
-  if(a!=handlerkb.end()) for(auto i:instances) ((*a).second)(i);
+void object::apply(uchar k,void*extra){
+  bool press=extra;
+  map<uchar,action>&m=press?handlerkbdo:handlerkbup;
+  auto a=m.find(k);
+  if(a!=m.end()) for(auto i:instances) ((*a).second)(i);
 }
-void object::apply(ptbutton b){
-  auto a=handlermouse.find(b);
-  if(a!=handlermouse.end()) for(auto i:instances) ((*a).second)(i);
+void object::apply(ptbutton b,void*extra){
+  bool press=extra;
+  map<ptbutton,action>&m=press?handlermousedo:handlermouseup;
+  auto a=m.find(b);
+  if(a!=m.end()) for(auto i:instances) ((*a).second)(i);
 }
-void object::apply(uint n){
+void object::apply(uint n,void*extra){
   auto a=handlercollision.find(n);
   if(a!=handlercollision.end()) for(auto i:instances) ((*a).second)(i);
 }
@@ -56,8 +70,9 @@ void object::instancedestroy(instance*i){
   if(destroy) (*destroy)(i);
   i->state=DEAD;
 }
-instance*object::instancecreate(double x,double y){
+instance*object::instancecreate(float x,float y){
   instance*i=new instance(x,y);
+  i->sprite=sprite;
   if(create) (*create)(i);
   instances.push_back(i);
   return i;
