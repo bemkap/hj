@@ -12,4 +12,4 @@ public:
   int operator()(instance*);
 };
 int getaction(lua_State*);
-float getnumeric(lua_State*,string);
+float getnumeric(lua_State*,const char*);

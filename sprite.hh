@@ -12,6 +12,6 @@ public:
   uint frames;
   GLfloat fwidth,fheight,fspeed;
   csprite(string);
-  void display(GLuint);
+  void display(GLuint,GLfloat&);
   void display(GLuint,float,float);
 };

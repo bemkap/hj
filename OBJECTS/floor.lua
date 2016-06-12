@@ -1,4 +1,4 @@
 local floor={
    sprite="floor"
 }
-return floor;
+return floor

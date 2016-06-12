@@ -1,11 +1,16 @@
 #include<cmath>
+#define GLM_FORCE_RADIANS
+#include<glm/glm.hpp>
+#include<glm/gtc/type_ptr.hpp>
+#include<glm/gtx/transform.hpp>
 #include"instance.hh"
 #include"common.hh"
 #include"utils.hh"
+using namespace glm;
 
-instance::instance(float x,float y,csprite*sprite):x(x),y(y),sprite(sprite){
+instance::instance(float x,float y,string sprite):x(x),y(y),sprite(sprite){
   speed=direction=vspeed=hspeed=gravity=friction=0;
-  current=imagespeed=0;
+  imageindex=imagespeed=0;
   xscale=yscale=1;
   state=NOTDEAD;
   tltime=tlnode=0;
@@ -21,17 +26,11 @@ void instance::move(){
   vspeed-=friction*sign(vspeed);
   speed-=friction*sign(speed);
 }
-void instance::display(GLuint program){
-  mat4 model;
-  model=scale(model,vec3(xscale,yscale,1.0f));
+void instance::setmodel(GLuint program){
+  mat4 model,texmodel;
   model=translate(model,vec3(x,y,0.0f));
+  model=scale(model,vec3(xscale,yscale,1.0f));
   GLuint modelloc=glGetUniformLocation(program,"model");
   glUniformMatrix4fv(modelloc,1,GL_FALSE,value_ptr(model));
-  GLfloat t=(GLuint)current*sprite->fwidth;
-  texmodel=translate(texmodel,vec3(t,0.0f,0.0f));
-  GLuint texmodelloc=glGetUniformLocation(program,"texmodel");
-  glUniformMatrix4fv(texmodelloc,1,GL_FALSE,value_ptr(texmodel));
-  sprite->display(program);
-  current+=imagespeed;
-  if(current>=sprite->frames) current-=sprite->frames;
+  imageindex+=imagespeed;
 }

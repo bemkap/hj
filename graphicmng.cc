@@ -51,11 +51,12 @@ void cgraphicmng::init(){
   glfwMakeContextCurrent(window);
   glewExperimental=GL_TRUE;
   glewInit();
-  int width,height;
-  glfwGetFramebufferSize(window,&width,&height);
-  glViewport(0,0,width,height);
+  glfwGetFramebufferSize(window,&winwidth,&winheight);
+  glViewport(0,0,winwidth,winheight);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
   GLuint vs=newshader(GL_VERTEX_SHADER,"vs.glsl");
   GLuint fs=newshader(GL_FRAGMENT_SHADER,"fs.glsl");
   program=newprogram(vs,fs);
@@ -72,20 +73,15 @@ void cgraphicmng::clear(){
 void cgraphicmng::reshape(GLsizei w,GLsizei h){
   glfwSetWindowSize(window,w,h);
   glViewport(0,0,w,h);
+  winwidth=w;
+  winheight=h;
 }
-void cgraphicmng::display(string n,float w,float h){
-  csprite*s=sprites.get(n);
-  if(s){
-    glUseProgram(program);
-    mat4 projection;
-    projection=ortho(0.0f,w,0.0f,h);
-    GLuint projectionloc=glGetUniformLocation(program,"projection");
-    glUniformMatrix4fv(projectionloc,1,GL_FALSE,value_ptr(projection));
-    s->display(program);
-  }
-}
-void cgraphicmng::display(string n){
-  display(n,i,500,500);
+void cgraphicmng::setcamera(){
+  glUseProgram(program);
+  mat4 projection;
+  projection=ortho(0.0f,(GLfloat)winwidth,0.0f,(GLfloat)winheight);
+  GLuint projectionloc=glGetUniformLocation(program,"projection");
+  glUniformMatrix4fv(projectionloc,1,GL_FALSE,value_ptr(projection));
 }
 void cgraphicmng::flip(){
   glfwSwapBuffers(window);

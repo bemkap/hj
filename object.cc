@@ -13,11 +13,11 @@ template<typename T>void parse1(lua_State*L,map<T,action>&m,const char*s){
     lua_pop(L,1);
   }
 }
-object::object(const string&file,lua_State*L,dict<csprite>&sprites):timeline(nullptr){
+object::object(const string&file,lua_State*L):timeline(nullptr){
   create=step=destroy=nullptr;
   for(uint i=0;i<11;++i) alarm[i]=nullptr;
   if(0<luaL_dofile(L,file.c_str())){
-    cout<<"lua error file "<<file<<endl;
+    cout<<"ERROR::LUA::LOAD_FAILED::"<<file<<endl;
   }else{
     int n=file.find_last_of("/\\")+1;
     int m=file.find_last_of(".");    
@@ -26,10 +26,7 @@ object::object(const string&file,lua_State*L,dict<csprite>&sprites):timeline(nul
       lua_pushnil(L);
       while(lua_next(L,-2)!=0){
 	string s=lua_tostring(L,-2);
-	if(s=="sprite"){
-	  auto s=sprites.get(lua_tostring(L,-1));
-	  if(s) sprite=s;
-	}
+	if(s=="sprite") sprite=lua_tostring(L,-1);
 	else if(s=="kbdo") parse1(L,handlerkbdo,"key");
 	else if(s=="kbup") parse1(L,handlerkbup,"key");
 	else if(s=="ptdo") parse1(L,handlermousedo,"button");
@@ -50,9 +47,9 @@ object::~object(){
   for(uint i=0;i<11;++i) if(alarm[i]) delete alarm[i];
   if(timeline) delete timeline;
 }
-void object::apply(uchar k,void*extra){
+void object::apply(uint k,void*extra){
   bool press=extra;
-  map<uchar,action>&m=press?handlerkbdo:handlerkbup;
+  map<uint,action>&m=press?handlerkbdo:handlerkbup;
   auto a=m.find(k);
   if(a!=m.end()) for(auto i:instances) ((*a).second)(i);
 }
@@ -62,17 +59,18 @@ void object::apply(ptbutton b,void*extra){
   auto a=m.find(b);
   if(a!=m.end()) for(auto i:instances) ((*a).second)(i);
 }
+/*
 void object::apply(uint n,void*extra){
   auto a=handlercollision.find(n);
   if(a!=handlercollision.end()) for(auto i:instances) ((*a).second)(i);
 }
+*/
 void object::instancedestroy(instance*i){
   if(destroy) (*destroy)(i);
   i->state=DEAD;
 }
 instance*object::instancecreate(float x,float y){
-  instance*i=new instance(x,y);
-  i->sprite=sprite;
+  instance*i=new instance(x,y,sprite);
   if(create) (*create)(i);
   instances.push_back(i);
   return i;

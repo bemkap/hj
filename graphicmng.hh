@@ -10,12 +10,12 @@ class cgraphicmng {
 public:
   GLuint program;
   GLFWwindow*window;
+  int winwidth,winheight;
   dict<csprite> sprites;
   void init();
   void close();
   void clear();
   void reshape(GLsizei,GLsizei);
-  void display(string,instance*,float,float);
-  void display(string,instance*);
+  void setcamera();
   void flip();
 };

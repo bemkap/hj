@@ -7,10 +7,10 @@ int action::operator()(instance*i){
   lua_rawgeti(L,LUA_REGISTRYINDEX,r);
   float*v[]={&i->x,&i->y,&i->speed,&i->direction,
 	     &i->vspeed,&i->hspeed,&i->gravity,&i->friction,
-	     &i->imagespeed,&i->current};
+	     &i->imagespeed,&i->imageindex,&i->xscale,&i->yscale};
   const char*f[]={"x","y","speed","direction",
 		  "vspeed","hspeed","gravity","friction",
-		  "imagespeed","imageindex",NULL};
+		  "imagespeed","imageindex","xscale","yscale",NULL};
   for(int i=0;f[i];++i){
     lua_pushnumber(L,*v[i]);
     lua_setglobal(L,f[i]);
@@ -29,8 +29,8 @@ int getaction(lua_State*L){
   lua_getfield(L,-1,"act");
   return luaL_ref(L,LUA_REGISTRYINDEX);
 }
-float getnumeric(lua_State*L,string s){
-  lua_getfield(L,-1,s.c_str());
+float getnumeric(lua_State*L,const char*s){
+  lua_getfield(L,-1,s);
   float r=lua_tonumber(L,-1);
   lua_pop(L,1);
   return r;

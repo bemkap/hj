@@ -2,8 +2,9 @@
 
 #include<GL/glew.h>
 #include<lua5.2/lua.hpp>
+#include<string>
 #include"common.hh"
-#include"sprite.hh"
+using namespace std;
 
 enum instate { NOTDEAD,DEAD };
 
@@ -11,13 +12,13 @@ class instance {
 public:
   float x,y;
   float speed,direction,vspeed,hspeed,gravity,friction;
-  float imagespeed,current;
+  float imagespeed,imageindex;
   float xscale,yscale;
   instate state;
-  csprite*sprite;
+  string sprite;
   uint tltime,tlnode;
   uint alarm[11];
-  instance(float,float,csprite*);
+  instance(float,float,string);
   void move();
-  void display(GLuint);
+  void setmodel(GLuint);
 };

@@ -21,8 +21,8 @@ public:
   dict<ctimeline> timelines;
   dict<room> rooms;room*currentroom;
   //watcher
-  watcher<uchar> watcherkbdo[256];
-  watcher<uchar> watcherkbup[256];
+  watcher<uint> watcherkbdo[512];
+  watcher<uint> watcherkbup[512];
   watcher<ptbutton> watchermousedo[2];
   watcher<ptbutton> watchermouseup[2];
   //graphics
@@ -41,4 +41,4 @@ public:
   static env&envget();
 };
 //
-void callbackkb(GLFWwindow*w,int,int,int,int);
+void callbackkb(GLFWwindow*,int,int,int,int);

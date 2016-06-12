@@ -4,7 +4,7 @@
 room::room(const string&file,lua_State*L){
   viewportx=viewporty=viewportw=viewporth=0;
   if(0<luaL_dofile(L,file.c_str())){
-    cout<<"lua error file "<<file<<endl;
+    cout<<"ERROR::LUA::LOAD_FAILED::"<<file<<endl;
   }else{
     int n=file.find_last_of("/\\")+1;
     int m=file.find_last_of(".");    
@@ -59,11 +59,13 @@ void room::init(){
 }
 void room::display(GLuint program){
   env&env=env::envget();
-  for(int i=viewportx;i<viewportw;i+=32)
-    for(int j=viewporty;j<viewporth;j+=32){
-      string n=legend[tiles[i*32+j]%legend.size()];
-      csprite*s=env.graphicmng.sprites.get(n);
-      if(s) s->display(program,i,j,viewportw,viewporth);
+  for(int j=0;j<viewporth/32;++j)
+    for(int i=0;i<viewportw/32;++i){
+      int k=tiles[j*20+i];
+      if(k>0){
+	csprite*s=env.graphicmng.sprites.get(legend[k-1]);
+	if(s) s->display(program,i*32,j*32);
+      }
     }
 }
 void room::reshape(int w,int h){scale(w/viewportw,h/viewporth);}

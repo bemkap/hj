@@ -14,7 +14,7 @@ env::~env(){lua_close(L);}
 void env::init(){
   path p("./OBJECTS");
   for(directory_iterator i(p);i!=directory_iterator();i++){
-    object*o=new object((*i).path().string().c_str(),L,graphicmng.sprites);
+    object*o=new object((*i).path().string().c_str(),L);
     objects.add(o->name,o);
     for(auto e:o->handlerkbdo) watcherkbdo[e.first].watch(e.first,o);
     for(auto e:o->handlerkbup) watcherkbup[e.first].watch(e.first,o);
@@ -39,14 +39,14 @@ void env::close(){
 }
 void env::display(){
   graphicmng.clear();
+  if(currentroom) currentroom->display(graphicmng.program);
   for(object*o:objects.entries)
-    for(instance*i:o->instances)
-      if(currentroom){
-	currentroom->display(graphicmng.program);
-	graphicmng.display(o->sprite,i,currentroom->viewportw,currentroom->viewporth);
-      }else{
-	graphicmng.display(o->sprite,i);
-      }
+    for(instance*i:o->instances){
+      i->setmodel(graphicmng.program);
+      if(csprite*s=graphicmng.sprites.get(i->sprite))
+	s->display(graphicmng.program,i->imageindex);
+    }
+  graphicmng.setcamera();
   graphicmng.flip();
 }
 void env::reshape(int w,int h){
@@ -77,7 +77,7 @@ env&env::envget(){
 //
 void callbackkb(GLFWwindow*w,int k,int sc,int a,int m){
   switch(a){
-  case GLFW_PRESS: env::envget().watcherkbdo[k%256].signal(k%256,(void*)true);break;
-  case GLFW_RELEASE: env::envget().watcherkbup[k%256].signal(k%256,(void*)false);break;
+  case GLFW_PRESS: env::envget().watcherkbdo[k].signal(k,(void*)true);break;
+  case GLFW_RELEASE: env::envget().watcherkbup[k].signal(k,(void*)false);break;
   }
 }
