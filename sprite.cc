@@ -8,7 +8,7 @@
 #include<stdio.h>
 using namespace glm;
 
-csprite::csprite(string file){
+csprite::csprite(const string&file){
   //gen buffers
   glGenBuffers(1,&vertexvbo);
   glGenBuffers(1,&texturevbo);

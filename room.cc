@@ -4,7 +4,7 @@
 room::room(const string&file,lua_State*L){
   viewportx=viewporty=viewportw=viewporth=0;
   if(0<luaL_dofile(L,file.c_str())){
-    cout<<"ERROR::LUA::LOAD_FAILED::"<<file<<endl;
+    cout<<"ERROR::LUA::ROOM::"<<file<<endl;
   }else{
     int n=file.find_last_of("/\\")+1;
     int m=file.find_last_of(".");    

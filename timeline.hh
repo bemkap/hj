@@ -9,10 +9,9 @@ struct node { action a;uint step; };
 
 class ctimeline {
 public:
-  lua_State*L;
+  string name;
   vector<node> nodes;
-  bool state;
-  ctimeline(lua_State*);
-  void nodeadd(action,uint);
+  bool running;
+  ctimeline(const string&,lua_State*);
   void toggle();
 };

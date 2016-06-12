@@ -17,7 +17,7 @@ object::object(const string&file,lua_State*L):timeline(nullptr){
   create=step=destroy=nullptr;
   for(uint i=0;i<11;++i) alarm[i]=nullptr;
   if(0<luaL_dofile(L,file.c_str())){
-    cout<<"ERROR::LUA::LOAD_FAILED::"<<file<<endl;
+    cout<<"ERROR::LUA::OBJECT::"<<file<<endl;
   }else{
     int n=file.find_last_of("/\\")+1;
     int m=file.find_last_of(".");    
@@ -31,9 +31,9 @@ object::object(const string&file,lua_State*L):timeline(nullptr){
 	else if(s=="kbup") parse1(L,handlerkbup,"key");
 	else if(s=="ptdo") parse1(L,handlermousedo,"button");
 	else if(s=="ptup") parse1(L,handlermouseup,"button");
-	else if(s=="crte"){int a=getaction(L);create=new action(a,L);}
-	else if(s=="dest"){int a=getaction(L);destroy=new action(a,L);}
-	else if(s=="step"){int a=getaction(L);step=new action(a,L);}
+	else if(s=="crte") create=new action(getaction(L),L);
+	else if(s=="dest") destroy=new action(getaction(L),L);
+	else if(s=="step") step=new action(getaction(L),L);
 	lua_pop(L,1);
       }
     }
@@ -85,15 +85,13 @@ void object::update(){
     if(alarm[i])
       for(auto j:instances)
 	if(j->alarm[i]>0&&--j->alarm[i]<=0) (*alarm[i])(j);
-  /*
-  if(tline&&tline->st)
-    for(auto&i:ins)
-      if(++i->tlcurt>=tline->nds[i->tlcurn].step){
-	tline->nds[i->tlcurn].a(i);
-	if(i->tlcurn<tline->nds.size()-1) ++i->tlcurn;
-	else tline->st=false;
+  if(timeline&&timeline->running)
+    for(auto i:instances)
+      if(++i->tltime>=timeline->nodes[i->tlnode].step){
+	timeline->nodes[i->tlnode].a(i);
+	if(i->tlnode<timeline->nodes.size()-1) ++i->tlnode;
+	else timeline->running=false;
       }
-  */
   for(auto i:instances) i->move();
   remove_if(instances.begin(),instances.end(),
 	    [](instance*i){return i->state==DEAD;});
