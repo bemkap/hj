@@ -1,24 +1,25 @@
 local kb=require"OBJECTS/common"
 local warrior={
-   sprite="old",
-   crte={act=function()imagespeed=0.15;end},
+   sprite="rightwarrior",
+   crte={act=function()imagespeed=0.2;end},
+   step={act=function()setcamera(x,y);end},   
    kbdo={
-      {key=kb.left,
-       act=function()hspeed=-2;xscale=-1;end},
-      {key=kb.up,
-       act=function()vspeed=2;end},
-      {key=kb.right,
-       act=function()hspeed=2;xscale=1;end},
-      {key=kb.down,
-       act=function()vspeed=-2;end}},
+      {key=kb.a,
+       act=function()hspeed=-2;sprite="leftwarrior";end},
+      {key=kb.w,
+       act=function()vspeed=2;sprite="backwarrior";end},
+      {key=kb.d,
+       act=function()hspeed=2;sprite="rightwarrior";end},
+      {key=kb.s,
+       act=function()vspeed=-2;sprite="frontwarrior";end}},
    kbup={
-      {key=kb.left,
+      {key=kb.a,
        act=function()if(hspeed<0)then hspeed=0;end;end},
-      {key=kb.up,
+      {key=kb.w,
        act=function()if(vspeed>0)then vspeed=0;end;end},
-      {key=kb.right,
+      {key=kb.d,
        act=function()if(hspeed>0)then hspeed=0;end;end},
-      {key=kb.down,
+      {key=kb.s,
        act=function()if(vspeed<0)then vspeed=0;end;end}}
 }
 return warrior

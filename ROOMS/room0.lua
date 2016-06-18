@@ -1,8 +1,8 @@
 local room={
    height=640,
    width=640,
-   viewporth=320,
-   viewportw=320,
+   viewporth=640,
+   viewportw=640,
    legend={"dungeon0","dungeon69","dungeon70","dungeon101","dungeon102","dungeon103","dungeon85"},
    tiles={
       4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6,

@@ -2,16 +2,18 @@
 #include"env.hh"
 #include"event.hh"
 #include"dict.hh"
+#include"lua.hh"
 #include"utils.hh"
 using namespace boost::filesystem;
 using namespace std;
 
-env::env():currentroom(nullptr),quit(false){
+env::env():currentroom(nullptr),time(0),quit(false){
   L=luaL_newstate();
   luaL_openlibs(L);
 }
 env::~env(){lua_close(L);}
 void env::init(){
+  lua_setfunctions(L);
   path p("./OBJECTS");
   for(directory_iterator i(p);i!=directory_iterator();i++){
     object*o=new object((*i).path().string().c_str(),L);
@@ -40,13 +42,13 @@ void env::close(){
 void env::display(){
   graphicmng.clear();
   if(currentroom) currentroom->display(graphicmng.program);
+  graphicmng.setcamera();
   for(object*o:objects.entries)
     for(instance*i:o->instances){
       i->setmodel(graphicmng.program);
       if(csprite*s=graphicmng.sprites.get(i->sprite))
 	s->display(graphicmng.program,i->imageindex);
     }
-  graphicmng.setcamera();
   graphicmng.flip();
 }
 void env::reshape(int w,int h){

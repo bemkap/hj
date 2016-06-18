@@ -12,7 +12,7 @@ class instance {
 public:
   float x,y;
   float speed,direction,vspeed,hspeed,gravity,friction;
-  float imagespeed,imageindex;
+  float imagespeed,imageindex,imagerotation;
   float xscale,yscale;
   instate state;
   string sprite;

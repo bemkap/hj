@@ -52,7 +52,7 @@ csprite::csprite(const string&file){
   glEnableVertexAttribArray(1);
   glBindVertexArray(0);
 }
-void csprite::display(GLuint program,GLfloat&imageindex){
+void csprite::display(GLuint program,float&imageindex){
   mat4 texmodel;
   if(imageindex>frames) imageindex-=frames;
   texmodel=translate(texmodel,vec3((GLuint)imageindex*fwidth,0.0f,0.0f));

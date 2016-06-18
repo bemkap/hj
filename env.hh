@@ -29,6 +29,8 @@ public:
   cgraphicmng graphicmng;
   //scripts
   lua_State*L;
+  //timer
+  double time;
   //
   void init();
   void close();

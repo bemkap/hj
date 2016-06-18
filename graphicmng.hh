@@ -11,6 +11,7 @@ public:
   GLuint program;
   GLFWwindow*window;
   int winwidth,winheight;
+  float xcenter,ycenter;
   dict<csprite> sprites;
   void init();
   void close();

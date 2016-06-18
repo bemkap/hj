@@ -10,7 +10,7 @@ using namespace glm;
 
 instance::instance(float x,float y,string sprite):x(x),y(y),sprite(sprite){
   speed=direction=vspeed=hspeed=gravity=friction=0;
-  imageindex=imagespeed=0;
+  imageindex=imagespeed=imagerotation=0;
   xscale=yscale=1;
   state=NOTDEAD;
   tltime=tlnode=0;
@@ -30,6 +30,7 @@ void instance::setmodel(GLuint program){
   mat4 model,texmodel;
   model=translate(model,vec3(x,y,0.0f));
   model=scale(model,vec3(xscale,yscale,1.0f));
+  model=rotate(model,radians(imagerotation),vec3(0.0f,0.0f,1.0f));
   GLuint modelloc=glGetUniformLocation(program,"model");
   glUniformMatrix4fv(modelloc,1,GL_FALSE,value_ptr(model));
   imageindex+=imagespeed;
